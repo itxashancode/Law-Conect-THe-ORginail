@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-parchment text-ink-mid font-sans text-base leading-relaxed;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-serif text-ink leading-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gold text-white px-9 py-3.5 text-xs font-semibold tracking-widest uppercase
+           transition-all duration-200 hover:-translate-y-0.5 hover:bg-gold-dark
+           focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
+    border-radius: 0;
+  }
+
+  .btn-ghost {
+    @apply border border-ink text-ink px-9 py-3.5 text-xs font-semibold tracking-widest uppercase
+           transition-all duration-200 hover:bg-ink hover:text-white
+           focus:outline-none;
+    border-radius: 0;
+  }
+
+  .lawyer-card {
+    @apply bg-warm-surface border border-warm-border relative overflow-hidden
+           transition-shadow duration-300 hover:shadow-lg block no-underline text-inherit;
+    border-radius: 0;
+  }
+
+  .lawyer-card::before {
+    content: '';
+    @apply absolute top-0 left-0 w-0.5 h-full bg-gold;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+
+  .lawyer-card:hover::before {
+    transform: scaleY(1);
+  }
+
+  .service-tag {
+    @apply inline-block border border-warm-border px-4 py-1.5 text-xs font-semibold
+           tracking-widest uppercase cursor-pointer text-ink-mid
+           transition-all duration-200 select-none;
+    border-radius: 0;
+  }
+
+  .service-tag:hover,
+  .service-tag.active {
+    @apply bg-ink text-white border-ink -translate-y-px;
+  }
+
+  .search-field {
+    @apply border border-warm-border bg-warm-surface px-5 py-3.5 w-full font-sans text-sm
+           transition-all duration-200 focus:outline-none focus:border-gold;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .search-field:focus {
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
+  }
+
+  .footer-link {
+    @apply block text-white/55 text-sm leading-loose no-underline
+           transition-all duration-200 hover:text-gold hover:pl-1.5;
+  }
+}
+
+@layer utilities {
+  @keyframes subtle-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(184, 134, 11, 0.3); }
+    50% { box-shadow: 0 0 0 8px rgba(184, 134, 11, 0); }
+  }
+
+  .animate-pulse-gold {
+    animation: subtle-pulse 2.5s infinite;
+  }
+
+  .animate-pulse-gold:hover {
+    animation: none;
+    @apply -translate-y-1;
+  }
+}
