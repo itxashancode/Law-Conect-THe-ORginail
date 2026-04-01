@@ -8,12 +8,23 @@
   <div class="absolute bg-gradient-to-b from-transparent to-parchment w-full h-40 top-40 z-0"></div>
 
   <div class="max-w-6xl mx-auto relative z-10">
+    {{-- Back navigation --}}
+    <div class="mb-8" data-aos="fade-up">
+      <a href="{{ url()->previous() !== url()->current() ? url()->previous() : route('public.search') }}"
+         class="inline-flex items-center gap-2 text-ink-muted hover:text-gold transition-colors group focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded-lg px-3 py-2">
+        <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span class="text-sm font-medium">Back to Results</span>
+      </a>
+    </div>
 
     {{-- Profile Header Card --}}
     <div class="bg-white rounded-3xl shadow-glass border border-white p-8 md:p-12 mb-16 flex flex-col md:flex-row gap-8 lg:gap-16 items-start" data-aos="fade-up">
-      <div class="relative w-40 h-40 md:w-56 md:h-56 shrink-0 rounded-2xl overflow-hidden shadow-glow-strong border-2 border-gold/30">
+      <div class="relative w-40 h-40 md:w-56 md:h-56 shrink-0 rounded-2xl overflow-hidden shadow-glow-strong border-2 border-gold/30 bg-gray-100">
         <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=111&color=D4AF37&size=250' }}"
              alt="{{ $lawyer->full_name }}"
+             loading="lazy"
              class="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 scale-100 hover:scale-110 transition-all duration-700">
       </div>
       
@@ -94,7 +105,7 @@
 
       {{-- Book Appointment Sidebar --}}
       <div class="lg:col-span-1" data-aos="fade-up" data-aos-delay="100">
-        <div class="sticky top-28 bg-white border border-warn-border shadow-glass rounded-3xl p-8 overflow-hidden relative">
+        <div class="sticky top-28 bg-white border border-warm-border shadow-glass rounded-3xl p-8 overflow-hidden relative">
           <div class="absolute top-0 right-0 w-32 h-32 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
           
           <h2 class="font-serif text-2xl text-ink mb-2 relative z-10">Book a Consultation</h2>
@@ -133,10 +144,29 @@
                   <input type="text" name="meeting_place" class="search-field !py-3 !px-4" placeholder="Office, video call, etc.">
                 </div>
 
-                <button type="submit" class="btn-primary w-full animate-pulse-gold flex justify-center items-center gap-2 text-sm !py-4 shadow-lg">
-                  Confirm Booking
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                <button type="submit" id="booking-submit" class="btn-primary w-full flex justify-center items-center gap-2 text-sm !py-4 shadow-lg ripple">
+                  <span id="booking-text">Confirm Booking</span>
+                  <svg id="booking-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </button>
+
+                <!-- Success/Error Messages -->
+                @if(session('success'))
+                <div id="booking-success" class="toast toast-success show" role="alert" aria-live="polite">
+                  <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span>{{ session('success') }}</span>
+                  </div>
+                </div>
+                @endif
+
+                @if($errors->any())
+                <div id="booking-error" class="toast toast-error show" role="alert" aria-live="assertive">
+                  <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <span>{{ $errors->first() }}</span>
+                  </div>
+                </div>
+                @endif
               </form>
             @else
               <div class="bg-parchment border border-warm-border rounded-2xl p-6 text-center">
@@ -163,6 +193,40 @@
 
   </div>
 </div>
+
+<script>
+  // Booking form loading state
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form[action="{{ route('customer.appointments.store') }}"]');
+    const submitBtn = document.getElementById('booking-submit');
+    const submitText = document.getElementById('booking-text');
+    const submitIcon = document.getElementById('booking-icon');
+
+    if (form && submitBtn) {
+      form.addEventListener('submit', function () {
+        // Show loading state
+        submitBtn.classList.add('btn-loading');
+        submitBtn.classList.add('loading');
+        submitText.textContent = 'Processing...';
+        submitIcon.style.display = 'none';
+
+        // Disable form inputs
+        form.querySelectorAll('input, button, select, textarea').forEach(el => {
+          el.disabled = true;
+        });
+      });
+    }
+
+    // Auto-dismiss toasts after 5 seconds
+    const toasts = document.querySelectorAll('.toast.show');
+    toasts.forEach(toast => {
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 500);
+      }, 5000);
+    });
+  });
+</script>
 
 <style>
 /* Custom scrollbar for time slots */

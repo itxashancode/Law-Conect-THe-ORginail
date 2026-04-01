@@ -85,28 +85,31 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       @foreach($featuredLawyers as $lawyer)
       <a href="{{ route('public.lawyer', $lawyer->id) }}"
-         class="lawyer-card group bg-white/60 backdrop-blur-sm p-6 lg:p-8"
-         data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-        
-        <div class="flex items-start justify-between mb-8">
+         class="lawyer-card group bg-white/60 backdrop-blur-sm p-6 lg:p-8 ripple"
+         data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}"
+         aria-label="View profile of {{ $lawyer->full_name }}, {{ $lawyer->specialization }} lawyer in {{ $lawyer->city }}">
+        <div class="skeleton-avatar absolute top-6 left-6 w-20 h-20 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+
+        <div class="flex items-start justify-between mb-8 relative">
           <div class="w-20 h-20 rounded-2xl overflow-hidden shrink-0 shadow-sm border border-warm-border group-hover:border-gold/30 transition-colors">
             <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=111&color=D4AF37' }}"
                  alt="{{ $lawyer->full_name }}"
+                 loading="lazy"
                  class="w-full h-full object-cover grayscale-[40%] group-hover:grayscale-0 scale-100 group-hover:scale-110 transition-all duration-500">
           </div>
           <span class="bg-parchment text-ink-mid px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase border border-warm-border group-hover:border-gold group-hover:text-gold transition-colors">
             {{ $lawyer->specialization }}
           </span>
         </div>
-        
+
         <div>
           <h3 class="font-serif text-2xl text-ink font-semibold mb-2 group-hover:text-gold transition-colors">{{ $lawyer->full_name }}</h3>
           <p class="text-sm text-ink-muted flex items-center gap-2 mb-6">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             {{ $lawyer->city }}
           </p>
         </div>
-        
+
         <div class="pt-6 border-t border-warm-border flex items-center justify-between">
           <p class="text-[11px] font-semibold tracking-widest uppercase text-ink-mid">Book Consultation</p>
           <div class="w-8 h-8 rounded-full bg-gold-light/10 text-gold flex items-center justify-center group-hover:bg-gold group-hover:text-white transition-colors duration-300">

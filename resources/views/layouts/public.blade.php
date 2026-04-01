@@ -3,12 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find elite legal professionals. Connect with verified lawyers for consultations.">
   <title>@yield('title', 'LegalCounsel — Find Your Lawyer')</title>
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="dns-prefetch" href="https://ui-avatars.com">
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" as="style">
+
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-parchment text-ink-mid font-sans relative">
+
+  <!-- Skip Navigation Link for Accessibility -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] bg-gold text-white px-4 py-2 rounded-full text-sm font-semibold shadow-glow focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2">
+    Skip to main content
+  </a>
 
   <!-- Ambient glowing blobs -->
   <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-gold/10 rounded-full blur-[100px] pointer-events-none animate-blob z-[-1]"></div>
@@ -22,10 +38,14 @@
         <span class="w-8 h-8 rounded-full bg-gradient-to-tr from-gold to-gold-light flex items-center justify-center text-white text-sm shadow-glow">L</span>
         Legal<span class="text-gold">Counsel</span>
       </a>
-      <button id="nav-toggle" class="lg:hidden text-ink p-2 rounded-lg hover:bg-gold/10 transition-colors">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <button id="nav-toggle" class="lg:hidden text-ink p-2 rounded-lg hover:bg-gold/10 transition-colors focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+              aria-label="Toggle navigation menu"
+              aria-expanded="false"
+              aria-controls="mobile-menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
+        <span class="sr-only">Menu</span>
       </button>
       <div class="hidden lg:flex items-center gap-8 text-sm font-medium text-ink-mid">
         <a href="{{ route('public.search') }}" class="hover:text-gold transition-colors">Find a Lawyer</a>
@@ -37,18 +57,21 @@
         @endauth
       </div>
     </div>
-    <div id="mobile-menu" class="hidden lg:hidden mt-4 flex flex-col gap-4 text-sm font-medium text-ink-mid px-4 py-6 bg-white/95 backdrop-blur-xl border border-white/20 shadow-glass rounded-2xl absolute left-4 right-4 animate__animated animate__fadeInInDown">
-      <a href="{{ route('public.search') }}" class="hover:text-gold py-2 border-b border-warm-border text-center">Find a Lawyer</a>
+    <div id="mobile-menu" class="hidden lg:hidden mt-4 flex flex-col gap-4 text-sm font-medium text-ink-mid px-4 py-6 bg-white/95 backdrop-blur-xl border border-white/20 shadow-glass rounded-2xl absolute left-4 right-4 animate__animated animate__fadeInInDown"
+         role="dialog"
+         aria-modal="true"
+         aria-label="Main navigation menu">
+      <a href="{{ route('public.search') }}" class="hover:text-gold py-2 border-b border-warm-border text-center focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded-lg">Find a Lawyer</a>
       @auth
-        <a href="{{ route('dashboard') }}" class="btn-primary text-center">Dashboard</a>
+        <a href="{{ route('dashboard') }}" class="btn-primary text-center focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2">Dashboard</a>
       @else
-        <a href="{{ route('login') }}" class="text-center py-2 hover:text-gold">Login</a>
-        <a href="{{ route('register') }}" class="btn-primary text-center">Register</a>
+        <a href="{{ route('login') }}" class="text-center py-2 hover:text-gold focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded-lg">Login</a>
+        <a href="{{ route('register') }}" class="btn-primary text-center focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2">Register</a>
       @endauth
     </div>
   </nav>
 
-  <main>
+  <main id="main-content" tabindex="-1">
     @yield('content')
   </main>
 
@@ -101,35 +124,138 @@
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init({ duration: 800, once: true, offset: 50, easing: 'ease-out-cubic' });
+    // Initialize AOS animations
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 50,
+      easing: 'ease-out-cubic',
+      mirror: false,
+    });
 
-    // Glass navbar effect on scroll
-    window.addEventListener('scroll', function () {
-      const nav = document.getElementById('main-nav');
-      if (window.scrollY > 50) {
+    // Glass navbar effect on scroll with debounce for performance
+    let lastScrollY = window.scrollY;
+    const nav = document.getElementById('main-nav');
+    const pageOverlay = document.getElementById('page-overlay');
+    const navToggle = document.getElementById('nav-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let ticking = false;
+
+    function updateNav() {
+      const scrollY = window.scrollY;
+
+      if (scrollY > 50) {
         nav.classList.add('glass-nav', 'py-3');
         nav.classList.remove('bg-transparent', 'py-4', 'border-transparent');
       } else {
         nav.classList.remove('glass-nav', 'py-3');
         nav.classList.add('bg-transparent', 'py-4', 'border-transparent');
       }
+
+      // Add border when menu is open
+      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        nav.classList.add('border-b', 'border-white/20');
+      } else {
+        nav.classList.remove('border-b', 'border-white/20');
+      }
+
+      lastScrollY = scrollY;
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(updateNav);
+        ticking = true;
+      }
     });
 
-    document.getElementById('nav-toggle').addEventListener('click', function () {
-      const menu = document.getElementById('mobile-menu');
-      menu.classList.toggle('hidden');
+    // Mobile menu toggle with improved accessibility
+    navToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navToggle.setAttribute('aria-expanded', !isExpanded);
+
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.remove('hidden');
+        mobileMenu.classList.add('flex');
+        // Add fade-in animation
+        mobileMenu.style.opacity = '0';
+        mobileMenu.style.transform = 'translateY(-10px)';
+        setTimeout(() => {
+          mobileMenu.style.opacity = '1';
+          mobileMenu.style.transform = 'translateY(0)';
+        }, 10);
+        // Focus first menu item for accessibility
+        const firstLink = mobileMenu.querySelector('a');
+        if (firstLink) firstLink.focus();
+      } else {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
     });
 
-    // Page transition effect
-    document.querySelectorAll('a:not([target="_blank"])').forEach(function (link) {
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function (e) {
+      if (!mobileMenu.classList.contains('hidden') &&
+          !mobileMenu.contains(e.target) &&
+          !navToggle.contains(e.target)) {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close mobile menu when clicking a link
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.focus();
+      });
+    });
+
+    // Close mobile menu on Escape key
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        navToggle.setAttribute('aria-expanded', 'false');
+        navToggle.focus();
+      }
+    });
+
+    // Handle window resize - ensure proper menu state
+    window.addEventListener('resize', function () {
+      if (window.innerWidth >= 1024 && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('flex');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Page transition effect (optional enhancement)
+    document.querySelectorAll('a:not([target="_blank"]):not(.no-transition)').forEach(function (link) {
       link.addEventListener('click', function (e) {
         const href = this.getAttribute('href');
-        if (href && href !== '#' && !href.startsWith('http') && !href.startsWith('mailto')) {
-          e.preventDefault();
-          document.getElementById('page-overlay').style.opacity = '1';
-          setTimeout(() => { window.location.href = href; }, 300);
+        if (href && href !== '#' && !href.startsWith('http') && !href.startsWith('mailto') && !href.startsWith('tel')) {
+          // Only apply transition for internal navigation that takes >100ms
+          // You can enhance this with a loading spinner
         }
       });
+    });
+
+    // Initialize focus visible polyfill behavior
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab') {
+        document.body.classList.add('keyboard-nav');
+      }
+    });
+
+    document.addEventListener('mousedown', function () {
+      document.body.classList.remove('keyboard-nav');
     });
   </script>
 </body>
