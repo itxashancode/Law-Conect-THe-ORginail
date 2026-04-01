@@ -6,7 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-parchment text-ink-mid font-sans text-base leading-relaxed;
+    @apply bg-parchment text-ink-mid font-sans text-base leading-relaxed antialiased overflow-x-hidden;
   }
 
   h1, h2, h3, h4 {
@@ -16,78 +16,93 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-gold text-white px-9 py-3.5 text-xs font-semibold tracking-widest uppercase
-           transition-all duration-200 hover:-translate-y-0.5 hover:bg-gold-dark
-           focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2;
-    border-radius: 0;
+    @apply relative overflow-hidden bg-gold text-white px-9 py-3.5 text-xs font-semibold tracking-widest uppercase
+           transition-all duration-300 hover:-translate-y-1 hover:shadow-glow
+           focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded-full;
+  }
+  
+  .btn-primary::before {
+    content: '';
+    @apply absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent;
+    transition: left 0.5s ease;
+  }
+  
+  .btn-primary:hover::before {
+    left: 100%;
   }
 
   .btn-ghost {
     @apply border border-ink text-ink px-9 py-3.5 text-xs font-semibold tracking-widest uppercase
-           transition-all duration-200 hover:bg-ink hover:text-white
+           transition-all duration-300 hover:bg-ink hover:text-white rounded-full
            focus:outline-none;
-    border-radius: 0;
   }
 
   .lawyer-card {
-    @apply bg-warm-surface border border-warm-border relative overflow-hidden
-           transition-shadow duration-300 hover:shadow-lg block no-underline text-inherit;
-    border-radius: 0;
+    @apply bg-white border border-warm-border relative overflow-hidden rounded-2xl
+           transition-all duration-500 hover:shadow-glass hover:-translate-y-2 block no-underline text-inherit z-10;
   }
 
   .lawyer-card::before {
     content: '';
-    @apply absolute top-0 left-0 w-0.5 h-full bg-gold;
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1);
+    @apply absolute inset-0 bg-gradient-to-br from-gold/5 opacity-0 to-transparent z-[-1];
+    transition: opacity 0.5s ease;
   }
 
   .lawyer-card:hover::before {
-    transform: scaleY(1);
+    @apply opacity-100;
   }
 
   .service-tag {
-    @apply inline-block border border-warm-border px-4 py-1.5 text-xs font-semibold
-           tracking-widest uppercase cursor-pointer text-ink-mid
-           transition-all duration-200 select-none;
-    border-radius: 0;
+    @apply inline-block border border-warm-border px-5 py-2 text-xs font-semibold rounded-full
+           tracking-widest uppercase cursor-pointer text-ink-mid bg-white/50 backdrop-blur-sm
+           transition-all duration-300 select-none hover:shadow-md;
   }
 
   .service-tag:hover,
   .service-tag.active {
-    @apply bg-ink text-white border-ink -translate-y-px;
+    @apply bg-ink text-white border-ink shadow-lg -translate-y-1;
   }
 
   .search-field {
-    @apply border border-warm-border bg-warm-surface px-5 py-3.5 w-full font-sans text-sm
-           transition-all duration-200 focus:outline-none focus:border-gold;
-    border-radius: 0;
-    box-shadow: none;
-  }
-
-  .search-field:focus {
-    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
+    @apply border border-warm-border bg-white/80 backdrop-blur-md px-6 py-4 w-full font-sans text-sm rounded-xl
+           transition-all duration-300 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 shadow-sm;
   }
 
   .footer-link {
     @apply block text-white/55 text-sm leading-loose no-underline
-           transition-all duration-200 hover:text-gold hover:pl-1.5;
+           transition-all duration-300 hover:text-gold hover:translate-x-1;
+  }
+
+  .glass-nav {
+    @apply bg-white/70 backdrop-blur-lg border-b border-white/20 shadow-glass;
+  }
+  
+  .glass-dark {
+    @apply bg-ink/80 backdrop-blur-xl border border-white/10 shadow-glass-dark;
   }
 }
 
 @layer utilities {
-  @keyframes subtle-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(184, 134, 11, 0.3); }
-    50% { box-shadow: 0 0 0 8px rgba(184, 134, 11, 0); }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-gold to-gold-light;
+  }
+  
+  .bg-hero-pattern {
+    background-image: radial-gradient(circle at top right, rgba(184, 134, 11, 0.15), transparent 40%),
+                      radial-gradient(circle at bottom left, rgba(25, 25, 25, 0.8), #0A0A0A 60%);
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 15px rgba(184, 134, 11, 0.4); }
+    50% { box-shadow: 0 0 30px rgba(184, 134, 11, 0.7); }
   }
 
   .animate-pulse-gold {
-    animation: subtle-pulse 2.5s infinite;
+    animation: pulse-glow 3s infinite;
   }
 
   .animate-pulse-gold:hover {
     animation: none;
-    @apply -translate-y-1;
+    @apply shadow-glow-strong -translate-y-1;
   }
 }
