@@ -17,7 +17,7 @@
     {{-- Search Form --}}
     <form method="GET" action="{{ route('public.search') }}"
           id="search-form"
-          class="bg-white/60 backdrop-blur-xl p-4 rounded-3xl border border-white/40 shadow-glass flex flex-col md:flex-row gap-4 mb-10 max-w-4xl mx-auto"
+          class="bg-white/60 backdrop-blur-xl p-4 rounded-3xl border border-white/40 shadow-soft flex flex-col md:flex-row gap-4 mb-10 max-w-4xl mx-auto texture-paper"
           data-aos="fade-up" data-aos-delay="100">
       <div class="relative flex-1">
         <label for="city-input" class="sr-only">City or location</label>
@@ -84,7 +84,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         @foreach($lawyers as $lawyer)
         <a href="{{ route('public.lawyer', $lawyer->id) }}"
-           class="lawyer-card group bg-white/60 backdrop-blur-sm p-6 lg:p-8 ripple"
+           class="lawyer-card group bg-white/60 backdrop-blur-sm p-6 lg:p-8 ripple elevation-1 rounded-3xl texture-paper"
            data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}"
            aria-label="View profile of {{ $lawyer->full_name }}, {{ $lawyer->specialization }} lawyer in {{ $lawyer->city }}">
           {{-- Skeleton loader for image (hidden by default, can be triggered with JS) --}}

@@ -51,7 +51,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       @foreach(['Criminal', 'Divorce', 'Affidavit', 'Civil'] as $index => $service)
       <a href="{{ route('public.search', ['service' => $service]) }}"
-         class="group block bg-parchment p-10 rounded-3xl border border-transparent hover:bg-white hover:border-gold/30 hover:shadow-glass transition-all duration-500 relative overflow-hidden"
+         class="group block bg-parchment p-10 rounded-3xl elevation-1 border border-transparent hover:border-gold/20 hover:shadow-soft-lg transition-all duration-500 relative overflow-hidden texture-paper"
          data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
         <div class="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full blur-2xl group-hover:bg-gold/10 transition-colors"></div>
         <p class="font-serif text-3xl text-ink group-hover:text-gold transition-colors mb-4 relative z-10">{{ $service }}</p>
@@ -85,7 +85,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       @foreach($featuredLawyers as $lawyer)
       <a href="{{ route('public.lawyer', $lawyer->id) }}"
-         class="lawyer-card group bg-white/60 backdrop-blur-sm p-6 lg:p-8 ripple"
+         class="lawyer-card group bg-white/60 backdrop-blur-sm p-6 lg:p-8 ripple elevation-1 rounded-3xl texture-paper"
          data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}"
          aria-label="View profile of {{ $lawyer->full_name }}, {{ $lawyer->specialization }} lawyer in {{ $lawyer->city }}">
         <div class="skeleton-avatar absolute top-6 left-6 w-20 h-20 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>

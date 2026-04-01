@@ -20,7 +20,7 @@
     </div>
 
     {{-- Profile Header Card --}}
-    <div class="bg-white rounded-3xl shadow-glass border border-white p-8 md:p-12 mb-16 flex flex-col md:flex-row gap-8 lg:gap-16 items-start" data-aos="fade-up">
+    <div class="bg-white rounded-3xl escalation-2 border border-white/50 p-8 md:p-12 mb-16 flex flex-col md:flex-row gap-8 lg:gap-16 items-start vignette" data-aos="fade-up">
       <div class="relative w-40 h-40 md:w-56 md:h-56 shrink-0 rounded-2xl overflow-hidden shadow-glow-strong border-2 border-gold/30 bg-gray-100">
         <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=111&color=D4AF37&size=250' }}"
              alt="{{ $lawyer->full_name }}"
@@ -105,7 +105,7 @@
 
       {{-- Book Appointment Sidebar --}}
       <div class="lg:col-span-1" data-aos="fade-up" data-aos-delay="100">
-        <div class="sticky top-28 bg-white border border-warm-border shadow-glass rounded-3xl p-8 overflow-hidden relative">
+        <div class="sticky top-28 bg-white border border-white/50 rounded-3xl p-8 overflow-hidden relative elevation-2 vignette texture-paper">
           <div class="absolute top-0 right-0 w-32 h-32 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
           
           <h2 class="font-serif text-2xl text-ink mb-2 relative z-10">Book a Consultation</h2>
