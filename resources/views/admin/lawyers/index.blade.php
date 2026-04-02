@@ -1,81 +1,63 @@
 @extends('layouts.admin')
 @section('title', 'Manage Lawyers — LegalCounsel')
 
-@section('content')
+@section('dashboard-content')
 <div data-aos="fade-up">
-  <div class="flex justify-between items-center mb-8">
-    <h1 class="font-serif text-4xl text-ink">All Lawyers</h1>
-    <a href="{{ route('home') }}" class="btn-primary">View Public Site</a>
+  <div class="flex justify-between items-center mb-12 border-b border-onyx/5 pb-6">
+    <h2 class="font-serif text-5xl text-onyx">Network Professionals</h2>
+    <a href="{{ route('home') }}" class="btn-lux btn-lux-outline">View Public Directory</a>
   </div>
 
-  <div class="bg-warm-surface border border-warm-border">
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm text-left">
-        <thead class="bg-ink text-white">
-          <tr>
-            <th class="px-6 py-4">ID</th>
-            <th class="px-6 py-4">Name</th>
-            <th class="px-6 py-4">Email</th>
-            <th class="px-6 py-4">Specialization</th>
-            <th class="px-6 py-4">City</th>
-            <th class="px-6 py-4">Phone</th>
-            <th class="px-6 py-4">Status</th>
-            <th class="px-6 py-4">Experience</th>
-            <th class="px-6 py-4">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @forelse($lawyers as $lawyer)
-          <tr class="border-b border-warm-border hover:bg-parchment/30">
-            <td class="px-6 py-4">{{ $lawyer->id }}</td>
-            <td class="px-6 py-4">
+  @if($lawyers->count())
+    <div class="space-y-4">
+      @foreach($lawyers as $lawyer)
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-500 bespoke-card">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="w-20 h-20 overflow-hidden border border-onyx/10 shrink-0">
+              <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37' }}"
+                   alt="{{ $lawyer->full_name }}"
+                   class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+            </div>
+            <div>
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 overflow-hidden shrink-0">
-                  <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=1A1A1A&color=B8860B' }}"
-                       alt="{{ $lawyer->full_name }}"
-                       class="w-full h-full object-cover">
-                </div>
-                <span class="font-serif text-ink">{{ $lawyer->full_name }}</span>
+                <h4 class="font-serif text-2xl text-onyx">{{ $lawyer->full_name }}</h4>
+                @if($lawyer->status === 'approved')
+                  <span class="w-2 h-2 rounded-full bg-gold-600" title="Approved"></span>
+                @elseif($lawyer->status === 'pending')
+                  <span class="w-2 h-2 rounded-full bg-onyx/40" title="Pending"></span>
+                @else
+                  <span class="w-2 h-2 rounded-full bg-onyx/60" title="Rejected"></span>
+                @endif
               </div>
-            </td>
-            <td class="px-6 py-4">{{ $lawyer->user->email }}</td>
-            <td class="px-6 py-4">{{ $lawyer->specialization }}</td>
-            <td class="px-6 py-4">{{ $lawyer->city }}</td>
-            <td class="px-6 py-4">{{ $lawyer->phone }}</td>
-            <td class="px-6 py-4">
-              <span class="inline-block px-3 py-1 text-xs border
-                @if($lawyer->status === 'approved') border-green-500 text-green-700
-                @elseif($lawyer->status === 'pending') border-yellow-500 text-yellow-700
-                @else border-red-500 text-red-700
-                @endif">
-                {{ ucfirst($lawyer->status) }}
-              </span>
-            </td>
-            <td class="px-6 py-4">{{ $lawyer->experience_years }} yrs</td>
-            <td class="px-6 py-4">
-              @if($lawyer->status === 'pending')
-                <form method="POST" action="{{ route('admin.lawyers.approve', $lawyer->id) }}" class="inline">
-                  @csrf @method('POST')
-                  <button type="submit" class="text-green-600 hover:text-green-800 mr-3 text-sm">Approve</button>
-                </form>
-                <form method="POST" action="{{ route('admin.lawyers.reject', $lawyer->id) }}" class="inline" onsubmit="return confirm('Reject this lawyer?')">
-                  @csrf @method('POST')
-                  <button type="submit" class="text-red-600 hover:text-red-800 text-sm">Reject</button>
-                </form>
-              @else
-                <form method="POST" action="{{ route('admin.lawyers.destroy', $lawyer->id) }}" class="inline" onsubmit="return confirm('Delete this lawyer permanently?')">
-                  @csrf @method('DELETE')
-                  <button type="submit" class="text-red-600 hover:text-red-800 text-sm">Delete</button>
-                </form>
-              @endif
-            </td>
-          </tr>
-          @empty
-          <tr><td colspan="9" class="px-6 py-10 text-center text-ink-muted">No lawyers registered yet.</td></tr>
-          @endforelse
-        </tbody>
-      </table>
+              <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/50 mt-1">{{ $lawyer->specialization }} Law • {{ $lawyer->city }} • {{ $lawyer->experience_years }} Yrs Exp</p>
+              <p class="text-sm font-light text-onyx/40 mt-1">{{ $lawyer->user->email }} • {{ $lawyer->phone }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            @if($lawyer->status === 'pending')
+              <form method="POST" action="{{ route('admin.lawyers.approve', $lawyer->id) }}" class="inline">
+                @csrf @method('POST')
+                <button type="submit" class="btn-lux btn-lux-outline text-xs">Approve</button>
+              </form>
+              <form method="POST" action="{{ route('admin.lawyers.reject', $lawyer->id) }}" class="inline" onsubmit="return confirm('Reject this lawyer?')">
+                @csrf @method('POST')
+                <button type="submit" class="btn-lux btn-lux-ghost text-xs text-onyx/60">Reject</button>
+              </form>
+            @else
+              <span class="inline-block px-4 py-2 text-xs border border-onyx/20 text-onyx uppercase tracking-ultra {{ $lawyer->status === 'approved' ? 'bg-onyx text-white border-onyx' : '' }}">{{ ucfirst($lawyer->status) }}</span>
+            @endif
+          </div>
+        </div>
+      </div>
+      @endforeach
     </div>
-  </div>
+  @else
+    <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-20 text-center bespoke-card">
+      <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/30 mb-4">Network</p>
+      <p class="font-serif text-2xl text-onyx/60 italic">No legal professionals are registered yet.</p>
+    </div>
+  @endif
 </div>
 @endsection

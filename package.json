@@ -18,6 +18,8 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
-        "@chenglou/pretext": "^0.0.3"
+        "@chenglou/pretext": "^0.0.3",
+        "gsap": "^3.12.5",
+        "ogl": "^1.0.3"
     }
 }

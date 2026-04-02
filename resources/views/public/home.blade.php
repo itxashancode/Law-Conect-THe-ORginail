@@ -1,130 +1,124 @@
 @extends('layouts.public')
-@section('title', 'LegalCounsel — Find Your Lawyer')
+@section('title', 'LegalCounsel — Bespoke Legal Excellence')
 
 @section('content')
 
-{{-- Hero --}}
-<section class="relative min-h-[100vh] bg-ink flex items-center px-6 lg:px-16 pt-32 pb-20 overflow-hidden">
-  <div class="absolute inset-0 bg-hero-pattern opacity-80 z-0"></div>
-  <div class="max-w-7xl mx-auto w-full relative z-10 flex flex-col items-center text-center">
-    <div class="inline-block px-4 py-1.5 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-semibold tracking-widest uppercase mb-8 animate__animated animate__fadeInUp" style="animation-delay:0s">
-      <span class="inline-block w-2 h-2 rounded-full bg-gold mr-2 animate-pulse"></span>Elite Legal Network
-    </div>
-    <h1 class="font-serif text-white text-5xl md:text-7xl lg:text-8xl max-w-4xl leading-tight animate__animated animate__fadeInUp" style="animation-delay:0.1s">
-      Find the Right Lawyer, <br><em class="text-gradient">Today</em>
-    </h1>
-    <p class="text-white/60 text-lg md:text-xl mt-8 max-w-2xl leading-relaxed animate__animated animate__fadeInUp" style="animation-delay:0.3s">
-      Seamlessly connect with top-tier legal professionals. Search by specialty and location, and book your secure consultation in minutes.
-    </p>
-    <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center animate__animated animate__fadeInUp" style="animation-delay:0.5s">
-      <a href="{{ route('public.search') }}" class="btn-primary flex items-center justify-center gap-2">
-        Find a Lawyer
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-      </a>
-      <a href="#practice-areas" class="btn-ghost !text-white !border-white/30 hover:!bg-white hover:!text-ink flex items-center justify-center">
-        Explore Areas
-      </a>
-    </div>
-  </div>
-  <!-- Floating decorative elements -->
-  <div class="absolute top-[20%] right-[10%] w-64 h-64 bg-gold/10 rounded-full blur-[80px] animate-float"></div>
-  <div class="absolute bottom-[10%] left-[10%] w-72 h-72 bg-white/5 rounded-full blur-[100px] animate-float" style="animation-delay: -3s"></div>
-</section>
-
-{{-- Service Categories --}}
-<section id="practice-areas" class="py-32 px-6 lg:px-16 bg-white relative">
-  <div class="max-w-7xl mx-auto">
-    <div class="text-center md:text-left mb-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
-      <div>
-        <div class="w-12 h-1 bg-gold mb-6 mx-auto md:mx-0"></div>
-        <p class="text-gold text-xs font-semibold tracking-widest uppercase mb-3" data-aos="fade-up">Practice Areas</p>
-        <h2 class="font-serif text-4xl md:text-5xl" data-aos="fade-up" data-aos-delay="50">
-          What Do You Need Help With?
-        </h2>
-      </div>
-      <a href="{{ route('public.search') }}" class="text-sm font-semibold text-ink hover:text-gold transition-colors flex items-center justify-center md:justify-start gap-2" data-aos="fade-up" data-aos-delay="100">
-        View All Services
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-      </a>
-    </div>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      @foreach(['Criminal', 'Divorce', 'Affidavit', 'Civil'] as $index => $service)
-      <a href="{{ route('public.search', ['service' => $service]) }}"
-         class="group block bg-parchment p-10 rounded-3xl elevation-1 border border-transparent hover:border-gold/20 hover:shadow-soft-lg transition-all duration-500 relative overflow-hidden texture-paper"
-         data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
-        <div class="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full blur-2xl group-hover:bg-gold/10 transition-colors"></div>
-        <p class="font-serif text-3xl text-ink group-hover:text-gold transition-colors mb-4 relative z-10">{{ $service }}</p>
-        <p class="text-xs text-ink-muted font-medium tracking-widest uppercase relative z-10">Law Practice</p>
+{{-- Hero Section: Editorial & Bold --}}
+<section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 lg:px-20 w-full relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <div class="lg:col-span-8">
+        <div class="inline-flex items-center gap-3 px-4 py-2 bg-onyx-5 border border-onyx-5 rounded-full mb-10 translate-y-10 opacity-0 animate-reveal">
+           <span class="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse"></span>
+           <span class="text-[10px] font-bold tracking-ultra uppercase">The New Standard in Legal Care</span>
+        </div>
         
-        <div class="mt-12 flex justify-between items-center relative z-10">
-          <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm group-hover:scale-110 group-hover:bg-gold transition-all duration-300">
-            <svg class="w-4 h-4 text-ink-mid group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
+        <h1 class="text-7xl md:text-9xl lg:text-[10rem] leading-[0.85] mb-12 opacity-0 animate-reveal animation-delay-200">
+           Excellence <br>
+           <span class="text-gold-500 italic drop-shadow-sm">Redefined.</span>
+        </h1>
+
+        <p class="text-xl md:text-2xl font-light text-onyx-60 max-w-2xl leading-relaxed mb-16 opacity-0 animate-reveal animation-delay-400">
+          Connecting you with the world’s most distinguished legal professionals through a seamless, secure, and private digital experience.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-6 opacity-0 animate-reveal animation-delay-600">
+          <a href="{{ route('public.search') }}" class="btn-lux btn-lux-gold shadow-premium">
+             Find Counsel
+          </a>
+          <a href="#services" class="btn-lux btn-lux-outline">
+             Explore Services
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decorative Element -->
+  <div class="absolute right-[-5%] top-[15%] w-1/3 aspect-square bg-gold-100/30 rounded-full blur-[120px] pointer-events-none parallax-blob" data-speed="0.25"></div>
+</section>
+
+{{-- Services Section --}}
+<section id="services" class="py-40 px-6 lg:px-20 relative bg-white">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col lg:flex-row justify-between items-end mb-32 gap-10">
+      <div class="max-w-2xl">
+        <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-6">Expertise</p>
+        <h2 class="text-6xl md:text-8xl leading-tight">Selected <br> Practice Areas</h2>
+      </div>
+      <p class="text-lg font-light text-onyx-50 max-w-sm mb-4">A curated network of specialists across every major legal discipline, ensuring you receive focused, world-class advice.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-onyx-5">
+      @foreach(['Criminal', 'Divorce', 'Affidavit', 'Civil'] as $index => $service)
+      <a href="{{ route('public.search', ['service' => $service]) }}" 
+         class="group p-12 border-b md:border-r border-onyx-5 hover:bg-onyx hover:text-white transition-all duration-700 ease-expo relative overflow-hidden"
+         data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+        <span class="text-[10px] font-bold tracking-ultra uppercase text-onyx-30 group-hover:text-gold-500 transition-colors mb-20 block">0{{ $index + 1 }}</span>
+        <h3 class="text-4xl italic mb-6 group-hover:translate-x-2 transition-transform duration-700">{{ $service }}</h3>
+        <p class="text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-700 font-semibold text-gold-500">View Practice</p>
+        
+        <!-- Hover SVG Decoration -->
+        <div class="absolute bottom-[-20%] right-[-10%] w-32 h-32 opacity-0 group-hover:opacity-10 transition-opacity duration-700">
+           <svg class="w-full h-full text-gold-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>
         </div>
       </a>
+      @endforeach
+      
+      <!-- Last Empty Slot for "More" -->
+      <a href="{{ route('public.search') }}" 
+         class="group p-12 border-b border-onyx-5 bg-onyx text-white flex flex-col justify-center items-center text-center hover:bg-gold-500 transition-colors duration-700"
+         data-aos="fade-up" data-aos-delay="400">
+         <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-300 mb-4">Discovery</p>
+         <h3 class="text-3xl italic">View All <br> Specialties</h3>
+         <svg class="w-8 h-8 mt-6 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+{{-- Featured Section --}}
+<section class="py-40 px-6 lg:px-20 bg-linen relative overflow-hidden">
+  <div class="absolute top-0 right-1/2 w-px h-64 bg-gradient-to-b from-onyx/10 to-transparent"></div>
+
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-32">
+       <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-6">Our Inner Circle</p>
+       <h2 class="text-6xl md:text-8xl italic">Distinguished Counsel</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+      @foreach($featuredLawyers as $lawyer)
+      <div class="group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 }}">
+        <a href="{{ route('public.lawyer', $lawyer->id) }}" class="block relative overflow-hidden aspect-[4/5] mb-8 bespoke-card !p-0 border-0">
+          <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=512' }}" 
+               alt="{{ $lawyer->full_name }}" 
+               class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105">
+          <div class="absolute inset-0 bg-onyx-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+          <div class="absolute bottom-8 left-8 right-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
+             <span class="btn-lux btn-lux-gold w-full !py-3">Book Private Session</span>
+          </div>
+        </a>
+        <div class="flex justify-between items-start">
+           <div>
+             <h3 class="text-3xl italic mb-2">{{ $lawyer->full_name }}</h3>
+             <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40">{{ $lawyer->specialization }} — {{ $lawyer->city }}</p>
+           </div>
+           <span class="font-serif italic text-gold-600 text-2xl">{{ $lawyer->experience_years }}Yrs</span>
+        </div>
+      </div>
       @endforeach
     </div>
   </div>
 </section>
 
-{{-- Featured Lawyers --}}
-<section class="py-32 px-6 lg:px-16 bg-parchment border-t border-warm-border relative overflow-hidden">
-  <!-- Soft background blob -->
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-gold/5 rounded-full blur-[120px] pointer-events-none"></div>
-
-  <div class="max-w-7xl mx-auto relative z-10">
-    <div class="text-center mb-20">
-      <div class="w-12 h-1 bg-gold mb-6 mx-auto"></div>
-      <p class="text-gold text-xs font-semibold tracking-widest uppercase mb-3" data-aos="fade-up">Our Network</p>
-      <h2 class="font-serif text-4xl md:text-5xl" data-aos="fade-up" data-aos-delay="50">
-        Featured Legal Professionals
-      </h2>
-    </div>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      @foreach($featuredLawyers as $lawyer)
-      <a href="{{ route('public.lawyer', $lawyer->id) }}"
-         class="lawyer-card group bg-white/60 backdrop-blur-sm p-6 lg:p-8 ripple elevation-1 rounded-3xl texture-paper"
-         data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}"
-         aria-label="View profile of {{ $lawyer->full_name }}, {{ $lawyer->specialization }} lawyer in {{ $lawyer->city }}">
-        <div class="skeleton-avatar absolute top-6 left-6 w-20 h-20 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-
-        <div class="flex items-start justify-between mb-8 relative">
-          <div class="w-20 h-20 rounded-2xl overflow-hidden shrink-0 shadow-sm border border-warm-border group-hover:border-gold/30 transition-colors">
-            <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=111&color=D4AF37' }}"
-                 alt="{{ $lawyer->full_name }}"
-                 loading="lazy"
-                 class="w-full h-full object-cover grayscale-[40%] group-hover:grayscale-0 scale-100 group-hover:scale-110 transition-all duration-500">
-          </div>
-          <span class="bg-parchment text-ink-mid px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase border border-warm-border group-hover:border-gold group-hover:text-gold transition-colors">
-            {{ $lawyer->specialization }}
-          </span>
-        </div>
-
-        <div>
-          <h3 class="font-serif text-2xl text-ink font-semibold mb-2 group-hover:text-gold transition-colors">{{ $lawyer->full_name }}</h3>
-          <p class="text-sm text-ink-muted flex items-center gap-2 mb-6">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            {{ $lawyer->city }}
-          </p>
-        </div>
-
-        <div class="pt-6 border-t border-warm-border flex items-center justify-between">
-          <p class="text-[11px] font-semibold tracking-widest uppercase text-ink-mid">Book Consultation</p>
-          <div class="w-8 h-8 rounded-full bg-gold-light/10 text-gold flex items-center justify-center group-hover:bg-gold group-hover:text-white transition-colors duration-300">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-      @endforeach
-    </div>
-    
-    <div class="mt-20 text-center" data-aos="fade-up">
-      <a href="{{ route('public.search') }}" class="btn-ghost inline-flex items-center gap-2">
-        See All Professionals
-      </a>
-    </div>
+{{-- Final CTA --}}
+<section class="py-60 px-6 lg:px-20 bg-white text-center relative overflow-hidden">
+  <div class="absolute inset-0 mask-edge-soft bg-gold-50/30 -z-10 parallax-blob" data-speed="0.1"></div>
+  <div class="max-w-3xl mx-auto relative z-10">
+    <h2 class="text-7xl md:text-9xl italic leading-none mb-12">Secure your <br> <span class="text-gold-500">legacy today.</span></h2>
+    <p class="text-xl font-light text-onyx-50 mb-16 px-10">Private consultations starting from distinguished professionals across the nation.</p>
+    <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-16 !py-6 text-sm">Create Private Account</a>
   </div>
 </section>
 

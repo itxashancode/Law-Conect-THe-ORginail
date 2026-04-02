@@ -3,100 +3,86 @@
 
 @section('content')
 <div data-aos="fade-up">
-  <h1 class="font-serif text-4xl text-ink mb-2">Welcome, {{ $lawyer->full_name }}</h1>
-  <p class="text-ink-muted mb-8">{{ $lawyer->specialization }} · {{ $lawyer->city }}</p>
 
-  {{-- Statistics --}}
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-    <div class="bg-warm-surface border border-warm-border p-6">
-      <p class="text-ink-muted text-xs tracking-widest uppercase mb-2">Total Slots</p>
-      <p class="font-serif text-3xl text-ink">{{ $totalSlots }}</p>
-    </div>
-    <div class="bg-warm-surface border border-warm-border p-6">
-      <p class="text-ink-muted text-xs tracking-widest uppercase mb-2">Booked Slots</p>
-      <p class="font-serif text-3xl text-ink">{{ $bookedSlots }}</p>
-    </div>
-    <div class="bg-warm-surface border border-warm-border p-6">
-      <p class="text-ink-muted text-xs tracking-widest uppercase mb-2">Upcoming Appointments</p>
-      <p class="font-serif text-3xl text-ink">{{ $upcomingAppointments->count() }}</p>
-    </div>
-  </div>
+  {{-- Welcome & Stats --}}
+  <div class="mb-20">
+    <h1 class="font-serif text-7xl md:text-9xl italic mb-10">Welcome, {{ explode(' ', trim($lawyer->full_name))[0] }}</h1>
 
-  {{-- Quick Actions --}}
-  <div class="mb-10">
-    <h2 class="font-serif text-2xl text-ink mb-4">Quick Actions</h2>
-    <div class="flex flex-wrap gap-4">
-      <a href="{{ route('lawyer.slots.index') }}" class="btn-primary">Manage Availability</a>
-      <a href="{{ route('lawyer.profile.edit') }}" class="btn-ghost">Edit Profile</a>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-10 bespoke-card">
+        <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-4 border-b border-onyx/5 pb-4">Total Availability</p>
+        <p class="font-serif text-5xl text-gold-600">{{ $totalSlots }} <span class="text-sm font-sans text-onyx/40 not-italic">SLOTS</span></p>
+      </div>
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-10 bespoke-card border-onyx/10">
+        <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-4 border-b border-onyx/5 pb-4">Booked Sessions</p>
+        <p class="font-serif text-5xl text-gold-600">{{ $bookedSlots }} <span class="text-sm font-sans text-onyx/40 not-italic">SLOTS</span></p>
+      </div>
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-10 bespoke-card">
+        <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-4 border-b border-onyx/5 pb-4">Upcoming</p>
+        <p class="font-serif text-5xl text-gold-600">{{ $upcomingAppointments->count() }} <span class="text-sm font-sans text-onyx/40 not-italic">THIS MONTH</span></p>
+      </div>
     </div>
   </div>
 
   {{-- Upcoming Appointments --}}
-  @if($upcomingAppointments->count())
-  <div class="bg-warm-surface border border-warm-border mb-8">
-    <div class="p-6 border-b border-warm-border">
-      <h2 class="font-serif text-2xl text-ink">Upcoming Appointments</h2>
+  <div class="mb-20">
+    <div class="flex items-center justify-between mb-12 border-b border-onyx/5 pb-6">
+      <h2 class="font-serif text-5xl text-onyx">Upcoming Sessions</h2>
+      <a href="{{ route('lawyer.slots.index') }}" class="btn-lux btn-lux-outline">Manage Calendar</a>
     </div>
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm text-left">
-        <thead class="bg-ink text-white">
-          <tr>
-            <th class="px-6 py-4">Customer</th>
-            <th class="px-6 py-4">Subject</th>
-            <th class="px-6 py-4">Date & Time</th>
-            <th class="px-6 py-4">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($upcomingAppointments as $appointment)
-          <tr class="border-b border-warm-border">
-            <td class="px-6 py-4">
-              <p class="font-serif text-ink">{{ $appointment->customer->name }}</p>
-              <p class="text-xs text-ink-muted">{{ $appointment->customer->email }}</p>
-            </td>
-            <td class="px-6 py-4">{{ $appointment->subject }}</td>
-            <td class="px-6 py-4">
-              {{ \Carbon\Carbon::parse($appointment->slot->available_date)->format('D, M j Y') }}<br>
-              {{ \Carbon\Carbon::parse($appointment->slot->start_time)->format('g:i A') }}
-            </td>
-            <td class="px-6 py-4">
-              <span class="inline-block px-3 py-1 text-xs border border-green-500 text-green-700">Confirmed</span>
-            </td>
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
+
+    @if($upcomingAppointments->count())
+      <div class="space-y-4">
+        @foreach($upcomingAppointments as $appointment)
+        <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 hover:shadow-luxury hover:-translate-y-1 transition-all duration-700 bespoke-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="w-16 h-16 bg-onyx/5 rounded-full flex items-center justify-center text-gold-600 font-serif text-2xl group-hover:scale-110 transition-transform duration-500">
+              {{ strtoupper(substr($appointment->customer->name, 0, 1)) }}
+            </div>
+            <div>
+              <p class="text-[10px] tracking-ultra uppercase text-gold-500 mb-2">{{ \Carbon\Carbon::parse($appointment->slot->available_date)->format('D, M j Y') }} at {{ \Carbon\Carbon::parse($appointment->slot->start_time)->format('g:i A') }}</p>
+              <h4 class="font-serif text-2xl text-onyx group-hover:text-gold-600 transition-colors">{{ $appointment->subject }}</h4>
+              <p class="text-sm text-onyx/60">{{ $appointment->customer->name }} • {{ $appointment->customer->email }}</p>
+            </div>
+          </div>
+          <div class="md:text-right">
+            <span class="inline-block px-4 py-2 text-xs border border-onyx/20 text-onyx uppercase tracking-ultra">Confirmed</span>
+          </div>
+        </div>
+        @endforeach
+      </div>
+    @else
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-20 text-center bespoke-card">
+        <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/30 mb-4">Schedule</p>
+        <p class="font-serif text-2xl text-onyx/60 italic">No upcoming sessions confirmed at this time.</p>
+      </div>
+    @endif
+  </div>
+
+  {{-- Pending Appointments --}}
+  @if($pendingAppointments->count())
+  <div>
+    <div class="flex items-center justify-between mb-12 border-b border-onyx/5 pb-6">
+      <h2 class="font-serif text-5xl text-onyx border-l-4 border-gold-500 pl-6">Pending Requests</h2>
+    </div>
+
+    <div class="space-y-4">
+      @foreach($pendingAppointments as $appointment)
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-700 bespoke-card flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h4 class="font-serif text-xl text-onyx mb-1">{{ $appointment->subject }}</h4>
+          <p class="text-sm text-onyx/60">Requested by {{ $appointment->customer->name }} on {{ $appointment->created_at->format('M j, Y') }}</p>
+        </div>
+        <div class="text-left sm:text-right">
+          <span class="inline-block px-4 py-2 text-xs border border-onyx/20 text-onyx/60 uppercase tracking-ultra flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-onyx/40"></span> Awaiting Confirmation
+          </span>
+        </div>
+      </div>
+      @endforeach
     </div>
   </div>
   @endif
 
-  {{-- Pending Appointments --}}
-  @if($pendingAppointments->count())
-  <div class="bg-warm-surface border border-warm-border">
-    <div class="p-6 border-b border-warm-border">
-      <h2 class="font-serif text-2xl text-ink">Pending Confirmations</h2>
-    </div>
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm text-left">
-        <thead class="bg-ink text-white">
-          <tr>
-            <th class="px-6 py-4">Customer</th>
-            <th class="px-6 py-4">Subject</th>
-            <th class="px-6 py-4">Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach($pendingAppointments as $appointment)
-          <tr class="border-b border-warm-border">
-            <td class="px-6 py-4">{{ $appointment->customer->name }}</td>
-            <td class="px-6 py-4">{{ $appointment->subject }}</td>
-            <td class="px-6 py-4">{{ $appointment->created_at->format('M j, Y') }}</td>
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
-    </div>
-  </div>
-  @endif
 </div>
 @endsection

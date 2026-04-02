@@ -3,110 +3,115 @@
 
 @section('content')
 <div data-aos="fade-up">
-  <h1 class="font-serif text-4xl text-ink mb-8">Admin Dashboard</h1>
+  <h1 class="font-serif text-6xl text-onyx mb-12">Admin Dashboard</h1>
 
-  {{-- Statistics Cards --}}
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-    <div class="bg-warm-surface border border-warm-border p-6">
-      <p class="text-ink-muted text-xs tracking-widest uppercase mb-2">Total Lawyers</p>
-      <p class="font-serif text-3xl text-ink">{{ $totalLawyers }}</p>
+  {{-- Statistics --}}
+  <div class="flex flex-wrap gap-6 mb-16">
+    <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 min-w-[200px]">
+      <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-3">Total Lawyers</p>
+      <p class="font-serif text-4xl text-gold-600">{{ $totalLawyers }}</p>
     </div>
-    <div class="bg-warm-surface border border-warm-border p-6">
-      <p class="text-ink-muted text-xs tracking-widest uppercase mb-2">Pending Lawyers</p>
-      <p class="font-serif text-3xl text-ink">{{ $pendingLawyers }}</p>
+    <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 min-w-[200px]">
+      <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-3">Pending Lawyers</p>
+      <p class="font-serif text-4xl text-gold-600">{{ $pendingLawyers }}</p>
     </div>
-    <div class="bg-warm-surface border border-warm-border p-6">
-      <p class="text-ink-muted text-xs tracking-widest uppercase mb-2">Total Bookings</p>
-      <p class="font-serif text-3xl text-ink">{{ $totalBookings }}</p>
+    <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 min-w-[200px]">
+      <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-3">Total Bookings</p>
+      <p class="font-serif text-4xl text-gold-600">{{ $totalBookings }}</p>
     </div>
-    <div class="bg-warm-surface border border-warm-border p-6">
-      <p class="text-ink-muted text-xs tracking-widest uppercase mb-2">Available Slots</p>
-      <p class="font-serif text-3xl text-ink">{{ $totalSlots - $bookedSlots }}</p>
+    <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 min-w-[200px]">
+      <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-3">Available Slots</p>
+      <p class="font-serif text-4xl text-gold-600">{{ $totalSlots - $bookedSlots }}</p>
     </div>
   </div>
 
   {{-- Recent Lawyers --}}
-  <div class="bg-warm-surface border border-warm-border mb-10">
-    <div class="p-6 border-b border-warm-border">
-      <h2 class="font-serif text-2xl text-ink">Recent Lawyer Registrations</h2>
-    </div>
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm text-left">
-        <thead class="bg-ink text-white">
-          <tr>
-            <th class="px-6 py-4">Name</th>
-            <th class="px-6 py-4">Specialization</th>
-            <th class="px-6 py-4">City</th>
-            <th class="px-6 py-4">Status</th>
-            <th class="px-6 py-4">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @forelse($recentLawyers as $lawyer)
-          <tr class="border-b border-warm-border">
-            <td class="px-6 py-4">{{ $lawyer->full_name }}</td>
-            <td class="px-6 py-4">{{ $lawyer->specialization }}</td>
-            <td class="px-6 py-4">{{ $lawyer->city }}</td>
-            <td class="px-6 py-4">
-              <span class="inline-block px-3 py-1 text-xs border
-                @if($lawyer->status === 'approved') border-green-500 text-green-700
-                @elseif($lawyer->status === 'pending') border-yellow-500 text-yellow-700
-                @else border-red-500 text-red-700
-                @endif">
-                {{ ucfirst($lawyer->status) }}
-              </span>
-            </td>
-            <td class="px-6 py-4">
-              @if($lawyer->status === 'pending')
-                <form method="POST" action="{{ route('admin.lawyers.approve', $lawyer->id) }}" class="inline">
-                  @csrf @method('POST')
-                  <button type="submit" class="text-green-600 hover:text-green-800 mr-3">Approve</button>
-                </form>
-                <form method="POST" action="{{ route('admin.lawyers.reject', $lawyer->id) }}" class="inline" onsubmit="return confirm('Reject this lawyer?')">
-                  @csrf @method('POST')
-                  <button type="submit" class="text-red-600 hover:text-red-800">Reject</button>
-                </form>
-              @endif
-            </td>
-          </tr>
-          @empty
-          <tr><td colspan="5" class="px-6 py-4 text-ink-muted">No recent registrations.</td></tr>
-          @endforelse
-        </tbody>
-      </table>
+  <div class="mb-16">
+    <h2 class="font-serif text-3xl text-onyx mb-8">Recent Lawyer Registrations</h2>
+    <div class="space-y-4">
+      @forelse($recentLawyers as $lawyer)
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury hover:-translate-y-1 transition-all duration-500 bespoke-card">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="flex items-center gap-6">
+            <div class="w-16 h-16 overflow-hidden border border-onyx/10 shrink-0">
+              <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37' }}"
+                   alt="{{ $lawyer->full_name }}"
+                   class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
+            </div>
+            <div>
+              <div class="flex items-center gap-3">
+                <h4 class="font-serif text-2xl text-onyx">{{ $lawyer->full_name }}</h4>
+                @if($lawyer->status === 'approved')
+                  <span class="w-2 h-2 rounded-full bg-gold-600" title="Approved"></span>
+                @elseif($lawyer->status === 'pending')
+                  <span class="w-2 h-2 rounded-full bg-onyx/40" title="Pending"></span>
+                @else
+                  <span class="w-2 h-2 rounded-full bg-onyx/60" title="Rejected"></span>
+                @endif
+              </div>
+              <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/50 mt-1">{{ $lawyer->specialization }} Law • {{ $lawyer->city }} • {{ $lawyer->experience_years }} Yrs Exp</p>
+              <p class="text-sm font-light text-onyx/40 mt-1">{{ $lawyer->user->email }} • {{ $lawyer->phone }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4">
+            @if($lawyer->status === 'pending')
+              <form method="POST" action="{{ route('admin.lawyers.approve', $lawyer->id) }}" class="inline">
+                @csrf @method('POST')
+                <button type="submit" class="btn-lux btn-lux-outline text-xs">Approve</button>
+              </form>
+              <form method="POST" action="{{ route('admin.lawyers.reject', $lawyer->id) }}" class="inline" onsubmit="return confirm('Reject this lawyer?')">
+                @csrf @method('POST')
+                <button type="submit" class="btn-lux btn-lux-ghost text-xs text-onyx/60 hover:text-onyx">Reject</button>
+              </form>
+            @else
+              <span class="inline-block px-4 py-2 text-xs border border-onyx/20 text-onyx uppercase tracking-ultra {{ $lawyer->status === 'approved' ? 'bg-onyx text-white border-onyx' : '' }}">{{ ucfirst($lawyer->status) }}</span>
+            @endif
+          </div>
+        </div>
+      </div>
+      @empty
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-16 text-center bespoke-card">
+        <p class="font-serif text-2xl text-onyx/60 italic">No lawyer registrations yet.</p>
+      </div>
+      @endforelse
     </div>
   </div>
 
   {{-- Recent Appointments --}}
-  <div class="bg-warm-surface border border-warm-border">
-    <div class="p-6 border-b border-warm-border">
-      <h2 class="font-serif text-2xl text-ink">Recent Appointments</h2>
-    </div>
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm text-left">
-        <thead class="bg-ink text-white">
-          <tr>
-            <th class="px-6 py-4">Customer</th>
-            <th class="px-6 py-4">Lawyer</th>
-            <th class="px-6 py-4">Subject</th>
-            <th class="px-6 py-4">Status</th>
-            <th class="px-6 py-4">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          @forelse($recentAppointments as $appointment)
-          <tr class="border-b border-warm-border">
-            <td class="px-6 py-4">{{ $appointment->customer->name }}</td>
-            <td class="px-6 py-4">{{ $appointment->lawyer->full_name }}</td>
-            <td class="px-6 py-4">{{ $appointment->subject }}</td>
-            <td class="px-6 py-4">{{ ucfirst($appointment->status) }}</td>
-            <td class="px-6 py-4">{{ $appointment->created_at->format('M j, Y') }}</td>
-          </tr>
-          @empty
-          <tr><td colspan="5" class="px-6 py-4 text-ink-muted">No appointments yet.</td></tr>
-          @endforelse
-        </tbody>
-      </table>
+  <div>
+    <h2 class="font-serif text-3xl text-onyx mb-8">Recent Appointments</h2>
+    <div class="space-y-4">
+      @forelse($recentAppointments as $appointment)
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury hover:-translate-y-1 transition-all duration-500 bespoke-card">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="flex-1">
+            <h4 class="font-serif text-xl text-onyx mb-2">{{ $appointment->subject }}</h4>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-onyx/60">
+              <div>
+                <p class="text-[10px] tracking-ultra uppercase mb-1">Customer</p>
+                <p>{{ $appointment->customer->name }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] tracking-ultra uppercase mb-1">Lawyer</p>
+                <p>{{ $appointment->lawyer->full_name }}</p>
+              </div>
+              <div>
+                <p class="text-[10px] tracking-ultra uppercase mb-1">Date</p>
+                <p>{{ $appointment->created_at->format('M j, Y') }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="inline-block px-4 py-2 text-xs border border-onyx/20 text-onyx uppercase tracking-ultra">{{ ucfirst($appointment->status) }}</span>
+          </div>
+        </div>
+      </div>
+      @empty
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-16 text-center bespoke-card">
+        <p class="font-serif text-2xl text-onyx/60 italic">No appointments yet.</p>
+      </div>
+      @endforelse
     </div>
   </div>
 </div>

@@ -19,9 +19,22 @@ Route::get('/search', [PublicController::class, 'search'])->name('public.search'
 Route::get('/lawyer/{id}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer');
 
 Route::get('/dashboard', function () {
-    if (auth()->user()->hasRole('admin'))  return redirect()->route('admin.dashboard');
-    if (auth()->user()->hasRole('lawyer')) return redirect()->route('lawyer.dashboard');
-    return redirect()->route('customer.dashboard');
+    if (!auth()->check()) {
+        return redirect()->route('login');
+    }
+
+    if (auth()->user()->hasRole('admin')) {
+        return redirect()->route('admin.dashboard');
+    }
+    if (auth()->user()->hasRole('lawyer')) {
+        return redirect()->route('lawyer.dashboard');
+    }
+    if (auth()->user()->hasRole('customer')) {
+        return redirect()->route('customer.dashboard');
+    }
+
+    // Fallback: user has no role - redirect to profile setup or home
+    return redirect()->route('home')->with('warning', 'Please complete your profile setup to access dashboard features.');
 })->middleware('auth')->name('dashboard');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role.admin'])->group(function () {

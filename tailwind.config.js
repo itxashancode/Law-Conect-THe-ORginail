@@ -3,82 +3,69 @@ export default {
   content: [
     './resources/**/*.blade.php',
     './resources/**/*.js',
+    './resources/**/*.vue',
+  ],
+  safelist: [
+    // Onyx opacity variants
+    'bg-onyx/5', 'bg-onyx/10', 'bg-onyx/20', 'bg-onyx/30', 'bg-onyx/40', 'bg-onyx/50', 'bg-onyx/60',
+    'text-onyx/30', 'text-onyx/40', 'text-onyx/50', 'text-onyx/60', 'text-onyx/70',
+    'border-onyx/5', 'border-onyx/10', 'border-onyx/20',
+    // Gold opacity variants
+    'bg-gold-500/30', 'bg-gold-500/50',
+    // Group hover variants
+    'group-hover:bg-onyx/20',
+    // Also ensure base colors are generated
+    'bg-linen', 'text-onyx', 'bg-onyx', 'bg-gold-500', 'text-gold-500', 'border-gold-500',
   ],
   theme: {
     extend: {
       colors: {
-        parchment: '#F8F9FA',
-        gold: {
-          light: '#E5C158',
-          DEFAULT: '#B8860B',
-          dark: '#9A6F00',
-          glow: 'rgba(184, 134, 11, 0.5)',
+        'onyx': '#0D0D0D', // Deep, rich black
+        'obsidian': '#1A1A1A', // Slightly lighter black
+        'gold': {
+          50: '#FDFCF6',
+          100: '#FAF8ED',
+          200: '#F1EACE',
+          300: '#E7D9A1',
+          400: '#DCC36A',
+          500: '#D4AF37', // Classic Gold
+          600: '#B8860B', // Dark Gold
+          700: '#916A09',
+          800: '#6E5107',
+          900: '#4A3705',
+          glow: 'rgba(212, 175, 55, 0.4)',
         },
-        ink: {
-          light: '#2A2A2A',
-          DEFAULT: '#0A0A0A',
-          mid: '#4A4A4A',
-          muted: '#8A8A8A',
-          surface: '#151515',
-        },
-        warm: {
-          border: '#E5E7EB',
-          surface: '#FFFFFF',
-        },
+        'linen': '#F9F7F2', // Warm paper-like background
+        'ash': '#4F4F4F',
+        'clay': '#8E8E8E',
+        'silver': '#E0E0E0',
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        'serif': ['"Instrument Serif"', '"Playfair Display"', 'serif'],
+        'sans': ['"Outfit"', '"Inter"', 'sans-serif'],
+        'display': ['"Cormorant Garamond"', 'serif'],
       },
       borderRadius: {
-        'xl': '1rem',
-        '2xl': '1.5rem',
-        '3xl': '2rem',
+        'super': '2rem',
+        'bespoke': '1.25rem',
       },
       boxShadow: {
-        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.05)',
-        'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.4)',
-        'glow': '0 0 20px rgba(184, 134, 11, 0.2)',
-        'glow-strong': '0 0 30px rgba(184, 134, 11, 0.4)',
+        'premium': '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+        'luxury': '0 10px 30px -5px rgba(212, 175, 55, 0.15), 0 0 0 1px rgba(212, 175, 55, 0.05)',
+        'inner-light': 'inset 0 1px 1px 0 rgba(255, 255, 255, 0.1)',
+      },
+      letterSpacing: {
+        'ultra': '0.15em',
+        'tightest': '-0.04em',
       },
       transitionTimingFunction: {
-        'out-cubic': 'cubic-bezier(0.33, 1, 0.68, 1)',
-        'bounce-soft': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'expo': 'cubic-bezier(0.87, 0, 0.13, 1)',
       },
-      animation: {
-        'float': 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'gradient-x': 'gradient-x 15s ease infinite',
-        'blob': 'blob 7s infinite',
-      },
-      keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-        'gradient-x': {
-          '0%, 100%': {
-            'background-size': '200% 200%',
-            'background-position': 'left center'
-          },
-          '50%': {
-            'background-size': '200% 200%',
-            'background-position': 'right center'
-          },
-        },
-        blob: {
-          '0%': { transform: 'translate(0px, 0px) scale(1)' },
-          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-          '100%': { transform: 'translate(0px, 0px) scale(1)' },
-        }
-      }
     },
   },
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/aspect-ratio'),
-    require('@chenglou/pretext'),
   ],
 }

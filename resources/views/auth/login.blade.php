@@ -1,47 +1,63 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.auth')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('auth-content')
+<div class="mb-10 text-center">
+    <h2 class="text-4xl italic text-onyx mb-2">Sign In</h2>
+    <p class="text-xs font-light tracking-wide text-onyx-50">Access your private account.</p>
+</div>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+<!-- Session Status -->
+@if(session('status'))
+    <div class="mb-4 text-sm font-medium text-gold-600">
+        {{ session('status') }}
+    </div>
+@endif
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+<form method="POST" action="{{ route('login') }}" class="space-y-8">
+    @csrf
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+    <!-- Email Address -->
+    <div>
+        <label for="email" class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">Email Address</label>
+        <input id="email" class="lux-input" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="YOUR EMAIL" />
+        @error('email')
+            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+        @enderror
+    </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+    <!-- Password -->
+    <div>
+        <label for="password" class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">Password</label>
+        <input id="password" class="lux-input" type="password" name="password" required autocomplete="current-password" placeholder="YOUR PASSWORD" />
+        @error('password')
+            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+        @enderror
+    </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+    <div class="flex items-center justify-between pt-2">
+        <label for="remember_me" class="flex items-center group cursor-pointer">
+            <input id="remember_me" type="checkbox" class="w-4 h-4 rounded-sm border-onyx-20 text-gold-500 focus:ring-gold-500 focus:ring-offset-0 bg-transparent transition-colors" name="remember">
+            <span class="ms-3 text-[10px] font-bold tracking-ultra uppercase text-onyx-40 group-hover:text-onyx transition-colors">Keep me signed in</span>
+        </label>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+        @if (Route::has('password.request'))
+            <a class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 hover:text-gold-500 transition-colors" href="{{ route('password.request') }}">
+                Forgot Password?
+            </a>
+        @endif
+    </div>
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    <div class="pt-6">
+        <button type="submit" class="btn-lux btn-lux-gold w-full shadow-premium">
+            Sign In
+        </button>
+    </div>
+    
+    <div class="text-center pt-6 border-t border-onyx-5">
+        <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40">
+            Don't have an account? 
+            <a href="{{ route('register') }}" class="text-gold-500 hover:text-onyx transition-colors ml-1">Register Now</a>
+        </p>
+    </div>
+</form>
+@endsection

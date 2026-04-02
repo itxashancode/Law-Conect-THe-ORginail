@@ -1,52 +1,61 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+@extends('layouts.auth')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+@section('auth-content')
+<div class="mb-10 text-center">
+    <h2 class="text-4xl italic text-onyx mb-2">Create Account</h2>
+    <p class="text-xs font-light tracking-wide text-onyx-50">Join our exclusive network.</p>
+</div>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+<form method="POST" action="{{ route('register') }}" class="space-y-6">
+    @csrf
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    <!-- Name -->
+    <div>
+        <label for="name" class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">Full Name</label>
+        <input id="name" class="lux-input" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="JOHN DOE" />
+        @error('name')
+            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+        @enderror
+    </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+    <!-- Email Address -->
+    <div>
+        <label for="email" class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">Email Address</label>
+        <input id="email" class="lux-input" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="YOUR EMAIL" />
+        @error('email')
+            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+        @enderror
+    </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+    <!-- Password -->
+    <div>
+        <label for="password" class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">Password</label>
+        <input id="password" class="lux-input" type="password" name="password" required autocomplete="new-password" placeholder="CREATE PASSWORD" />
+        @error('password')
+            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+        @enderror
+    </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+    <!-- Confirm Password -->
+    <div>
+        <label for="password_confirmation" class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">Confirm Password</label>
+        <input id="password_confirmation" class="lux-input" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="REPEAT PASSWORD" />
+        @error('password_confirmation')
+            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+        @enderror
+    </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    <div class="pt-6">
+        <button type="submit" class="btn-lux btn-lux-gold w-full shadow-premium">
+            Join Now
+        </button>
+    </div>
+    
+    <div class="text-center pt-6 border-t border-onyx-5">
+        <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40">
+            Already registered? 
+            <a href="{{ route('login') }}" class="text-gold-500 hover:text-onyx transition-colors ml-1">Sign In</a>
+        </p>
+    </div>
+</form>
+@endsection

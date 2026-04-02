@@ -14,7 +14,35 @@ class PublicController extends Controller
     public function home()
     {
         $featuredLawyers = Lawyer::where('status', 'approved')->latest()->take(6)->get();
+
         $content = HomepageContent::all()->keyBy('section');
+
+        // Provide fallback content if database is empty
+        if ($content->isEmpty()) {
+            $content = collect([
+                'hero' => (object)[
+                    'title' => 'Connect with Elite Legal Minds',
+                    'body' => 'Access a curated network of top-tier attorneys ready to serve your needs with discretion and excellence.',
+                    'is_active' => true
+                ],
+                'featured_lawyers' => (object)[
+                    'title' => 'Featured Legal Experts',
+                    'body' => 'Browse our selection of highly qualified lawyers specializing in various practice areas.',
+                    'is_active' => true
+                ],
+                'call_to_action' => (object)[
+                    'title' => 'Ready to Get Started?',
+                    'body' => 'Join thousands of clients who have found the perfect legal representation through our platform.',
+                    'is_active' => true
+                ],
+                'footer_about' => (object)[
+                    'title' => 'About Law-Conect',
+                    'body' => 'We bridge the gap between clients and exceptional legal professionals, ensuring quality legal services are accessible to all.',
+                    'is_active' => true
+                ]
+            ]);
+        }
+
         return view('public.home', compact('featuredLawyers', 'content'));
     }
 

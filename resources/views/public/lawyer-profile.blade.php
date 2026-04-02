@@ -3,190 +3,128 @@
 
 @section('content')
 
-<div class="pt-32 pb-24 px-6 lg:px-16 relative">
-  <div class="absolute inset-0 bg-hero-pattern opacity-10 h-80 z-0"></div>
-  <div class="absolute bg-gradient-to-b from-transparent to-parchment w-full h-40 top-40 z-0"></div>
+<div class="pt-60 pb-40 px-6 lg:px-20 relative min-h-screen">
+  {{-- Hero Wash --}}
+  <div class="absolute top-0 inset-x-0 h-[600px] bg-onyx-5 -z-10 clip-path-hero parallax-blob" data-speed="0.15"></div>
 
-  <div class="max-w-6xl mx-auto relative z-10">
-    {{-- Back navigation --}}
-    <div class="mb-8" data-aos="fade-up">
-      <a href="{{ url()->previous() !== url()->current() ? url()->previous() : route('public.search') }}"
-         class="inline-flex items-center gap-2 text-ink-muted hover:text-gold transition-colors group focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 rounded-lg px-3 py-2">
-        <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-        </svg>
-        <span class="text-sm font-medium">Back to Results</span>
-      </a>
-    </div>
-
-    {{-- Profile Header Card --}}
-    <div class="bg-white rounded-3xl escalation-2 border border-white/50 p-8 md:p-12 mb-16 flex flex-col md:flex-row gap-8 lg:gap-16 items-start vignette" data-aos="fade-up">
-      <div class="relative w-40 h-40 md:w-56 md:h-56 shrink-0 rounded-2xl overflow-hidden shadow-glow-strong border-2 border-gold/30 bg-gray-100">
-        <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=111&color=D4AF37&size=250' }}"
-             alt="{{ $lawyer->full_name }}"
-             loading="lazy"
-             class="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 scale-100 hover:scale-110 transition-all duration-700">
-      </div>
-      
-      <div class="flex-1 w-full mt-4 md:mt-0">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-warm-border pb-6 mb-6">
-          <div>
-            <div class="inline-flex items-center gap-2 mb-3">
-              <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
-              <p class="text-gold text-xs font-semibold tracking-widest uppercase">{{ $lawyer->specialization }} Law</p>
-            </div>
-            <h1 class="font-serif text-5xl md:text-6xl text-ink leading-tight">{{ $lawyer->full_name }}</h1>
-          </div>
-          
-          <div class="flex items-center gap-2 bg-parchment rounded-2xl p-4 border border-warm-border min-w-[140px] text-center shrink-0">
-            <div class="flex-1">
-              <p class="text-ink-muted text-[10px] font-bold tracking-widest uppercase mb-1">Experience</p>
-              <p class="font-serif text-2xl text-ink">{{ $lawyer->experience_years }}<span class="text-gold text-lg">Y</span></p>
-            </div>
-          </div>
+  <div class="max-w-7xl mx-auto relative z-10 transition-all duration-1000 ease-expo">
+    
+    {{-- Top Navigation & Action --}}
+    <div class="flex flex-col md:flex-row justify-between items-start gap-10 mb-20">
+      <div class="max-w-3xl">
+        <div class="flex items-center gap-4 mb-10 group cursor-pointer" onclick="window.history.back()">
+           <div class="w-10 h-10 border border-onyx-10 flex items-center justify-center rounded-full group-hover:bg-onyx group-hover:text-white transition-all duration-500">
+             <svg class="w-4 h-4 translate-x-0 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 19l-7-7 7-7"/></svg>
+           </div>
+           <span class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40">Return to network</span>
         </div>
+        
+        <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-6">{{ $lawyer->specialization }} Law — {{ $lawyer->city }}</p>
+        <h1 class="text-7xl md:text-9xl leading-none italic mb-10">{{ $lawyer->full_name }}</h1>
+        <p class="text-xl font-light text-onyx-60 max-w-xl leading-relaxed">{{ $lawyer->bio }}</p>
+      </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
-          <div class="flex items-start gap-4">
-            <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center shrink-0 text-gold">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-            </div>
-            <div>
-              <p class="text-[10px] font-bold tracking-widest uppercase text-ink-muted mb-1">Location</p>
-              <p class="text-ink text-sm font-medium">{{ $lawyer->city }}</p>
-              @if($lawyer->address)
-                <p class="text-sm text-ink-muted mt-1">{{ $lawyer->address }}</p>
-              @endif
-            </div>
-          </div>
-          
-          @if($lawyer->consultation_fee)
-          <div class="flex items-start gap-4">
-            <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center shrink-0 text-gold">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            </div>
-            <div>
-              <p class="text-[10px] font-bold tracking-widest uppercase text-ink-muted mb-1">Consultation Fee</p>
-              <p class="text-ink text-lg font-serif font-semibold">${{ number_format($lawyer->consultation_fee, 2) }}</p>
-            </div>
-          </div>
-          @endif
-          
-          @if($lawyer->phone)
-          <div class="flex items-start gap-4 mt-2 sm:col-span-2">
-            <div class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center shrink-0 text-gold">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-            </div>
-            <div>
-              <p class="text-[10px] font-bold tracking-widest uppercase text-ink-muted mb-1">Contact</p>
-              <p class="text-ink text-sm font-medium">{{ $lawyer->phone }}</p>
-            </div>
-          </div>
-          @endif
+      <div class="w-full md:w-80 shrink-0">
+        <div class="relative aspect-square overflow-hidden bespoke-card !p-0 border-0 rotate-1 shadow-premium">
+           <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=512' }}" 
+                alt="{{ $lawyer->full_name }}" 
+                class="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 hover:brightness-100 transition-all duration-700">
         </div>
       </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-      <div class="lg:col-span-2 space-y-12">
-        {{-- Bio --}}
-        @if($lawyer->bio)
-        <div data-aos="fade-up">
-          <h2 class="font-serif text-3xl text-ink mb-6 flex items-center gap-4">
-            About
-            <span class="flex-1 h-px bg-warm-border"></span>
+    {{-- Details Grid --}}
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-20 border-t border-onyx-5 pt-20">
+      <div class="lg:col-span-8 space-y-20">
+        
+        {{-- Professional Summary --}}
+        <div>
+          <h2 class="text-3xl italic mb-10 flex items-center gap-6">
+            Profile Summary
+            <span class="flex-1 h-px bg-onyx-5"></span>
           </h2>
-          <div class="bg-white rounded-3xl p-8 border border-warm-border shadow-sm">
-            <p class="text-ink-mid leading-relaxed text-lg">{{ $lawyer->bio }}</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="p-8 border border-onyx-[0.03] bg-white/50 relative overflow-hidden backdrop-blur-sm group">
+              <span class="text-[10px] font-bold tracking-ultra uppercase text-onyx-30 block mb-6">Experience</span>
+              <p class="text-4xl italic text-gold-600">{{ $lawyer->experience_years }} <span class="text-xl">YRS</span></p>
+            </div>
+            <div class="p-8 border border-onyx-[0.03] bg-white/50 relative overflow-hidden backdrop-blur-sm group">
+              <span class="text-[10px] font-bold tracking-ultra uppercase text-onyx-30 block mb-6">Retention</span>
+              <p class="text-4xl italic text-gold-600">Premium</p>
+            </div>
+            <div class="p-8 border border-onyx-[0.03] bg-white/50 relative overflow-hidden backdrop-blur-sm group">
+              <span class="text-[10px] font-bold tracking-ultra uppercase text-onyx-30 block mb-6">Consultation</span>
+              <p class="text-4xl italic text-gold-600">${{ number_format($lawyer->consultation_fee ?? 0, 0) }}</p>
+            </div>
           </div>
+        </div>
+
+        {{-- Office Location --}}
+        @if($lawyer->address)
+        <div class="p-16 bg-onyx text-white relative overflow-hidden">
+           <div class="absolute top-0 right-0 p-10 opacity-10">
+             <svg class="w-32 h-32" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+           </div>
+           <h2 class="text-5xl italic mb-8">Chambers & <br> Location</h2>
+           <p class="text-xl font-light text-white/50 mb-10">{{ $lawyer->address }}, {{ $lawyer->city }}</p>
+           <a href="https://maps.google.com/?q={{ urlencode($lawyer->address . ' ' . $lawyer->city) }}" target="_blank" 
+              class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 flex items-center gap-2 hover:translate-x-2 transition-transform">
+              Locate on Map
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+           </a>
         </div>
         @endif
       </div>
 
-      {{-- Book Appointment Sidebar --}}
-      <div class="lg:col-span-1" data-aos="fade-up" data-aos-delay="100">
-        <div class="sticky top-28 bg-white border border-white/50 rounded-3xl p-8 overflow-hidden relative elevation-2 vignette texture-paper">
-          <div class="absolute top-0 right-0 w-32 h-32 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
-          
-          <h2 class="font-serif text-2xl text-ink mb-2 relative z-10">Book a Consultation</h2>
-          <p class="text-ink-muted text-sm mb-8 relative z-10">Secure your appointment instantly.</p>
+      {{-- Booking Sidebar --}}
+      <div class="lg:col-span-4">
+        <div class="sticky top-40 bg-white border border-onyx-[0.03] p-12 bespoke-card shadow-premium">
+           <h2 class="text-4xl italic mb-4">Request Consultation</h2>
+           <p class="text-sm font-light text-onyx-50 mb-10">All sessions are private and end-to-end encrypted for your protection.</p>
 
-          @auth
-            @if($lawyer->availabilitySlots->where('is_booked', false)->count())
-              <form method="POST" action="{{ route('customer.appointments.store') }}" class="relative z-10">
+           @auth
+            @php $availableSlots = $lawyer->availabilitySlots->where('is_booked', false); @endphp
+            @if($availableSlots->count())
+              <form action="{{ route('customer.appointments.store') }}" method="POST" class="group/form">
                 @csrf
                 <input type="hidden" name="lawyer_id" value="{{ $lawyer->id }}">
-
-                <div class="mb-6">
-                  <label class="block text-[10px] font-bold tracking-widest uppercase text-ink-muted mb-3 pr-2">Select a Time Slot</label>
-                  <div class="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
-                    @foreach($lawyer->availabilitySlots->where('is_booked', false) as $slot)
-                    <label class="flex items-start gap-4 p-4 rounded-xl border border-warm-border cursor-pointer hover:border-gold hover:shadow-glow transition-all duration-300 relative group has-[:checked]:border-gold has-[:checked]:bg-gold/5 has-[:checked]:shadow-glow">
-                      <div class="pt-0.5">
-                        <input type="radio" name="slot_id" value="{{ $slot->id }}" required class="text-gold focus:ring-gold border-warm-border">
-                      </div>
-                      <div class="flex-1">
-                        <p class="text-sm font-semibold text-ink">{{ \Carbon\Carbon::parse($slot->available_date)->format('D, M j Y') }}</p>
-                        <p class="text-xs text-ink-muted">{{ \Carbon\Carbon::parse($slot->start_time)->format('g:i A') }} – {{ \Carbon\Carbon::parse($slot->end_time)->format('g:i A') }}</p>
-                      </div>
-                    </label>
-                    @endforeach
-                  </div>
+                
+                <div class="space-y-4 mb-10 max-h-80 overflow-y-auto pr-4 custom-scrollbar">
+                  @foreach($availableSlots as $slot)
+                  <label class="group flex items-center justify-between p-6 border-b border-onyx-5 cursor-pointer hover:bg-gold-50/50 transition-colors has-[:checked]:bg-gold-50 has-[:checked]:border-gold-500">
+                    <input type="radio" name="slot_id" value="{{ $slot->id }}" class="hidden" required>
+                    <div class="text-left">
+                      <p class="text-xs font-bold tracking-ultra uppercase text-onyx-30 mb-2">{{ \Carbon\Carbon::parse($slot->available_date)->format('D, M j') }}</p>
+                      <p class="text-lg italic">{{ \Carbon\Carbon::parse($slot->start_time)->format('g:i A') }}</p>
+                    </div>
+                    <svg class="w-4 h-4 text-gold-500 opacity-0 group-has-[:checked]:opacity-100 transition-opacity" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                  </label>
+                  @endforeach
                 </div>
 
-                <div class="mb-5">
-                  <label class="block text-[10px] font-bold tracking-widest uppercase text-ink-muted mb-2">Subject</label>
-                  <input type="text" name="subject" required class="search-field !py-3 !px-4" placeholder="Briefly describe your matter">
+                <div class="space-y-8 mb-12">
+                   <div>
+                     <label class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">Matter Subject</label>
+                     <input type="text" name="subject" class="lux-input !py-2" required placeholder="NATURE OF YOUR CONSULTATION">
+                   </div>
                 </div>
 
-                <div class="mb-8">
-                  <label class="block text-[10px] font-bold tracking-widest uppercase text-ink-muted mb-2">Meeting Place (Optional)</label>
-                  <input type="text" name="meeting_place" class="search-field !py-3 !px-4" placeholder="Office, video call, etc.">
-                </div>
-
-                <button type="submit" id="booking-submit" class="btn-primary w-full flex justify-center items-center gap-2 text-sm !py-4 shadow-lg ripple">
-                  <span id="booking-text">Confirm Booking</span>
-                  <svg id="booking-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </button>
-
-                <!-- Success/Error Messages -->
-                @if(session('success'))
-                <div id="booking-success" class="toast toast-success show" role="alert" aria-live="polite">
-                  <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    <span>{{ session('success') }}</span>
-                  </div>
-                </div>
-                @endif
-
-                @if($errors->any())
-                <div id="booking-error" class="toast toast-error show" role="alert" aria-live="assertive">
-                  <div class="flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    <span>{{ $errors->first() }}</span>
-                  </div>
-                </div>
-                @endif
+                <button type="submit" class="btn-lux btn-lux-gold w-full shadow-premium group-has-[:checked]/form:animate-pulse-gold">Request Session</button>
               </form>
             @else
-              <div class="bg-parchment border border-warm-border rounded-2xl p-6 text-center">
-                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center mx-auto mb-4 border border-warm-border">
-                  <svg class="w-6 h-6 text-ink-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                </div>
-                <p class="text-ink font-semibold mb-1">Fully Booked</p>
-                <p class="text-ink-muted text-sm">No available slots at this time. Please check back soon.</p>
+              <div class="py-10 text-center border border-dashed border-onyx-10 rounded-bespoke">
+                 <p class="text-onyx-40 italic">Currently fully booked.</p>
               </div>
             @endif
-          @else
-            <div class="bg-parchment border border-warm-border rounded-2xl p-8 text-center mt-6">
-               <svg class="w-10 h-10 text-gold mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-               <p class="text-ink font-semibold mb-4">Please log in to book</p>
-               <div class="flex flex-col gap-3">
-                 <a href="{{ route('login') }}" class="btn-primary w-full text-center">Log In</a>
-                 <a href="{{ route('register') }}" class="btn-ghost w-full text-center">Register</a>
-               </div>
-            </div>
-          @endauth
+           @else
+              <div class="space-y-6">
+                <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40">Identification Required</p>
+                <div class="flex flex-col gap-4">
+                  <a href="{{ route('login') }}" class="btn-lux btn-lux-gold w-full text-center">Sign In</a>
+                  <a href="{{ route('register') }}" class="btn-lux btn-lux-outline w-full text-center">Register</a>
+                </div>
+              </div>
+           @endauth
         </div>
       </div>
     </div>
@@ -194,55 +132,10 @@
   </div>
 </div>
 
-<script>
-  // Booking form loading state
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form[action="{{ route('customer.appointments.store') }}"]');
-    const submitBtn = document.getElementById('booking-submit');
-    const submitText = document.getElementById('booking-text');
-    const submitIcon = document.getElementById('booking-icon');
-
-    if (form && submitBtn) {
-      form.addEventListener('submit', function () {
-        // Show loading state
-        submitBtn.classList.add('btn-loading');
-        submitBtn.classList.add('loading');
-        submitText.textContent = 'Processing...';
-        submitIcon.style.display = 'none';
-
-        // Disable form inputs
-        form.querySelectorAll('input, button, select, textarea').forEach(el => {
-          el.disabled = true;
-        });
-      });
-    }
-
-    // Auto-dismiss toasts after 5 seconds
-    const toasts = document.querySelectorAll('.toast.show');
-    toasts.forEach(toast => {
-      setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 500);
-      }, 5000);
-    });
-  });
-</script>
-
 <style>
-/* Custom scrollbar for time slots */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 4px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #E5E7EB;
-  border-radius: 10px;
-}
-.custom-scrollbar:hover::-webkit-scrollbar-thumb {
-  background: #D4AF37;
-}
+  .clip-path-hero {
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0% 100%);
+  }
 </style>
 
 @endsection
