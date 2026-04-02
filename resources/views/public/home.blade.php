@@ -5,6 +5,9 @@
 
 {{-- Hero Section: Editorial & Bold --}}
 <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+  <!-- Grainient Canvas Background -->
+  <div id="hero-grainient" class="absolute inset-0 z-0"></div>
+
   <div class="max-w-7xl mx-auto px-6 lg:px-20 w-full relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
       <div class="lg:col-span-8">
@@ -77,6 +80,17 @@
   </div>
 </section>
 
+{{-- BounceCards Featured Attorneys --}}
+<section class="py-40 px-6 lg:px-20 bg-white relative overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-20" data-aos="fade-up">
+      <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-4">Exclusive Network</p>
+      <h2 class="font-serif text-6xl md:text-8xl text-onyx">Featured Attorneys</h2>
+    </div>
+    <div id="bounce-cards-container" class="flex justify-center py-10" data-aos="fade-up" data-aos-delay="200"></div>
+  </div>
+</section>
+
 {{-- Featured Section --}}
 <section class="py-40 px-6 lg:px-20 bg-linen relative overflow-hidden">
   <div class="absolute top-0 right-1/2 w-px h-64 bg-gradient-to-b from-onyx/10 to-transparent"></div>
@@ -123,3 +137,45 @@
 </section>
 
 @endsection
+
+@push('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Grainient
+    const grainientContainer = document.getElementById('hero-grainient');
+    if (grainientContainer && window.Grainient) {
+      new window.Grainient(grainientContainer, {
+        color1: '#D4AF37',
+        color2: '#0D0D0D',
+        color3: '#F9F7F2',
+        timeSpeed: 0.25,
+        warpStrength: 1.0,
+        warpFrequency: 3.0,
+        warpSpeed: 1.5,
+        contrast: 1.2,
+        saturation: 0.8,
+        grainAmount: 0.05
+      });
+    }
+
+    // Initialize BounceCards
+    const bounceContainer = document.getElementById('bounce-cards-container');
+    if (bounceContainer && window.BounceCards && typeof featured Lawyers !== 'undefined') {
+      const images = [
+        @foreach($featuredLawyers as $lawyer)
+          "{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=400' }}"@if(!$loop->last), @endif
+        @endforeach
+      ];
+      new window.BounceCards(bounceContainer, {
+        images: images,
+        containerWidth: 500,
+        containerHeight: 500,
+        animationDelay: 0.3,
+        animationStagger: 0.08,
+        easeType: 'elastic.out(1, 0.8)',
+        enableHover: true
+      });
+    }
+  });
+</script>
+@endpush

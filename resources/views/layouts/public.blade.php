@@ -178,5 +178,6 @@
   <script>
     AOS.init({ duration: 1000, easing: 'ease-out-expo', once: true, offset: 50 });
   </script>
+  @stack('scripts')
 </body>
 </html>

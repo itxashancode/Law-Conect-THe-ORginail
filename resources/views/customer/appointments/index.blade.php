@@ -19,7 +19,7 @@
   @if($appointments->count())
     <div class="space-y-4">
       @foreach($appointments as $appointment)
-      <div class="bg-white/60 p-8 border border-onyx-[0.03] flex flex-col md:flex-row md:items-center justify-between group hover:bg-white transition-colors rounded-lg shadow-sm">
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 flex flex-col md:flex-row md:items-center justify-between group hover:shadow-luxury transition-all duration-700 bespoke-card">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
            <div>
              <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-1">Counsel</p>
@@ -40,7 +40,7 @@
            
            <div>
              <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-1">Matter</p>
-             <p class="text-sm font-bold text-onyx-80">{{ $appointment->subject }}</p>
+             <p class="text-lg font-bold text-onyx">{{ $appointment->subject }}</p>
              @if($appointment->meeting_place)
                <p class="text-xs font-light text-onyx-50 mt-1 break-words">Location: {{ $appointment->meeting_place }}</p>
              @endif

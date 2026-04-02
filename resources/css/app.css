@@ -214,8 +214,49 @@
   animation: pulse-gold 2s infinite;
 }
 
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* GPU acceleration for smoother transforms */
 .gpu-accel {
   transform: translateZ(0);
   will-change: transform;
+}
+
+/* Focus states for accessibility */
+.btn-lux:focus-visible {
+  outline: 2px solid var(--gold-500, #D4AF37);
+  outline-offset: 2px;
+}
+
+/* BounceCards container responsive */
+#bounce-cards-container {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+#bounce-cards-container .card {
+  width: 200px !important;
+  height: 280px !important;
+}
+
+@media (max-width: 640px) {
+  #bounce-cards-container {
+    max-width: 320px;
+  }
+  #bounce-cards-container .card {
+    width: 140px !important;
+    height: 200px !important;
+  }
 }
