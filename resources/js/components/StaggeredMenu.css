@@ -1,0 +1,251 @@
+/* StaggeredMenu - Full-screen overlay navigation menu */
+
+.staggered-menu-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.staggered-menu-header {
+  position: relative;
+  z-index: 1002;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+}
+
+.sm-logo {
+  display: flex;
+  align-items: center;
+}
+
+.sm-logo-img {
+  height: 24px;
+  width: auto;
+}
+
+.sm-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: inherit;
+}
+
+.sm-toggle-textWrap {
+  overflow: hidden;
+  display: block;
+}
+
+.sm-toggle-textInner {
+  display: block;
+}
+
+.sm-toggle-line {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.sm-icon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.sm-icon-line {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+}
+
+.sm-icon-line-v {
+  transform: rotate(90deg);
+}
+
+.sm-prelayers {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 998;
+  pointer-events: none;
+}
+
+.sm-prelayer {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.staggered-menu-panel {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.staggered-menu-panel[data-open] {
+  pointer-events: auto;
+}
+
+.sm-panel-inner {
+  width: 100%;
+  max-width: 1200px;
+  padding: 6rem 2rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sm-panel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+}
+
+.sm-panel-itemWrap {
+  margin: 0;
+  overflow: hidden;
+}
+
+.sm-panel-item {
+  display: block;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+[data-open] .sm-panel-item {
+  opacity: 1;
+}
+
+.sm-panel-itemLabel {
+  display: block;
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-style: italic;
+  line-height: 1.2;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.sm-panel-item[data-index] .sm-panel-itemLabel::before {
+  content: attr(data-index) ". ";
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.875rem;
+  font-style: normal;
+  letter-spacing: 0.1em;
+  opacity: var(--sm-num-opacity, 1);
+  margin-right: 0.5rem;
+}
+
+.sm-panel-item:hover .sm-panel-itemLabel {
+  transform: translateX(20px);
+  color: var(--sm-accent, #5227FF);
+}
+
+.sm-socials {
+  margin-top: 4rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+[data-open] .sm-socials {
+  opacity: 1;
+}
+
+.sm-socials-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  opacity: 0.6;
+}
+
+.sm-socials-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.sm-socials-item {
+  margin: 0;
+}
+
+.sm-socials-link {
+  font-size: 0.875rem;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.8;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.sm-socials-link:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+/* Fixed wrapper for header-only menu button */
+.fixed-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sm-panel-itemLabel {
+    font-size: clamp(1.5rem, 8vw, 3rem);
+  }
+
+  .sm-panel-item {
+    padding: 0.75rem 1rem;
+  }
+
+  .sm-socials-list {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .sm-panel-inner {
+    padding-top: 5rem;
+  }
+}
+
+/* Ensure smooth animations */
+.sm-panel-itemWrap,
+.sm-panel-item,
+.sm-panel-itemLabel {
+  will-change: transform, opacity;
+}

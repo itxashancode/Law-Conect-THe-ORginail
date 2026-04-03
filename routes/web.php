@@ -33,8 +33,8 @@ Route::get('/dashboard', function () {
         return redirect()->route('customer.dashboard');
     }
 
-    // Fallback: user has no role - redirect to profile setup or home
-    return redirect()->route('home')->with('warning', 'Please complete your profile setup to access dashboard features.');
+    // Fallback: user has no role
+    return view('errors.no-role');
 })->middleware('auth')->name('dashboard');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role.admin'])->group(function () {

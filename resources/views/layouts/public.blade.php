@@ -35,13 +35,14 @@
         <span class="w-1 h-1 bg-gold-500 rounded-full ml-1 animate-pulse"></span>
       </a>
 
-      <div class="hidden lg:flex items-center gap-12 text-[11px] font-semibold tracking-ultra uppercase text-onyx">
+      <div class="hidden lg:flex items-center gap-6 text-[11px] font-semibold tracking-ultra uppercase text-onyx">
         <a href="{{ route('public.search') }}" class="nav-link">Find a Lawyer</a>
         @auth
           <a href="{{ route('dashboard') }}" class="btn-lux btn-lux-gold !px-8 !py-3">Dashboard</a>
         @else
           <a href="{{ route('login') }}" class="nav-link">Login</a>
-          <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join Now</a>
+          <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join as Client</a>
+          <a href="{{ route('lawyer.register') }}" class="btn-lux btn-lux-outline !px-8 !py-3">For Lawyers</a>
         @endauth
       </div>
 
@@ -61,12 +62,28 @@
         <a href="{{ route('dashboard') }}" class="btn-lux btn-lux-gold w-full max-w-xs">Dashboard</a>
       @else
         <a href="{{ route('login') }}" class="text-2xl font-serif italic text-onyx-70">Sign In</a>
-        <a href="{{ route('register') }}" class="btn-lux btn-lux-gold w-full max-w-xs">Get Started</a>
+        <a href="{{ route('register') }}" class="btn-lux btn-lux-gold w-full max-w-xs">Join as Client</a>
+        <a href="{{ route('lawyer.register') }}" class="btn-lux btn-lux-outline w-full max-w-xs mt-4">Join as Lawyer</a>
       @endauth
     </div>
   </nav>
 
   <main id="main-content" tabindex="-1">
+    @if(session('success'))
+      <div class="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-gold-500 text-white px-8 py-4 shadow-premium animate__animated animate__fadeInDown" role="alert">
+        {{ session('success') }}
+      </div>
+    @endif
+    @if(session('warning'))
+      <div class="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-onyx text-white px-8 py-4 shadow-premium animate__animated animate__fadeInDown" role="alert">
+        {{ session('warning') }}
+      </div>
+    @endif
+    @if(session('error'))
+      <div class="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-red-600 text-white px-8 py-4 shadow-premium animate__animated animate__fadeInDown" role="alert">
+        {{ session('error') }}
+      </div>
+    @endif
     @yield('content')
   </main>
 
@@ -178,6 +195,50 @@
   <script>
     AOS.init({ duration: 1000, easing: 'ease-out-expo', once: true, offset: 50 });
   </script>
+  {{-- Custom Menu Configuration --}}
+  @php
+    $menuItems = [
+        ['label' => 'Home', 'link' => route('home'), 'ariaLabel' => 'Go to homepage'],
+        ['label' => 'Find a Lawyer', 'link' => route('public.search'), 'ariaLabel' => 'Search lawyers'],
+    ];
+    if (!auth()->check()) {
+        $menuItems[] = ['label' => 'Login', 'link' => route('login')];
+        $menuItems[] = ['label' => 'Register', 'link' => route('register')];
+        $menuItems[] = ['label' => 'Lawyer Registration', 'link' => route('lawyer.register')];
+        $menuItems[] = ['label' => 'Dashboard', 'link' => route('dashboard'), 'ariaLabel' => 'Go to dashboard'];
+    }
+    
+    $socialItems = [
+        ["label" => "Instagram", "link" => "#"],
+        ["label" => "LinkedIn", "link" => "#"],
+        ["label" => "Twitter", "link" => "#"]
+    ];
+  @endphp
+
+  <div id="custom-menu"
+       data-items='@json($menuItems)'
+       data-social='@json($socialItems)'
+       data-menu-color="#0D0D0D"
+       data-open-color="#D4AF37"
+       data-accent="#5227FF"
+       style="display:none;">
+  </div>
+
+  <script>
+    // Custom Menu toggle integration
+    document.addEventListener('DOMContentLoaded', () => {
+      const oldToggle = document.getElementById('nav-toggle');
+      if (oldToggle && window.customMenu) {
+        const newToggle = oldToggle.cloneNode(true);
+        oldToggle.parentNode.replaceChild(newToggle, oldToggle);
+        newToggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.customMenu.toggle();
+        });
+      }
+    });
+  </script>
+
   @stack('scripts')
 </body>
 </html>

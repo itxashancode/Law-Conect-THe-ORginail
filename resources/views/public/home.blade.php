@@ -42,7 +42,7 @@
 </section>
 
 {{-- Services Section --}}
-<section id="services" class="py-40 px-6 lg:px-20 relative bg-white">
+<section id="services" class="py-20 md:py-40 px-6 lg:px-20 relative bg-white">
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-col lg:flex-row justify-between items-end mb-32 gap-10">
       <div class="max-w-2xl">
@@ -81,7 +81,7 @@
 </section>
 
 {{-- BounceCards Featured Attorneys --}}
-<section class="py-40 px-6 lg:px-20 bg-white relative overflow-hidden">
+<section class="py-20 md:py-40 px-6 lg:px-20 bg-white relative overflow-hidden">
   <div class="max-w-7xl mx-auto">
     <div class="text-center mb-20" data-aos="fade-up">
       <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-4">Exclusive Network</p>
@@ -92,7 +92,7 @@
 </section>
 
 {{-- Featured Section --}}
-<section class="py-40 px-6 lg:px-20 bg-linen relative overflow-hidden">
+<section class="py-20 md:py-40 px-6 lg:px-20 bg-linen relative overflow-hidden">
   <div class="absolute top-0 right-1/2 w-px h-64 bg-gradient-to-b from-onyx/10 to-transparent"></div>
 
   <div class="max-w-7xl mx-auto">

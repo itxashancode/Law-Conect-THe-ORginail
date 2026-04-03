@@ -53,8 +53,12 @@
     
     <div class="text-center pt-6 border-t border-onyx-5">
         <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40">
-            Already registered? 
+            Already registered?
             <a href="{{ route('login') }}" class="text-gold-500 hover:text-onyx transition-colors ml-1">Sign In</a>
+        </p>
+        <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mt-4">
+            Are you a legal professional?
+            <a href="{{ route('lawyer.register') }}" class="text-gold-500 hover:text-onyx transition-colors ml-1">Register as Lawyer</a>
         </p>
     </div>
 </form>

@@ -9,13 +9,19 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\LawyerRegistrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
+    // Customer Registration
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
-
     Route::post('register', [RegisteredUserController::class, 'store']);
+
+    // Lawyer Registration
+    Route::get('lawyer/register', [LawyerRegistrationController::class, 'showRegistrationForm'])
+                ->name('lawyer.register');
+    Route::post('lawyer/register', [LawyerRegistrationController::class, 'register']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
