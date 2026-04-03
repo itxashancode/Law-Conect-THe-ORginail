@@ -34,7 +34,7 @@
     @if($upcomingAppointments->count())
       <div class="space-y-4">
         @foreach($upcomingAppointments as $appointment)
-        <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 hover:shadow-luxury hover:-translate-y-1 transition-all duration-700 bespoke-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 hover:shadow-luxury hover:-translate-y-1 transition-all duration-700 bespoke-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
           <div class="flex items-center gap-6">
             <div class="w-16 h-16 bg-onyx/5 rounded-full flex items-center justify-center text-gold-600 font-serif text-2xl group-hover:scale-110 transition-transform duration-500">
               {{ strtoupper(substr($appointment->customer->name, 0, 1)) }}
@@ -68,7 +68,7 @@
 
     <div class="space-y-4">
       @foreach($pendingAppointments as $appointment)
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-700 bespoke-card flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-700 bespoke-card flex flex-col sm:flex-row items-center justify-between gap-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
         <div>
           <h4 class="font-serif text-xl text-onyx mb-1">{{ $appointment->subject }}</h4>
           <p class="text-sm text-onyx/60">Requested by {{ $appointment->customer->name }} on {{ $appointment->created_at->format('M j, Y') }}</p>

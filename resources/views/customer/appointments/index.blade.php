@@ -19,7 +19,7 @@
   @if($appointments->count())
     <div class="space-y-4">
       @foreach($appointments as $appointment)
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 flex flex-col md:flex-row md:items-center justify-between group hover:shadow-luxury transition-all duration-700 bespoke-card">
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 flex flex-col md:flex-row md:items-center justify-between group hover:shadow-luxury transition-all duration-700 bespoke-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 flex-1">
            <div>
              <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-1">Counsel</p>

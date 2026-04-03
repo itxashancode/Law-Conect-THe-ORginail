@@ -15,6 +15,14 @@ class PublicController extends Controller
     {
         $featuredLawyers = Lawyer::where('status', 'approved')->latest()->take(6)->get();
 
+        // Stats for count-up animation
+        $stats = [
+            'total_lawyers' => Lawyer::where('status', 'approved')->count(),
+            'total_appointments' => Appointment::count(),
+            'total_cities' => Lawyer::where('status', 'approved')->distinct('city')->count('city'),
+            'avg_experience' => round(Lawyer::where('status', 'approved')->avg('experience_years') ?? 0),
+        ];
+
         $content = HomepageContent::all()->keyBy('section');
 
         // Provide fallback content if database is empty
@@ -43,7 +51,7 @@ class PublicController extends Controller
             ]);
         }
 
-        return view('public.home', compact('featuredLawyers', 'content'));
+        return view('public.home', compact('featuredLawyers', 'content', 'stats'));
     }
 
     /**

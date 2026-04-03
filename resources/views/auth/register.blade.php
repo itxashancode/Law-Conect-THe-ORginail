@@ -27,6 +27,24 @@
         @enderror
     </div>
 
+    <!-- Phone -->
+    <div>
+        <label for="phone" class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">Phone Number</label>
+        <input id="phone" class="lux-input" type="text" name="phone" value="{{ old('phone') }}" required autocomplete="tel" placeholder="+1 (555) 000-0000" />
+        @error('phone')
+            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <!-- City -->
+    <div>
+        <label for="city" class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">City</label>
+        <input id="city" class="lux-input" type="text" name="city" value="{{ old('city') }}" required autocomplete="address-level2" placeholder="NEW YORK" />
+        @error('city')
+            <p class="mt-2 text-xs text-red-500">{{ $message }}</p>
+        @enderror
+    </div>
+
     <!-- Password -->
     <div>
         <label for="password" class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40 mb-2 block">Password</label>

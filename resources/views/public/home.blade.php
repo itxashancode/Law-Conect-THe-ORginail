@@ -41,6 +41,30 @@
   <div class="absolute right-[-5%] top-[15%] w-1/3 aspect-square bg-gold-100/30 rounded-full blur-[120px] pointer-events-none parallax-blob" data-speed="0.25"></div>
 </section>
 
+{{-- Horizontal Scroll Categories --}}
+<section class="py-20 bg-white border-b border-onyx/5 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 lg:px-20 mb-16">
+    <h2 class="text-4xl md:text-6xl italic mb-4">Explore Practice Areas</h2>
+    <p class="text-onyx/60">Scroll horizontally to discover our elite legal specializations</p>
+  </div>
+
+  <div class="flex overflow-x-auto gap-8 pb-8 px-6 lg:px-20 scrollbar-thin scrollbar-thumb-gold-500/30 scrollbar-track-transparent">
+    @foreach(['Criminal', 'Divorce', 'Affidavit', 'Civil'] as $index => $category)
+      <a href="{{ route('public.search', ['service' => $category]) }}"
+         class="min-w-[280px] h-80 bg-onyx text-white p-10 flex flex-col justify-between rounded-bespoke transition-all duration-700 hover:bg-gold-500 hover:scale-105 group"
+         data-aos="fade-right"
+         data-aos-delay="{{ $index * 100 }}">
+        <span class="text-[10px] font-bold tracking-ultra uppercase text-gold-300">0{{ $index + 1 }}</span>
+        <div>
+          <h3 class="text-3xl italic mb-2">{{ $category }}</h3>
+          <p class="text-sm text-white/60 group-hover:text-white/80">Specialized expertise</p>
+        </div>
+        <span class="btn-lux btn-lux-outline border-white/30 text-white hover:bg-white hover:text-onyx w-max self-start">Explore</span>
+      </a>
+    @endforeach
+  </div>
+</section>
+
 {{-- Services Section --}}
 <section id="services" class="py-20 md:py-40 px-6 lg:px-20 relative bg-white">
   <div class="max-w-7xl mx-auto">
@@ -76,6 +100,30 @@
          <h3 class="text-3xl italic">View All <br> Specialties</h3>
          <svg class="w-8 h-8 mt-6 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
       </a>
+    </div>
+  </div>
+</section>
+
+{{-- Stats Counter Section --}}
+<section class="py-20 md:py-40 px-6 lg:px-20 bg-linen relative border-y border-onyx/5">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center" data-aos="fade-up" data-aos-delay="100">
+      @php
+        $statItems = [
+            ['label' => 'ELITE LAWYERS', 'value' => $stats['total_lawyers'] ?? 0, 'suffix' => ''],
+            ['label' => 'CITIES COVERED', 'value' => $stats['total_cities'] ?? 0, 'suffix' => '+'],
+            ['label' => 'YEARS AVG EXPERIENCE', 'value' => $stats['avg_experience'] ?? 0, 'suffix' => 'YRS'],
+            ['label' => 'CONSULTATIONS', 'value' => $stats['total_appointments'] ?? 0, 'suffix' => '+'],
+        ];
+      @endphp
+      @foreach($statItems as $stat)
+        <div class="stat-counter group" data-target="{{ $stat['value'] }}" data-suffix="{{ $stat['suffix'] }}">
+          <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/40 mb-6">{{ $stat['label'] }}</p>
+          <p class="text-6xl md:text-7xl italic text-gold-600">
+            <span class="counter-number">0</span><span class="counter-suffix">{{ $stat['suffix'] }}</span>
+          </p>
+        </div>
+      @endforeach
     </div>
   </div>
 </section>
@@ -178,4 +226,38 @@
     }
   });
 </script>
+    // GSAP Counter Animation
+    if (typeof gsap !== 'undefined') {
+      const counters = document.querySelectorAll('.stat-counter');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const counter = entry.target;
+            const target = parseInt(counter.getAttribute('data-target'));
+            const suffix = counter.getAttribute('data-suffix');
+            const numberEl = counter.querySelector('.counter-number');
+
+            gsap.to(numberEl, {
+              innerText: target,
+              duration: 2.5,
+              snap: { innerText: 1 },
+              ease: "power2.out",
+              onUpdate: function() {
+                numberEl.innerText = Math.ceil(this.targets()[0].innerText);
+              }
+            });
+
+            observer.unobserve(counter);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      counters.forEach(counter => observer.observe(counter));
+    }
+
+    // Re-initialize AOS after dynamic content
+    if (typeof AOS !== 'undefined') {
+      AOS.refresh();
+    }
+  </script>
 @endpush

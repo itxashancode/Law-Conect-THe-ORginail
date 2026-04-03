@@ -10,7 +10,7 @@
   @if($appointments->count())
     <div class="space-y-4">
       @foreach($appointments as $appointment)
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-500 bespoke-card">
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-500 bespoke-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-2">Client</p>

@@ -12,7 +12,7 @@
   @endif
 
   <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-10 max-w-3xl bespoke-card">
-    <form method="POST" action="{{ route('lawyer.profile.update') }}">
+    <form method="POST" action="{{ route('lawyer.profile.update') }}" enctype="multipart/form-data">
       @csrf
       @method('PUT')
 
@@ -65,6 +65,18 @@
         <div class="md:col-span-2">
           <label class="block text-[10px] tracking-ultra uppercase text-onyx/40 mb-3">Bio / Description</label>
           <textarea name="bio" rows="6" class="lux-input">{{ old('bio', $lawyer->bio) }}</textarea>
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-[10px] tracking-ultra uppercase text-onyx/40 mb-3">Professional Photo</label>
+          <input type="file" name="photo" accept="image/*" class="lux-input">
+          <p class="text-xs text-onyx/40 mt-2">Recommended: 500x500px, max 2MB. Leave empty to keep current.</p>
+          @if($lawyer->photo)
+            <div class="mt-4 flex items-center gap-4">
+              <img src="{{ asset('storage/' . $lawyer->photo) }}" alt="Current photo" class="w-20 h-20 object-cover rounded-full border border-onyx/10">
+              <p class="text-sm text-onyx/60">Current photo</p>
+            </div>
+          @endif
         </div>
       </div>
 

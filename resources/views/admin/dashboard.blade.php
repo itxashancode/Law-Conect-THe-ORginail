@@ -30,7 +30,7 @@
     <h2 class="font-serif text-3xl text-onyx mb-8">Recent Lawyer Registrations</h2>
     <div class="space-y-4">
       @forelse($recentLawyers as $lawyer)
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury hover:-translate-y-1 transition-all duration-500 bespoke-card">
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury hover:-translate-y-1 transition-all duration-500 bespoke-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div class="flex items-center gap-6">
             <div class="w-16 h-16 overflow-hidden border border-onyx/10 shrink-0">
@@ -83,7 +83,7 @@
     <h2 class="font-serif text-3xl text-onyx mb-8">Recent Appointments</h2>
     <div class="space-y-4">
       @forelse($recentAppointments as $appointment)
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury hover:-translate-y-1 transition-all duration-500 bespoke-card">
+      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury hover:-translate-y-1 transition-all duration-500 bespoke-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div class="flex-1">
             <h4 class="font-serif text-xl text-onyx mb-2">{{ $appointment->subject }}</h4>

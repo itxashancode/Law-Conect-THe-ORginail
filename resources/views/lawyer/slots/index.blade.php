@@ -45,7 +45,7 @@
   {{-- Slots List --}}
   <div class="space-y-4">
     @forelse($slots as $slot)
-    <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury hover:-translate-y-1 transition-all duration-500 bespoke-card">
+    <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury hover:-translate-y-1 transition-all duration-500 bespoke-card" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-6">
           <div class="w-16 h-16 bg-onyx/5 rounded-full flex items-center justify-center">

@@ -144,6 +144,8 @@
     </div>
   </footer>
 
+  <!-- GSAP for advanced animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
   <script>
     // Initialize Lenis for smooth scrolling
@@ -194,6 +196,27 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init({ duration: 1000, easing: 'ease-out-expo', once: true, offset: 50 });
+
+    // Form submission loading states
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('form').forEach(form => {
+        const btn = form.querySelector('button[type="submit"]');
+        if (btn && !btn.hasAttribute('data-no-loader')) {
+          form.addEventListener('submit', function() {
+            if (!btn.disabled) {
+              btn.disabled = true;
+              btn.classList.add('opacity-75', 'cursor-not-allowed');
+              if (!btn.querySelector('.spinner')) {
+                const spinner = document.createElement('span');
+                spinner.className = 'spinner ml-2 inline-block';
+                spinner.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+                btn.appendChild(spinner);
+              }
+            }
+          });
+        }
+      });
+    });
   </script>
   {{-- Custom Menu Configuration --}}
   @php

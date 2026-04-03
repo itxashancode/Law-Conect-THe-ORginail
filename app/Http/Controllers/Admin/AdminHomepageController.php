@@ -14,7 +14,27 @@ class AdminHomepageController extends Controller
     public function index()
     {
         $contents = HomepageContent::all()->keyBy('section');
-        return view('admin.homepage.index', compact('contents'));
+        $requiredSections = ['hero', 'featured_lawyers', 'call_to_action', 'footer_about'];
+        $missingSections = array_diff($requiredSections, $contents->keys()->toArray());
+
+        return view('admin.homepage.index', compact('contents', 'missingSections'));
+    }
+
+    /**
+     * Create a new homepage content section.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'section' => 'required|string|unique:homepage_contents,section',
+            'title' => 'nullable|string|max:255',
+            'body' => 'nullable|string',
+            'image_path' => 'nullable|string|max:500',
+        ]);
+
+        HomepageContent::create($validated);
+
+        return back()->with('success', 'Homepage section created.');
     }
 
     /**
@@ -24,15 +44,13 @@ class AdminHomepageController extends Controller
     {
         $content = HomepageContent::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'nullable|string|max:255',
             'body' => 'nullable|string',
+            'image_path' => 'nullable|string|max:500',
         ]);
 
-        $content->update([
-            'title' => $request->title,
-            'body' => $request->body,
-        ]);
+        $content->update($validated);
 
         return back()->with('success', 'Homepage content updated.');
     }

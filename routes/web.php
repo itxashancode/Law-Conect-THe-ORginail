@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AdminHomepageController;
 use App\Http\Controllers\Lawyer\LawyerDashboardController;
 use App\Http\Controllers\Lawyer\LawyerProfileController;
 use App\Http\Controllers\Lawyer\LawyerSlotController;
+use App\Http\Controllers\Lawyer\LawyerAppointmentController;
 use App\Http\Controllers\Customer\CustomerDashboardController;
 use App\Http\Controllers\Customer\CustomerSearchController;
 use App\Http\Controllers\Customer\CustomerAppointmentController;
@@ -45,7 +46,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role.admin'])->grou
     Route::delete('/lawyers/{id}',            [AdminLawyerController::class, 'destroy'])->name('lawyers.destroy');
     Route::get('/bookings',                   [AdminBookingController::class, 'index'])->name('bookings.index');
     Route::get('/slots',                      [AdminSlotController::class, 'index'])->name('slots.index');
+    Route::delete('/slots/{id}',              [AdminSlotController::class, 'destroy'])->name('slots.destroy');
     Route::get('/homepage',                   [AdminHomepageController::class, 'index'])->name('homepage.index');
+    Route::post('/homepage',                  [AdminHomepageController::class, 'store'])->name('homepage.store');
     Route::put('/homepage/{id}',              [AdminHomepageController::class, 'update'])->name('homepage.update');
 });
 
@@ -56,6 +59,10 @@ Route::prefix('lawyer')->name('lawyer.')->middleware(['auth', 'role.lawyer'])->g
     Route::get('/slots',              [LawyerSlotController::class, 'index'])->name('slots.index');
     Route::post('/slots',             [LawyerSlotController::class, 'store'])->name('slots.store');
     Route::delete('/slots/{id}',      [LawyerSlotController::class, 'destroy'])->name('slots.destroy');
+    Route::get('/appointments',       [LawyerAppointmentController::class, 'index'])->name('appointments.index');
+    Route::get('/appointments/{id}',  [LawyerAppointmentController::class, 'show'])->name('appointments.show');
+    Route::post('/appointments/{id}/confirm', [LawyerAppointmentController::class, 'confirm'])->name('appointments.confirm');
+    Route::post('/appointments/{id}/cancel', [LawyerAppointmentController::class, 'cancel'])->name('appointments.cancel');
 });
 
 Route::prefix('customer')->name('customer.')->middleware(['auth', 'role.customer'])->group(function () {
@@ -64,6 +71,7 @@ Route::prefix('customer')->name('customer.')->middleware(['auth', 'role.customer
     Route::get('/appointments',                   [CustomerAppointmentController::class, 'index'])->name('appointments.index');
     Route::get('/appointments/book/{lawyerId}',   [CustomerAppointmentController::class, 'create'])->name('appointments.create');
     Route::post('/appointments',                  [CustomerAppointmentController::class, 'store'])->name('appointments.store');
+    Route::get('/appointments/{id}',              [CustomerAppointmentController::class, 'show'])->name('appointments.show');
     Route::delete('/appointments/{id}',           [CustomerAppointmentController::class, 'destroy'])->name('appointments.cancel');
 });
 

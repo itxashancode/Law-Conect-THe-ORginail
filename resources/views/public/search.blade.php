@@ -57,10 +57,10 @@
     @else
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20 border-t border-onyx-5 pt-20">
         @foreach($lawyers as $lawyer)
-        <div class="group">
+        <div class="group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
           <a href="{{ route('public.lawyer', $lawyer->id) }}" class="block relative overflow-hidden aspect-[4/5] mb-8 bespoke-card !p-0 border-0">
-            <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=512' }}" 
-                 alt="{{ $lawyer->full_name }}" 
+            <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=512' }}"
+                 alt="{{ $lawyer->full_name }}"
                  class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105">
             <div class="absolute inset-0 bg-onyx-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             <div class="absolute bottom-8 left-8 right-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">

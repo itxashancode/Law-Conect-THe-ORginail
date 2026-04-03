@@ -34,9 +34,21 @@ class LawyerProfileController extends Controller
             'bio' => 'nullable|string',
             'experience_years' => 'required|integer|min:0|max:50',
             'consultation_fee' => 'nullable|numeric|min:0',
+            'photo' => ['nullable', 'image', 'max:2048'],
         ]);
 
-        $lawyer->update($request->all());
+        $data = $request->except(['photo']);
+
+        // Handle photo upload
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($lawyer->photo) {
+                \Storage::disk('public')->delete($lawyer->photo);
+            }
+            $data['photo'] = $request->file('photo')->store('lawyer-photos', 'public');
+        }
+
+        $lawyer->update($data);
 
         return back()->with('success', 'Profile updated successfully.');
     }

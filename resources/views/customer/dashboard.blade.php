@@ -20,7 +20,7 @@
     @if($upcomingAppointments->count())
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         @foreach($upcomingAppointments as $appointment)
-        <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 hover:shadow-luxury hover:-translate-y-1 transition-all duration-700 bespoke-card group">
+        <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 hover:shadow-luxury hover:-translate-y-1 transition-all duration-700 bespoke-card group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
           <div class="flex items-start justify-between mb-8 pb-8 border-b border-onyx/5">
             <div>
               <p class="text-[10px] tracking-ultra uppercase text-gold-500 mb-3">{{ \Carbon\Carbon::parse($appointment->slot->available_date)->format('D, M j') }} at {{ \Carbon\Carbon::parse($appointment->slot->start_time)->format('g:i A') }}</p>
@@ -67,7 +67,7 @@
       @if($pendingAppointments->count())
         <div class="space-y-4">
           @foreach($pendingAppointments as $appointment)
-          <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-500 bespoke-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-500 bespoke-card flex flex-col sm:flex-row sm:items-center justify-between gap-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
             <div>
               <p class="font-serif text-xl text-onyx mb-1">{{ $appointment->lawyer->full_name }}</p>
               <p class="text-sm text-onyx/60">{{ $appointment->subject }}</p>
@@ -91,7 +91,7 @@
       @if($completedAppointments->count())
         <div class="space-y-4">
           @foreach($completedAppointments as $appointment)
-          <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-500 bespoke-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-500 bespoke-card flex flex-col sm:flex-row sm:items-center justify-between gap-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
             <div>
               <p class="font-serif text-xl text-onyx mb-1">{{ $appointment->lawyer->full_name }}</p>
               <p class="text-sm text-onyx/60">{{ $appointment->created_at->format('M j, Y') }}</p>
