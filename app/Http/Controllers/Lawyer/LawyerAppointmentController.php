@@ -30,6 +30,7 @@ class LawyerAppointmentController extends Controller
         $confirmedAppointments = $appointments->where('status', 'confirmed');
         $completedAppointments = $appointments->where('status', 'completed');
         $cancelledAppointments = $appointments->where('status', 'cancelled');
+        $allAppointments = $appointments;
 
         return view('lawyer.appointments.index', compact(
             'lawyer',
@@ -37,7 +38,7 @@ class LawyerAppointmentController extends Controller
             'confirmedAppointments',
             'completedAppointments',
             'cancelledAppointments',
-            'allAppointments' => $appointments
+            'allAppointments'
         ));
     }
 

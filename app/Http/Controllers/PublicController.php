@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lawyer;
 use App\Models\HomepageContent;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
