@@ -36,34 +36,13 @@
       </a>
 
       <div class="hidden lg:flex items-center gap-6 text-[11px] font-semibold tracking-ultra uppercase text-onyx">
-        <a href="{{ route('public.search') }}" class="nav-link">Find a Lawyer</a>
-        @auth
-          <a href="{{ route('dashboard') }}" class="btn-lux btn-lux-gold !px-8 !py-3">Dashboard</a>
-        @else
-          <a href="{{ route('login') }}" class="nav-link">Login</a>
-          <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join as Client</a>
-          <a href="{{ route('lawyer.register') }}" class="btn-lux btn-lux-outline !px-8 !py-3">For Lawyers</a>
-        @endauth
-      </div>
-
-      <button id="nav-toggle" class="lg:hidden text-onyx p-2 focus:outline-none" aria-label="Toggle Navigation">
-        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 8h16M4 16h16"/></svg>
-      </button>
-    </div>
-
-    {{-- Mobile Menu --}}
-    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 bg-linen/98 backdrop-blur-3xl z-50 flex flex-col items-center justify-center gap-12 text-center p-10 animate__animated animate__fadeIn">
-      <button id="nav-close" class="absolute top-10 right-10 text-onyx">
-        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-      <a href="{{ route('home') }}" class="font-serif text-4xl text-onyx italic mb-4">LegalCounsel</a>
-      <a href="{{ route('public.search') }}" class="text-2xl font-serif italic text-onyx-70 hover:text-gold-500">Practice areas</a>
+      <a href="{{ route('public.search') }}" class="nav-link">Find a Lawyer</a>
       @auth
-        <a href="{{ route('dashboard') }}" class="btn-lux btn-lux-gold w-full max-w-xs">Dashboard</a>
+        <a href="{{ route('dashboard') }}" class="btn-lux btn-lux-gold !px-8 !py-3">Dashboard</a>
       @else
-        <a href="{{ route('login') }}" class="text-2xl font-serif italic text-onyx-70">Sign In</a>
-        <a href="{{ route('register') }}" class="btn-lux btn-lux-gold w-full max-w-xs">Join as Client</a>
-        <a href="{{ route('lawyer.register') }}" class="btn-lux btn-lux-outline w-full max-w-xs mt-4">Join as Lawyer</a>
+        <a href="{{ route('login') }}" class="nav-link">Login</a>
+        <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join as Client</a>
+        <a href="{{ route('lawyer.register') }}" class="btn-lux btn-lux-outline !px-8 !py-3">For Lawyers</a>
       @endauth
     </div>
   </nav>
@@ -87,7 +66,7 @@
     @yield('content')
   </main>
 
-  <footer class="bg-onyx text-white py-32 px-6 lg:px-20 relative overflow-hidden">
+  <footer class="bg-onyx text-white py-16 md:py-24 px-6 lg:px-20 relative overflow-hidden">
     <div class="absolute bottom-[-20%] left-[-10%] w-[60%] h-[100%] bg-gold-900/10 rounded-full blur-[150px] pointer-events-none"></div>
 
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20 relative z-10">
@@ -168,22 +147,6 @@
       }
     });
 
-    // Mobile menu toggle
-    const toggle = document.getElementById('nav-toggle');
-    const menu = document.getElementById('mobile-menu');
-    const close = document.getElementById('nav-close');
-
-    if (toggle && menu) {
-      toggle.addEventListener('click', () => {
-        menu.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      });
-      close.addEventListener('click', () => {
-        menu.classList.add('hidden');
-        document.body.style.overflow = '';
-      });
-    }
-
     // Parallax background blobs
     window.addEventListener('scroll', () => {
       const blobs = document.querySelectorAll('.parallax-blob');
@@ -243,24 +206,403 @@
        data-social='@json($socialItems)'
        data-menu-color="#0D0D0D"
        data-open-color="#D4AF37"
-       data-accent="#5227FF"
-       style="display:none;">
+       data-accent="#5227FF">
   </div>
 
-  <script>
-    // Custom Menu toggle integration
-    document.addEventListener('DOMContentLoaded', () => {
-      const oldToggle = document.getElementById('nav-toggle');
-      if (oldToggle && window.customMenu) {
-        const newToggle = oldToggle.cloneNode(true);
-        oldToggle.parentNode.replaceChild(newToggle, oldToggle);
-        newToggle.addEventListener('click', (e) => {
-          e.preventDefault();
-          window.customMenu.toggle();
-        });
+  <style>
+    /* Hide CustomMenu toggle on desktop screens */
+    @media (min-width: 1024px) {
+      .sm-toggle,
+      .custom-menu-wrapper .staggered-menu-header {
+        display: none !important;
       }
-    });
-  </script>
+    }
+
+    /* Mobile menu improvements */
+    @media (max-width: 1023px) {
+      .sm-panel-item {
+        font-size: 2rem !important;
+        padding: 1rem 0 !important;
+      }
+
+      .sm-panel-itemLabel {
+        font-weight: 500;
+      }
+
+      /* Better spacing for mobile menu */
+      .sm-panel-list {
+        gap: 1.5rem;
+      }
+
+      /* Social links styling */
+      .sm-socials-link {
+        font-size: 1.25rem;
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        transition: all 0.3s ease;
+      }
+
+      .sm-socials-link:hover {
+        color: #D4AF37 !important;
+        padding-left: 1.5rem;
+      }
+    }
+
+    /* Ensure footer stays at bottom */
+    html, body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main#main-content {
+      flex: 1 0 auto;
+    }
+
+    footer {
+      flex-shrink: 0;
+    }
+
+    /* Reduce hero section height on smaller screens */
+    @media (max-width: 768px) {
+      .min-h-screen {
+        min-height: 80vh;
+      }
+    }
+
+    /* Better button spacing on mobile */
+    @media (max-width: 640px) {
+      .flex.flex-col.sm\:flex-row {
+        gap: 1rem;
+      }
+
+      .btn-lux {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    /* Authentication pages - less clogged */
+    .auth-container {
+      max-width: 480px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .auth-card {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(13, 13, 13, 0.1);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    }
+
+    .auth-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .auth-subtitle {
+      font-size: 0.875rem;
+      color: rgba(13, 13, 13, 0.6);
+      margin-bottom: 2rem;
+    }
+
+    /* Form field spacing */
+    .auth-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .auth-form label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      display: block;
+      color: rgba(13, 13, 13, 0.6);
+    }
+
+    .auth-form input,
+    .auth-form select,
+    .auth-form textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(13, 13, 13, 0.2);
+      border-radius: 0.5rem;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+    }
+
+    .auth-form input:focus,
+    .auth-form select:focus,
+    .auth-form textarea:focus {
+      outline: none;
+      border-color: #D4AF37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+    }
+
+    /* Smaller padding on auth pages */
+    .auth-card .p-12 {
+      padding: 1.5rem !important;
+    }
+
+    /* Multi-step form indicator */
+    .form-step-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .step-dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: rgba(13, 13, 13, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .step-dot.active {
+      width: 1.5rem;
+      border-radius: 0.25rem;
+      background: #D4AF37;
+    }
+  }
+
+  /* ============================================
+     CUSTOM MENU - Fullscreen Staggered Navigation
+     ============================================ */
+
+  /* Wrapper - fullscreen fixed container */
+  .custom-menu-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .custom-menu-wrapper[data-open] {
+    pointer-events: auto;
+  }
+
+  /* Prelayers - colored animated backgrounds */
+  .sm-prelayers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    background: #0D0D0D;
+  }
+
+  .sm-prelayer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  /* Header */
+  .staggered-menu-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .staggered-menu-header .sm-toggle,
+  .staggered-menu-header .sm-logo {
+    pointer-events: auto;
+  }
+
+  /* Logo */
+  .sm-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sm-logo-img {
+    height: 24px;
+    width: auto;
+  }
+
+  /* Toggle button */
+  .sm-toggle {
+    pointer-events: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #fff;
+    font-family: inherit;
+  }
+
+  .sm-toggle-textWrap {
+    display: block;
+    overflow: hidden;
+    height: 1.2em;
+    line-height: 1;
+  }
+
+  .sm-toggle-textInner {
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.87, 0, 0.13, 1);
+  }
+
+  .sm-toggle-line {
+    display: block;
+    height: 1em;
+  }
+
+  /* Icon plus sign */
+  .sm-icon {
+    display: block;
+    width: 24px;
+    height: 24px;
+    position: relative;
+  }
+
+  .sm-icon-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform: translateY(-50%);
+  }
+
+  .sm-icon-line-v {
+    transform: translateY(-50%) rotate(90deg);
+  }
+
+  /* Panel - fullscreen menu */
+  .staggered-menu-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .custom-menu-wrapper[data-open] .staggered-menu-panel {
+    pointer-events: auto;
+  }
+
+  .sm-panel-inner {
+    width: 100%;
+    max-width: 900px;
+    padding: 6rem 2rem 2rem;
+    text-align: center;
+  }
+
+  /* Menu list */
+  .sm-panel-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sm-panel-itemWrap {
+    margin: 0;
+    padding: 0;
+  }
+
+  .sm-panel-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 8vw, 5rem);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .sm-panel-item:hover {
+    color: #D4AF37;
+  }
+
+  /* Numbering for menu items */
+  .sm-panel-item[data-index]::before {
+    content: attr(data-index);
+    display: inline-block;
+    font-size: 0.5em;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    margin-right: 0.5rem;
+    opacity: 0.4;
+    vertical-align: middle;
+  }
+
+  /* Social section */
+  .sm-socials {
+    margin-top: 3rem;
+  }
+
+  .sm-socials-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 1rem;
+  }
+
+  .sm-socials-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .sm-socials-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+    padding: 0.5rem 0;
+  }
+
+  .sm-socials-link:hover {
+    color: #D4AF37 !important;
+    padding-left: 0.5rem;
+  }
+  </style>
 
   @stack('scripts')
 </body>

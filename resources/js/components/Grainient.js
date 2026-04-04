@@ -150,8 +150,12 @@ void main(){
   init() {
     if (!this.container) return;
 
+    // Create canvas element
+    const canvas = document.createElement('canvas');
+    this.container.appendChild(canvas);
+
     // Check for WebGL2 support
-    const gl = this.container.getContext('webgl2') || this.container.getContext('webgl');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
     if (!gl) {
       console.warn('WebGL not supported, Grainient not initialized');
       return;
@@ -159,8 +163,7 @@ void main(){
 
     this.gl = gl;
 
-    // Create renderer from OGL's simple pattern
-    const canvas = gl.canvas;
+    // Set canvas dimensions
     const width = this.container.clientWidth;
     const height = this.container.clientHeight;
     canvas.width = width;

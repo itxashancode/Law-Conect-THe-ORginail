@@ -17,6 +17,10 @@ use App\Http\Controllers\Customer\CustomerAppointmentController;
 
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/search', [PublicController::class, 'search'])->name('public.search');
+
+// Auth routes must come before /lawyer/{id} to avoid conflicts
+require __DIR__.'/auth.php';
+
 Route::get('/lawyer/{id}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer');
 
 Route::get('/dashboard', function () {
@@ -74,5 +78,3 @@ Route::prefix('customer')->name('customer.')->middleware(['auth', 'role.customer
     Route::get('/appointments/{id}',              [CustomerAppointmentController::class, 'show'])->name('appointments.show');
     Route::delete('/appointments/{id}',           [CustomerAppointmentController::class, 'destroy'])->name('appointments.cancel');
 });
-
-require __DIR__.'/auth.php';

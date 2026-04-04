@@ -4,7 +4,7 @@
 @section('content')
 
 {{-- Hero Section: Editorial & Bold --}}
-<section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+<section class="relative min-h-[70vh] flex items-center pt-16 overflow-hidden">
   <!-- Grainient Canvas Background -->
   <div id="hero-grainient" class="absolute inset-0 z-0"></div>
 
@@ -41,30 +41,6 @@
   <div class="absolute right-[-5%] top-[15%] w-1/3 aspect-square bg-gold-100/30 rounded-full blur-[120px] pointer-events-none parallax-blob" data-speed="0.25"></div>
 </section>
 
-{{-- Horizontal Scroll Categories --}}
-<section class="py-20 bg-white border-b border-onyx/5 overflow-hidden">
-  <div class="max-w-7xl mx-auto px-6 lg:px-20 mb-16">
-    <h2 class="text-4xl md:text-6xl italic mb-4">Explore Practice Areas</h2>
-    <p class="text-onyx/60">Scroll horizontally to discover our elite legal specializations</p>
-  </div>
-
-  <div class="flex overflow-x-auto gap-8 pb-8 px-6 lg:px-20 scrollbar-thin scrollbar-thumb-gold-500/30 scrollbar-track-transparent">
-    @foreach(['Criminal', 'Divorce', 'Affidavit', 'Civil'] as $index => $category)
-      <a href="{{ route('public.search', ['service' => $category]) }}"
-         class="min-w-[280px] h-80 bg-onyx text-white p-10 flex flex-col justify-between rounded-bespoke transition-all duration-700 hover:bg-gold-500 hover:scale-105 group"
-         data-aos="fade-right"
-         data-aos-delay="{{ $index * 100 }}">
-        <span class="text-[10px] font-bold tracking-ultra uppercase text-gold-300">0{{ $index + 1 }}</span>
-        <div>
-          <h3 class="text-3xl italic mb-2">{{ $category }}</h3>
-          <p class="text-sm text-white/60 group-hover:text-white/80">Specialized expertise</p>
-        </div>
-        <span class="btn-lux btn-lux-outline border-white/30 text-white hover:bg-white hover:text-onyx w-max self-start">Explore</span>
-      </a>
-    @endforeach
-  </div>
-</section>
-
 {{-- Services Section --}}
 <section id="services" class="py-20 md:py-40 px-6 lg:px-20 relative bg-white">
   <div class="max-w-7xl mx-auto">
@@ -78,36 +54,36 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-onyx-5">
       @foreach(['Criminal', 'Divorce', 'Affidavit', 'Civil'] as $index => $service)
-      <a href="{{ route('public.search', ['service' => $service]) }}" 
-         class="group p-12 border-b md:border-r border-onyx-5 hover:bg-onyx hover:text-white transition-all duration-700 ease-expo relative overflow-hidden"
+      <a href="{{ route('public.search', ['service' => $service]) }}"
+         class="group p-6 md:p-8 border-b md:border-r border-onyx/5 hover:bg-onyx hover:text-white transition-all duration-500 relative overflow-hidden"
          data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
-        <span class="text-[10px] font-bold tracking-ultra uppercase text-onyx-30 group-hover:text-gold-500 transition-colors mb-20 block">0{{ $index + 1 }}</span>
-        <h3 class="text-4xl italic mb-6 group-hover:translate-x-2 transition-transform duration-700">{{ $service }}</h3>
-        <p class="text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-700 font-semibold text-gold-500">View Practice</p>
-        
+        <span class="text-[10px] font-bold tracking-ultra uppercase text-onyx/30 group-hover:text-gold-500 transition-colors mb-3 block">0{{ $index + 1 }}</span>
+        <h3 class="text-2xl md:text-3xl italic mb-4 group-hover:translate-x-1 md:group-hover:translate-x-2 transition-transform duration-500">{{ $service }}</h3>
+        <p class="text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-semibold text-gold-500">View Practice</p>
+
         <!-- Hover SVG Decoration -->
-        <div class="absolute bottom-[-20%] right-[-10%] w-32 h-32 opacity-0 group-hover:opacity-10 transition-opacity duration-700">
+        <div class="absolute bottom-[-10%] right-[-10%] w-16 md:w-24 h-16 md:h-24 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
            <svg class="w-full h-full text-gold-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>
         </div>
       </a>
       @endforeach
-      
+
       <!-- Last Empty Slot for "More" -->
-      <a href="{{ route('public.search') }}" 
-         class="group p-12 border-b border-onyx-5 bg-onyx text-white flex flex-col justify-center items-center text-center hover:bg-gold-500 transition-colors duration-700"
+      <a href="{{ route('public.search') }}"
+         class="group p-6 md:p-8 border-b border-onyx/5 bg-onyx text-white flex flex-col justify-center items-center text-center hover:bg-gold-500 transition-colors duration-500"
          data-aos="fade-up" data-aos-delay="400">
-         <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-300 mb-4">Discovery</p>
-         <h3 class="text-3xl italic">View All <br> Specialties</h3>
-         <svg class="w-8 h-8 mt-6 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+         <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-300 mb-3">Discovery</p>
+         <h3 class="text-xl md:text-2xl italic">View All <br> Specialties</h3>
+         <svg class="w-6 h-6 mt-4 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
       </a>
     </div>
   </div>
 </section>
 
 {{-- Stats Counter Section --}}
-<section class="py-20 md:py-40 px-6 lg:px-20 bg-linen relative border-y border-onyx/5">
+<section class="py-12 md:py-24 px-6 lg:px-20 bg-linen relative border-y border-onyx/5">
   <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center" data-aos="fade-up" data-aos-delay="100">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center" data-aos="fade-up" data-aos-delay="100">
       @php
         $statItems = [
             ['label' => 'ELITE LAWYERS', 'value' => $stats['total_lawyers'] ?? 0, 'suffix' => ''],
@@ -117,9 +93,9 @@
         ];
       @endphp
       @foreach($statItems as $stat)
-        <div class="stat-counter group" data-target="{{ $stat['value'] }}" data-suffix="{{ $stat['suffix'] }}">
-          <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/40 mb-6">{{ $stat['label'] }}</p>
-          <p class="text-6xl md:text-7xl italic text-gold-600">
+        <div class="stat-counter" data-target="{{ $stat['value'] }}" data-suffix="{{ $stat['suffix'] }}">
+          <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/40 mb-4">{{ $stat['label'] }}</p>
+          <p class="text-4xl md:text-6xl italic text-gold-600">
             <span class="counter-number">0</span><span class="counter-suffix">{{ $stat['suffix'] }}</span>
           </p>
         </div>
@@ -135,7 +111,14 @@
       <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-4">Exclusive Network</p>
       <h2 class="font-serif text-6xl md:text-8xl text-onyx">Featured Attorneys</h2>
     </div>
-    <div id="bounce-cards-container" class="flex justify-center py-10" data-aos="fade-up" data-aos-delay="200"></div>
+    <div id="bounce-cards-container"
+         class="flex justify-center py-10"
+         data-aos="fade-up"
+         data-aos-delay="200"
+         data-images='@json($featuredLawyers->map(function($lawyer) {
+             return $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=400';
+         })->toArray())'>
+    </div>
   </div>
 </section>
 
@@ -206,58 +189,65 @@
       });
     }
 
-    // Initialize BounceCards
-    const bounceContainer = document.getElementById('bounce-cards-container');
-    if (bounceContainer && window.BounceCards && typeof featured Lawyers !== 'undefined') {
-      const images = [
-        @foreach($featuredLawyers as $lawyer)
-          "{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=400' }}"@if(!$loop->last), @endif
-        @endforeach
-      ];
-      new window.BounceCards(bounceContainer, {
-        images: images,
-        containerWidth: 500,
-        containerHeight: 500,
-        animationDelay: 0.3,
-        animationStagger: 0.08,
-        easeType: 'elastic.out(1, 0.8)',
-        enableHover: true
-      });
+    // Initialize BounceCards (only if images present)
+    try {
+      const bounceContainer = document.getElementById('bounce-cards-container');
+      if (bounceContainer && window.BounceCards && bounceContainer.dataset.images) {
+        const images = JSON.parse(bounceContainer.dataset.images);
+        if (images && images.length > 0) {
+          new window.BounceCards(bounceContainer, {
+            images: images,
+            containerWidth: 400,
+            containerHeight: 400,
+            animationDelay: 0.4,
+            animationStagger: 0.1,
+            easeType: 'power2.out',
+            enableHover: true
+          });
+        }
+      }
+    } catch (e) {
+      console.debug('BounceCards initialization failed:', e.message);
     }
-  });
-</script>
-    // GSAP Counter Animation
-    if (typeof gsap !== 'undefined') {
-      const counters = document.querySelectorAll('.stat-counter');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const counter = entry.target;
-            const target = parseInt(counter.getAttribute('data-target'));
-            const suffix = counter.getAttribute('data-suffix');
-            const numberEl = counter.querySelector('.counter-number');
 
-            gsap.to(numberEl, {
-              innerText: target,
-              duration: 2.5,
-              snap: { innerText: 1 },
-              ease: "power2.out",
-              onUpdate: function() {
-                numberEl.innerText = Math.ceil(this.targets()[0].innerText);
+    // GSAP Counter Animation
+    try {
+      if (typeof gsap !== 'undefined') {
+        const counters = document.querySelectorAll('.stat-counter');
+        if (counters.length > 0) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.getAttribute('data-target')) || 0;
+                const numberEl = counter.querySelector('.counter-number');
+
+                gsap.to(numberEl, {
+                  innerText: target,
+                  duration: 2,
+                  snap: { innerText: 1 },
+                  ease: "power2.out",
+                  onUpdate: function() {
+                    numberEl.innerText = Math.ceil(this.targets()[0].innerText);
+                  }
+                });
+
+                observer.unobserve(counter);
               }
             });
+          }, { threshold: 0.5 });
 
-            observer.unobserve(counter);
-          }
-        });
-      }, { threshold: 0.5 });
-
-      counters.forEach(counter => observer.observe(counter));
+          counters.forEach(counter => observer.observe(counter));
+        }
+      }
+    } catch (e) {
+      console.debug('GSAP counter error:', e.message);
     }
 
     // Re-initialize AOS after dynamic content
     if (typeof AOS !== 'undefined') {
       AOS.refresh();
     }
-  </script>
+  });
+</script>
 @endpush
