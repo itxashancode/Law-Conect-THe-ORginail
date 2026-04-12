@@ -16,6 +16,16 @@ export default {
     'group-hover:bg-onyx/20',
     // Also ensure base colors are generated
     'bg-linen', 'text-onyx', 'bg-onyx', 'bg-gold-500', 'text-gold-500', 'border-gold-500',
+    // shadcn/ui custom colors
+    'bg-onyx-50', 'bg-onyx-100', 'bg-onyx-200', 'bg-onyx-300', 'bg-onyx-400', 'bg-onyx-500', 'bg-onyx-600', 'bg-onyx-700', 'bg-onyx-800', 'bg-onyx-900',
+    'border-onyx-50', 'border-onyx-100', 'border-onyx-200', 'border-onyx-300', 'border-onyx-400', 'border-onyx-500', 'border-onyx-600', 'border-onyx-700', 'border-onyx-800', 'border-onyx-900',
+    'text-onyx-50', 'text-onyx-100', 'text-onyx-200', 'text-onyx-300', 'text-onyx-400', 'text-onyx-500', 'text-onyx-600', 'text-onyx-700', 'text-onyx-800', 'text-onyx-900',
+    'bg-gold-50', 'bg-gold-100', 'bg-gold-200', 'bg-gold-300', 'bg-gold-400', 'bg-gold-500', 'bg-gold-600', 'bg-gold-700', 'bg-gold-800', 'bg-gold-900',
+    'border-gold-50', 'border-gold-100', 'border-gold-200', 'border-gold-300', 'border-gold-400', 'border-gold-500', 'border-gold-600', 'border-gold-700', 'border-gold-800', 'border-gold-900',
+    'text-gold-50', 'text-gold-100', 'text-gold-200', 'text-gold-300', 'text-gold-400', 'text-gold-500', 'text-gold-600', 'text-gold-700', 'text-gold-800', 'text-gold-900',
+    'bg-linen-50', 'bg-linen-100', 'bg-linen-200', 'bg-linen-300', 'bg-linen-400', 'bg-linen-500', 'bg-linen-600', 'bg-linen-700', 'bg-linen-800', 'bg-linen-900',
+    'border-linen-50', 'border-linen-100', 'border-linen-200', 'border-linen-300', 'border-linen-400', 'border-linen-500', 'border-linen-600', 'border-linen-700', 'border-linen-800', 'border-linen-900',
+    'text-linen-50', 'text-linen-100', 'text-linen-200', 'text-linen-300', 'text-linen-400', 'text-linen-500', 'text-linen-600', 'text-linen-700', 'text-linen-800', 'text-linen-900',
   ],
   theme: {
     extend: {

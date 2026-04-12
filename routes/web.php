@@ -17,11 +17,13 @@ use App\Http\Controllers\Customer\CustomerAppointmentController;
 
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/search', [PublicController::class, 'search'])->name('public.search');
+Route::get('/lawyer/{id}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer');
+Route::get('/lawyer-profile/{id}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer_profile');
+Route::get('/privacy-policy', [PublicController::class, 'privacy'])->name('public.privacy');
+Route::get('/terms-of-service', [PublicController::class, 'terms'])->name('public.terms');
 
 // Auth routes must come before /lawyer/{id} to avoid conflicts
 require __DIR__.'/auth.php';
-
-Route::get('/lawyer/{id}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer');
 
 Route::get('/dashboard', function () {
     if (!auth()->check()) {
@@ -49,6 +51,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role.admin'])->grou
     Route::post('/lawyers/{id}/reject',       [AdminLawyerController::class, 'reject'])->name('lawyers.reject');
     Route::delete('/lawyers/{id}',            [AdminLawyerController::class, 'destroy'])->name('lawyers.destroy');
     Route::get('/bookings',                   [AdminBookingController::class, 'index'])->name('bookings.index');
+    Route::delete('/bookings/{id}',           [AdminBookingController::class, 'destroy'])->name('bookings.destroy');
     Route::get('/slots',                      [AdminSlotController::class, 'index'])->name('slots.index');
     Route::delete('/slots/{id}',              [AdminSlotController::class, 'destroy'])->name('slots.destroy');
     Route::get('/homepage',                   [AdminHomepageController::class, 'index'])->name('homepage.index');

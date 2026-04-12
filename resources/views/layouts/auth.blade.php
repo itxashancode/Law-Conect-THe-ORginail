@@ -9,6 +9,14 @@
     <div class="auth-card">
       @yield('auth-content')
     </div>
+    <div class="mt-8 text-center animate-reveal animation-delay-600">
+      <p class="text-[10px] tracking-ultra uppercase text-onyx-40">
+        &copy; {{ date('Y') }} LegalCounsel — 
+        <a href="#" class="hover:text-gold-500 transition-colors mx-2">Privacy Policy</a>
+        <span class="opacity-20">|</span>
+        <a href="#" class="hover:text-gold-500 transition-colors mx-2">Terms of Service</a>
+      </p>
+    </div>
   </div>
 </div>
 @endsection

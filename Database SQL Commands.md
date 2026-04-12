@@ -1,5 +1,165 @@
 # Database SQL Commands
 
+---
+
+## ✅ Session Fix Log — April 2026 (Site Now Working)
+
+This section documents every fix applied to get the site running on a fresh environment.
+
+---
+
+### Fix 1: PHP 8.1 MySQL Driver Not Enabled
+
+**Error:** `could not find driver` — Laravel could not connect to MySQL at all.
+
+**Root Cause:** The PHP 8.1 installation at `C:\Users\Ashan PC\AppData\Local\Programs\PHP\current\` had `pdo_mysql` and `mysqli` commented out in `php.ini`.
+
+**Fix:** Uncomment both extensions in:
+```
+C:\Users\Ashan PC\AppData\Local\Programs\PHP\current\php.ini
+```
+
+Find these lines and **remove the leading semicolon** (`;`):
+```ini
+; Before (broken):
+;extension=pdo_mysql
+;extension=mysqli
+
+; After (fixed):
+extension=pdo_mysql
+extension=mysqli
+```
+
+**Verify** extensions loaded:
+```powershell
+& "C:\Users\Ashan PC\AppData\Local\Programs\PHP\current\php.exe" -m | Select-String "pdo_mysql|mysqli"
+# Should output: mysqli  pdo_mysql
+```
+
+---
+
+### Fix 2: Always Start Server with PHP 8.1 (Not WAMP's PHP 8.0)
+
+The project requires PHP >= 8.1. WAMP installs PHP 8.0 as the system default. Always use:
+
+```powershell
+& "C:\Users\Ashan PC\AppData\Local\Programs\PHP\current\php.exe" artisan serve
+```
+
+> ⚠️ Never use `php artisan serve` directly — that picks up WAMP's PHP 8.0 which fails with a Composer platform check error.
+
+---
+
+### Fix 3: Verify lawyers Table & Status Column (phpMyAdmin)
+
+**Error:** `select * from 'lawyers' where 'status' = approved order by 'created_at' desc limit 6`
+
+**Diagnosis:** Run in phpMyAdmin SQL tab to check the table and column:
+
+```sql
+USE `lawyers_db`;
+
+-- Check the status column definition
+SHOW COLUMNS FROM `lawyers` LIKE 'status';
+-- Expected Type: enum('pending','approved','rejected')
+
+-- Test the exact query manually
+SELECT * FROM `lawyers` WHERE `status` = 'approved' ORDER BY `created_at` DESC LIMIT 6;
+```
+
+**If `status` column is wrong type**, fix it:
+```sql
+ALTER TABLE `lawyers`
+  MODIFY COLUMN `status` ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending';
+```
+
+---
+
+### Fix 4: Create Missing Tables (if lawyers table doesn't exist)
+
+Run in phpMyAdmin if the `lawyers` table is missing:
+
+```sql
+USE `lawyers_db`;
+
+CREATE TABLE IF NOT EXISTS `lawyers` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `bar_license` varchar(255) NOT NULL,
+  `specialization` enum('Criminal','Divorce','Affidavit','Civil') NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `phone` varchar(255) NOT NULL,
+  `bio` text DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
+  `experience_years` smallint(5) UNSIGNED DEFAULT 0,
+  `consultation_fee` decimal(8,2) DEFAULT NULL,
+  `status` enum('pending','approved','rejected') DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `lawyers_bar_license_unique` (`bar_license`),
+  KEY `lawyers_user_id_foreign` (`user_id`),
+  KEY `lawyers_status_index` (`status`),
+  CONSTRAINT `lawyers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `availability_slots` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `lawyer_id` bigint(20) UNSIGNED NOT NULL,
+  `available_date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `is_booked` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `availability_slots_lawyer_id_foreign` (`lawyer_id`),
+  KEY `availability_slots_available_date_index` (`available_date`),
+  CONSTRAINT `availability_slots_lawyer_id_foreign` FOREIGN KEY (`lawyer_id`) REFERENCES `lawyers` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `appointments` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `customer_id` bigint(20) UNSIGNED NOT NULL,
+  `lawyer_id` bigint(20) UNSIGNED NOT NULL,
+  `slot_id` bigint(20) UNSIGNED NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `meeting_place` text DEFAULT NULL,
+  `status` enum('pending','confirmed','cancelled','completed') DEFAULT 'pending',
+  `notes` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `appointments_customer_id_foreign` (`customer_id`),
+  KEY `appointments_lawyer_id_foreign` (`lawyer_id`),
+  KEY `appointments_slot_id_foreign` (`slot_id`),
+  KEY `appointments_status_index` (`status`),
+  CONSTRAINT `appointments_customer_id_foreign` FOREIGN KEY (`customer_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `appointments_lawyer_id_foreign` FOREIGN KEY (`lawyer_id`) REFERENCES `lawyers` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `appointments_slot_id_foreign` FOREIGN KEY (`slot_id`) REFERENCES `availability_slots` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Verify all tables exist
+SHOW TABLES;
+```
+
+---
+
+### Quick-Start Checklist (New Machine / Fresh Clone)
+
+1. ✅ Use PHP 8.1: `& "C:\Users\Ashan PC\AppData\Local\Programs\PHP\current\php.exe"`
+2. ✅ Enable `pdo_mysql` + `mysqli` in PHP 8.1's `php.ini`
+3. ✅ Create database `lawyers_db` in phpMyAdmin
+4. ✅ Run the full table setup SQL (Option 1 or Option 2 below)
+5. ✅ Copy `.env.example` to `.env`, set `DB_DATABASE=lawyers_db`, `DB_USERNAME`, `DB_PASSWORD`
+6. ✅ Start server: `& "C:\...\php.exe" artisan serve`
+
+---
+
+# Database SQL Commands
+
 ## Option 1: Complete Fresh Setup (Recommended)
 
 Use these commands if the database is in an inconsistent state. This will drop and recreate everything:

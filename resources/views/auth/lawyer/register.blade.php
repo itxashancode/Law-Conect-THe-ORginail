@@ -130,7 +130,7 @@
     <label class="flex items-start gap-3">
       <input type="checkbox" name="terms" required class="mt-1">
       <span class="text-sm text-gray-600">
-        I agree to the <a href="#" class="text-gold-500 hover:underline">Terms</a> and <a href="#" class="text-gold-500 hover:underline">Privacy Policy</a>.
+        I agree to the <a href="{{ route('public.terms') }}" class="text-gold-500 hover:underline">Terms</a> and <a href="{{ route('public.privacy') }}" class="text-gold-500 hover:underline">Privacy Policy</a>.
         Profile requires admin approval.
       </span>
     </label>

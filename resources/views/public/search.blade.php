@@ -41,9 +41,11 @@
       </div>
 
       <div class="mt-16 flex justify-center">
-         <button type="submit" id="search-submit" class="btn-lux btn-lux-gold !px-20 shadow-premium">
-            Apply Filters
-         </button>
+         <x-magnetic-button>
+            <button type="submit" id="search-submit" class="btn-lux btn-lux-gold !px-20 shadow-premium">
+               Apply Filters
+            </button>
+         </x-magnetic-button>
       </div>
     </form>
 
@@ -55,24 +57,30 @@
         <a href="{{ route('public.search') }}" class="btn-lux btn-lux-outline">Reset All Filters</a>
       </div>
     @else
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20 border-t border-onyx-5 pt-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-10" id="search-results-grid">
         @foreach($lawyers as $lawyer)
-        <div class="group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
-          <a href="{{ route('public.lawyer', $lawyer->id) }}" class="block relative overflow-hidden aspect-[4/5] mb-8 bespoke-card !p-0 border-0">
-            <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=512' }}"
-                 alt="{{ $lawyer->full_name }}"
-                 class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105">
-            <div class="absolute inset-0 bg-onyx-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            <div class="absolute bottom-8 left-8 right-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
-               <span class="btn-lux btn-lux-gold w-full !py-3">Direct Interview</span>
+        <div class="shad-card p-6 flex flex-col h-full search-anim-item" style="opacity:0;transform:translateY(30px)">
+          <div class="flex gap-4 items-start mb-4">
+            <div class="shad-avatar h-16 w-16">
+              <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37' }}"
+                   alt="{{ $lawyer->full_name }}" class="h-full w-full object-cover">
             </div>
-          </a>
-          <div class="flex justify-between items-start">
-             <div>
-               <h3 class="text-3xl italic mb-2">{{ $lawyer->full_name }}</h3>
-               <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40">{{ $lawyer->specialization }} — {{ $lawyer->city }}</p>
-             </div>
-             <span class="font-serif italic text-gold-600 text-2xl">${{ number_format($lawyer->consultation_fee ?? 0, 0) }}</span>
+            <div>
+              <h3 class="font-serif text-2xl text-onyx">{{ $lawyer->full_name }}</h3>
+              <div class="flex flex-wrap gap-2 mt-2">
+                <span class="shad-badge shad-badge-gold">{{ $lawyer->specialization }}</span>
+                <span class="shad-badge shad-badge-onyx">{{ $lawyer->city }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-sm text-onyx/70 mb-6 flex-1">
+            {{ strlen($lawyer->bio ?? '') > 100 ? substr($lawyer->bio, 0, 100) . '...' : ($lawyer->bio ?? 'Distinguished legal professional providing expert counsel and strategic representation.') }}
+          </div>
+
+          <div class="flex items-center justify-between border-t border-onyx-5 pt-4 mt-auto">
+            <span class="font-serif italic text-gold-600 text-xl">${{ number_format($lawyer->consultation_fee ?? 0, 0) }} /hr</span>
+            <a href="{{ route('public.lawyer', $lawyer->id) }}" class="btn-lux btn-lux-outline !px-4 !py-2 !text-[10px]">Consult</a>
           </div>
         </div>
         @endforeach
@@ -82,3 +90,65 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ============================================================
+    // SEARCH RESULTS — Staggered fade-in
+    // ============================================================
+    const searchCards = gsap.utils.toArray('.search-anim-item');
+    if (searchCards.length > 0) {
+      gsap.to(searchCards, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: {
+          amount: 0.5,
+          from: 'start',
+          ease: 'power2.out'
+        },
+        ease: 'power3.out',
+        delay: 0.2
+      });
+    }
+    // ============================================================
+    // SKELETON LOADING STATE
+    // ============================================================
+    const searchForm = document.getElementById('search-form');
+    const searchGrid = document.getElementById('search-results-grid');
+    if (searchForm && searchGrid) {
+      searchForm.addEventListener('submit', () => {
+        const skeletonHtml = Array(6).fill(`
+          <div class="shad-card p-6 flex flex-col h-full">
+            <div class="flex gap-4 items-start mb-4">
+              <div class="shad-skeleton shad-avatar h-16 w-16"></div>
+              <div class="flex-1 mt-1 space-y-3">
+                <div class="shad-skeleton h-6 w-3/4 rounded"></div>
+                <div class="flex gap-2">
+                  <div class="shad-skeleton h-5 w-16 rounded-full"></div>
+                  <div class="shad-skeleton h-5 w-24 rounded-full"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flex-1 space-y-2 mt-6">
+               <div class="shad-skeleton h-3 w-full rounded"></div>
+               <div class="shad-skeleton h-3 w-5/6 rounded"></div>
+               <div class="shad-skeleton h-3 w-4/6 rounded"></div>
+            </div>
+            <div class="flex justify-between items-center mt-6 pt-4 border-t border-onyx/5">
+               <div class="shad-skeleton h-6 w-20 rounded"></div>
+               <div class="shad-skeleton h-8 w-20 rounded"></div>
+            </div>
+          </div>
+        `).join('');
+        
+        // Instant visual feedback before the page transition kicks in
+        searchGrid.innerHTML = skeletonHtml;
+      });
+    }
+  });
+</script>
+@endpush

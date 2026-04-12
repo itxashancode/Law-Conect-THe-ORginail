@@ -15,6 +15,16 @@ class LawyerDashboardController extends Controller
     public function index()
     {
         $lawyer = Auth::user()->lawyer;
+
+        if (!$lawyer) {
+            // If the user has the lawyer role but no profile record yet
+            return redirect()->route('lawyer.profile.edit')->with('warning', 'Please complete your professional profile first.');
+        }
+
+        if ($lawyer->status === 'pending') {
+            return view('lawyer.pending-verification', compact('lawyer'));
+        }
+
         $totalSlots = $lawyer->availabilitySlots()->count();
         $bookedSlots = $lawyer->availabilitySlots()->where('is_booked', true)->count();
         $upcomingAppointments = Appointment::where('lawyer_id', $lawyer->id)

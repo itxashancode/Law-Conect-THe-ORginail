@@ -38,4 +38,22 @@ class AdminDashboardController extends Controller
             'recentAppointments'
         ));
     }
+
+    /**
+     * Approve a lawyer after verification.
+     */
+    public function approve(Lawyer $lawyer)
+    {
+        $lawyer->update(['status' => 'approved']);
+        return back()->with('success', "Counsel {$lawyer->full_name} has been approved and listed in the network.");
+    }
+
+    /**
+     * Reject or suspend a lawyer.
+     */
+    public function reject(Lawyer $lawyer)
+    {
+        $lawyer->update(['status' => 'rejected']);
+        return back()->with('warning', "Counsel {$lawyer->full_name} has been marked as rejected.");
+    }
 }

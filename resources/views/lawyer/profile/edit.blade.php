@@ -24,8 +24,9 @@
 
         <div>
           <label class="block text-[10px] tracking-ultra uppercase text-onyx/40 mb-3">Bar License Number</label>
-          <input type="text" name="bar_license" value="{{ old('bar_license', $lawyer->bar_license) }}" required class="lux-input bg-onyx/5" readonly>
-          <p class="text-xs text-onyx/40 mt-2">Bar license cannot be changed.</p>
+          <input type="text" name="bar_license" value="{{ old('bar_license', $lawyer->bar_license) }}" required 
+                 class="lux-input {{ $lawyer->bar_license ? 'bg-onyx/5' : '' }}" {{ $lawyer->bar_license ? 'readonly' : '' }}>
+          <p class="text-xs text-onyx/40 mt-2">{{ $lawyer->bar_license ? 'Bar license cannot be changed.' : 'Enter your official bar license number.' }}</p>
         </div>
 
         <div>

@@ -13,7 +13,7 @@ class LawyerProfileController extends Controller
      */
     public function edit()
     {
-        $lawyer = Auth::user()->lawyer;
+        $lawyer = Auth::user()->lawyer ?: new \App\Models\Lawyer();
         return view('lawyer.profile.edit', compact('lawyer'));
     }
 
@@ -22,12 +22,13 @@ class LawyerProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $lawyer = Auth::user()->lawyer;
+        $user = Auth::user();
+        $lawyer = $user->lawyer;
 
         $request->validate([
             'full_name' => 'required|string|max:255',
-            'bar_license' => 'required|string|max:255|unique:lawyers,bar_license,' . $lawyer->id,
-            'specialization' => 'required|in:Criminal,Divorce,Affidavit,Civil',
+            'bar_license' => 'required|string|max:255|unique:lawyers,bar_license,' . ($lawyer->id ?? 'NULL'),
+            'specialization' => 'required|in:Criminal,Divorce,Affidavit,Civil,Other',
             'city' => 'required|string|max:255',
             'address' => 'required|string',
             'phone' => 'required|string|max:20',
@@ -42,14 +43,20 @@ class LawyerProfileController extends Controller
         // Handle photo upload
         if ($request->hasFile('photo')) {
             // Delete old photo if exists
-            if ($lawyer->photo) {
+            if ($lawyer && $lawyer->photo) {
                 \Storage::disk('public')->delete($lawyer->photo);
             }
             $data['photo'] = $request->file('photo')->store('lawyer-photos', 'public');
         }
 
-        $lawyer->update($data);
+        if ($lawyer) {
+            $lawyer->update($data);
+        } else {
+            $data['user_id'] = $user->id;
+            $data['status'] = 'pending'; // New profiles require approval
+            \App\Models\Lawyer::create($data);
+        }
 
-        return back()->with('success', 'Profile updated successfully.');
+        return redirect()->route('lawyer.dashboard')->with('success', 'Profile updated successfully.');
     }
 }

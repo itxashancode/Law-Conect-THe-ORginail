@@ -46,7 +46,7 @@
                 <button type="submit" class="btn-lux btn-lux-ghost text-xs text-onyx/60">Reject</button>
               </form>
             @else
-              <span class="inline-block px-4 py-2 text-xs border border-onyx/20 text-onyx uppercase tracking-ultra {{ $lawyer->status === 'approved' ? 'bg-onyx text-white border-onyx' : '' }}">{{ ucfirst($lawyer->status) }}</span>
+              <span class="inline-block px-4 py-2 text-xs border border-gold-500 bg-gold-500 text-white uppercase tracking-ultra rounded-sm shadow-sm">{{ ucfirst($lawyer->status) }}</span>
             @endif
           </div>
         </div>

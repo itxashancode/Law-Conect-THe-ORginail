@@ -82,4 +82,28 @@ class PublicController extends Controller
         $lawyer = Lawyer::where('status', 'approved')->with('availabilitySlots')->findOrFail($id);
         return view('public.lawyer-profile', compact('lawyer'));
     }
+
+    /**
+     * Show the Privacy Policy page.
+     */
+    public function privacy()
+    {
+        return view('public.policy', [
+            'title' => 'Privacy Policy',
+            'lastUpdated' => 'October 24, 2024',
+            'content' => 'We are committed to protecting your personal data and your privacy. This policy explains how we collect, use, and safeguard the information you provide when using LegalCounsel.'
+        ]);
+    }
+
+    /**
+     * Show the Terms of Service page.
+     */
+    public function terms()
+    {
+        return view('public.policy', [
+            'title' => 'Terms of Service',
+            'lastUpdated' => 'October 24, 2024',
+            'content' => 'By accessing or using LegalCounsel, you agree to be bound by these terms. Our service facilitates connections between clients and legal professionals subject to these guidelines.'
+        ]);
+    }
 }

@@ -62,6 +62,11 @@
     <button type="submit" class="btn-lux btn-lux-gold w-full py-3">
       Create Account
     </button>
+    <p class="text-[10px] text-center mt-3 text-onyx/40 uppercase tracking-widest leading-loose">
+      By creating an account, you agree to our 
+      <a href="{{ route('public.terms') }}" class="underline hover:text-gold-500">Terms of Service</a> and 
+      <a href="{{ route('public.privacy') }}" class="underline hover:text-gold-500">Privacy Policy</a>.
+    </p>
   </div>
 
   <div class="text-center space-y-2 pt-4 border-t border-onyx/10">

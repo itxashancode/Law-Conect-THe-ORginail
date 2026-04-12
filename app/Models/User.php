@@ -47,4 +47,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the lawyer profile associated with the user.
+     */
+    public function lawyer()
+    {
+        return $this->hasOne(Lawyer::class);
+    }
+
+    /**
+     * Get the appointments as a customer.
+     */
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'customer_id');
+    }
 }

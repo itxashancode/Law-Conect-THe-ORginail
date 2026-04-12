@@ -1,36 +1,48 @@
 @extends('layouts.public')
 @section('title', 'LegalCounsel — Bespoke Legal Excellence')
 
-@section('content')
-
-{{-- Hero Section: Editorial & Bold --}}
-<section class="relative min-h-[70vh] flex items-center pt-16 overflow-hidden">
+@section('content'){{-- Hero Section: Cinematic Editorial --}}
+<section class="relative min-h-[70vh] flex items-center pt-16 overflow-hidden" id="hero-section">
   <!-- Grainient Canvas Background -->
   <div id="hero-grainient" class="absolute inset-0 z-0"></div>
 
   <div class="max-w-7xl mx-auto px-6 lg:px-20 w-full relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
       <div class="lg:col-span-8">
-        <div class="inline-flex items-center gap-3 px-4 py-2 bg-onyx-5 border border-onyx-5 rounded-full mb-10 translate-y-10 opacity-0 animate-reveal">
+        <div class="inline-flex items-center gap-3 px-4 py-2 bg-onyx-5 border border-onyx-5 rounded-full mb-10 hero-badge" style="opacity:0;transform:translateY(20px)">
            <span class="w-1.5 h-1.5 rounded-full bg-gold-500 animate-pulse"></span>
            <span class="text-[10px] font-bold tracking-ultra uppercase">The New Standard in Legal Care</span>
         </div>
         
-        <h1 class="text-7xl md:text-9xl lg:text-[10rem] leading-[0.85] mb-12 opacity-0 animate-reveal animation-delay-200">
-           Excellence <br>
-           <span class="text-gold-500 italic drop-shadow-sm">Redefined.</span>
+        {{-- Headline split into animatable word spans --}}
+        <h1 class="text-7xl md:text-9xl lg:text-[10rem] leading-[0.85] mb-12" id="hero-headline" aria-label="Excellence Redefined">
+          <span class="hero-word block" style="overflow:hidden"><span class="hero-word-inner" style="display:block">Excellence</span></span>
+          <span class="hero-word block" style="overflow:hidden"><span class="hero-word-inner text-gold-500 italic drop-shadow-sm" style="display:block">Redefined.</span></span>
         </h1>
 
-        <p class="text-xl md:text-2xl font-light text-onyx-60 max-w-2xl leading-relaxed mb-16 opacity-0 animate-reveal animation-delay-400">
-          Connecting you with the world’s most distinguished legal professionals through a seamless, secure, and private digital experience.
+        <p class="text-xl md:text-2xl font-light text-onyx-60 max-w-2xl leading-relaxed mb-16 hero-sub" style="opacity:0;transform:translateY(30px)">
+          Connecting you with the world's most distinguished legal professionals through a seamless, secure, and private digital experience.
         </p>
 
-        <div class="flex flex-col sm:flex-row gap-6 opacity-0 animate-reveal animation-delay-600">
-          <a href="{{ route('public.search') }}" class="btn-lux btn-lux-gold shadow-premium">
+        <div class="flex flex-col sm:flex-row gap-6 hero-cta" style="opacity:0;transform:translateY(30px)">
+          <a href="{{ route('public.search') }}" class="btn-lux btn-lux-gold shadow-premium hero-cta-primary">
              Find Counsel
           </a>
           <a href="#services" class="btn-lux btn-lux-outline">
              Explore Services
+          </a>
+        </div>
+      </div>
+
+      {{-- Floating CTA badge (right column) --}}
+      <div class="hidden lg:flex lg:col-span-4 items-center justify-center">
+        <div class="hero-float-badge relative w-52 h-52" id="hero-float-badge" style="opacity:0">
+          <div class="absolute inset-0 rounded-full border border-gold-500/20 animate-spin-slow"></div>
+          <div class="absolute inset-4 rounded-full border border-gold-500/10 animate-spin-slow-reverse"></div>
+          <a href="{{ route('public.search') }}" class="absolute inset-8 rounded-full bg-gold-500 text-white flex flex-col items-center justify-center text-center group hover:bg-onyx transition-colors duration-500 shadow-premium">
+            <span class="text-[9px] font-bold tracking-ultra uppercase block mb-1">Start Here</span>
+            <span class="font-serif text-lg italic leading-tight">Book a Consult</span>
+            <svg class="w-4 h-4 mt-2 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
           </a>
         </div>
       </div>
@@ -127,29 +139,35 @@
   <div class="absolute top-0 right-1/2 w-px h-64 bg-gradient-to-b from-onyx/10 to-transparent"></div>
 
   <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-32">
-       <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-6">Our Inner Circle</p>
-       <h2 class="text-6xl md:text-8xl italic">Distinguished Counsel</h2>
+    <div class="text-center mb-32" id="featured-heading">
+       <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-6" style="opacity:0;transform:translateY(20px)" data-scroll-reveal="true">Our Inner Circle</p>
+       <h2 class="text-6xl md:text-8xl italic" style="opacity:0;transform:translateY(30px)" data-scroll-reveal="true" data-scroll-delay="0.1">Distinguished Counsel</h2>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="featured-lawyers-grid">
       @foreach($featuredLawyers as $lawyer)
-      <div class="group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 150 }}">
-        <a href="{{ route('public.lawyer', $lawyer->id) }}" class="block relative overflow-hidden aspect-[4/5] mb-8 bespoke-card !p-0 border-0">
-          <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=512' }}" 
-               alt="{{ $lawyer->full_name }}" 
-               class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105">
-          <div class="absolute inset-0 bg-onyx-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-          <div class="absolute bottom-8 left-8 right-8 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700">
-             <span class="btn-lux btn-lux-gold w-full !py-3">Book Private Session</span>
+      <div class="lawyer-card shad-card p-6 flex flex-col h-full" data-index="{{ $loop->index }}">
+        <div class="flex gap-4 items-start mb-4">
+          <div class="shad-avatar h-16 w-16">
+            <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37' }}" 
+                 alt="{{ $lawyer->full_name }}" class="h-full w-full object-cover">
           </div>
-        </a>
-        <div class="flex justify-between items-start">
-           <div>
-             <h3 class="text-3xl italic mb-2">{{ $lawyer->full_name }}</h3>
-             <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40">{{ $lawyer->specialization }} — {{ $lawyer->city }}</p>
-           </div>
-           <span class="font-serif italic text-gold-600 text-2xl">{{ $lawyer->experience_years }}Yrs</span>
+          <div>
+            <h3 class="font-serif text-2xl text-onyx">{{ $lawyer->full_name }}</h3>
+            <div class="flex flex-wrap gap-2 mt-2">
+              <span class="shad-badge shad-badge-gold">{{ $lawyer->specialization }}</span>
+              <span class="shad-badge shad-badge-onyx">{{ $lawyer->city }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="text-sm text-onyx/70 mb-6 flex-1">
+          {{ strlen($lawyer->bio ?? '') > 100 ? substr($lawyer->bio, 0, 100) . '...' : ($lawyer->bio ?? 'Distinguished legal professional providing expert counsel and strategic representation.') }}
+        </div>
+        
+        <div class="flex items-center justify-between border-t border-onyx-5 pt-4 mt-auto">
+          <span class="font-serif italic text-gold-600 text-xl">{{ $lawyer->experience_years }} Yrs Exp</span>
+          <a href="{{ route('public.lawyer', $lawyer->id) }}" class="btn-lux btn-lux-outline !px-4 !py-2 !text-[10px]">View Profile</a>
         </div>
       </div>
       @endforeach
@@ -172,7 +190,88 @@
 @push('scripts')
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // Register ScrollTrigger plugin
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ============================================================
+    // CINEMATIC HERO — Word-by-word reveal
+    // ============================================================
+    const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    heroTl
+      .to('.hero-badge', { opacity: 1, y: 0, duration: 0.8, delay: 0.3 })
+      .fromTo('.hero-word-inner', {
+        y: '110%',
+        skewX: -5,
+      }, {
+        y: '0%',
+        skewX: 0,
+        duration: 1.1,
+        stagger: 0.15,
+      }, '-=0.3')
+      .to('.hero-sub', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
+      .to('.hero-cta', { opacity: 1, y: 0, duration: 0.7 }, '-=0.5')
+      .to('#hero-float-badge', {
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out'
+      }, '-=0.8');
+
+    // Floating badge continuous float animation
+    gsap.to('#hero-float-badge', {
+      y: -14,
+      duration: 2.5,
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true,
+      delay: 1.5
+    });
+
+    // ============================================================
+    // SCROLL-TRIGGERED LAWYER CARDS — Staggered fade-slide
+    // ============================================================
+    const lawyerCards = gsap.utils.toArray('.lawyer-card');
+    if (lawyerCards.length > 0) {
+      gsap.fromTo(lawyerCards, {
+        opacity: 0,
+        y: 60,
+        filter: 'blur(4px)',
+      }, {
+        opacity: 1,
+        y: 0,
+        filter: 'blur(0px)',
+        duration: 0.9,
+        stagger: 0.18,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#featured-lawyers-grid',
+          start: 'top 82%',
+          toggleActions: 'play none none none',
+        }
+      });
+    }
+
+    // ============================================================
+    // SCROLL-REVEAL elements (heading labels and titles)
+    // ============================================================
+    gsap.utils.toArray('[data-scroll-reveal="true"]').forEach((el, i) => {
+      const delay = parseFloat(el.getAttribute('data-scroll-delay')) || 0;
+      gsap.to(el, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 88%',
+          toggleActions: 'play none none none',
+        }
+      });
+    });
+
+    // ============================================================
     // Initialize Grainient
+    // ============================================================
     const grainientContainer = document.getElementById('hero-grainient');
     if (grainientContainer && window.Grainient) {
       new window.Grainient(grainientContainer, {
@@ -189,7 +288,9 @@
       });
     }
 
-    // Initialize BounceCards (only if images present)
+    // ============================================================
+    // BounceCards
+    // ============================================================
     try {
       const bounceContainer = document.getElementById('bounce-cards-container');
       if (bounceContainer && window.BounceCards && bounceContainer.dataset.images) {
@@ -197,8 +298,10 @@
         if (images && images.length > 0) {
           new window.BounceCards(bounceContainer, {
             images: images,
-            containerWidth: 400,
-            containerHeight: 400,
+            containerWidth: 600,
+            containerHeight: 600,
+            cardWidth: 240,
+            cardHeight: 320,
             animationDelay: 0.4,
             animationStagger: 0.1,
             easeType: 'power2.out',
@@ -210,35 +313,32 @@
       console.debug('BounceCards initialization failed:', e.message);
     }
 
+    // ============================================================
     // GSAP Counter Animation
+    // ============================================================
     try {
-      if (typeof gsap !== 'undefined') {
-        const counters = document.querySelectorAll('.stat-counter');
-        if (counters.length > 0) {
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                const counter = entry.target;
-                const target = parseInt(counter.getAttribute('data-target')) || 0;
-                const numberEl = counter.querySelector('.counter-number');
-
-                gsap.to(numberEl, {
-                  innerText: target,
-                  duration: 2,
-                  snap: { innerText: 1 },
-                  ease: "power2.out",
-                  onUpdate: function() {
-                    numberEl.innerText = Math.ceil(this.targets()[0].innerText);
-                  }
-                });
-
-                observer.unobserve(counter);
-              }
-            });
-          }, { threshold: 0.5 });
-
-          counters.forEach(counter => observer.observe(counter));
-        }
+      const counters = document.querySelectorAll('.stat-counter');
+      if (counters.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const counter = entry.target;
+              const target = parseInt(counter.getAttribute('data-target')) || 0;
+              const numberEl = counter.querySelector('.counter-number');
+              gsap.to(numberEl, {
+                innerText: target,
+                duration: 2,
+                snap: { innerText: 1 },
+                ease: 'power2.out',
+                onUpdate: function() {
+                  numberEl.innerText = Math.ceil(this.targets()[0].innerText);
+                }
+              });
+              observer.unobserve(counter);
+            }
+          });
+        }, { threshold: 0.5 });
+        counters.forEach(counter => observer.observe(counter));
       }
     } catch (e) {
       console.debug('GSAP counter error:', e.message);

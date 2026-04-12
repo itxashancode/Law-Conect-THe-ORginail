@@ -11,13 +11,13 @@
     </div>
     
     <div class="flex items-center gap-6">
-      <nav class="hidden md:flex gap-6 text-[10px] font-bold tracking-ultra uppercase text-onyx-40">
-        <a href="{{ route('lawyer.dashboard') }}" class="hover:text-gold-500 transition-colors {{ request()->routeIs('lawyer.dashboard') ? 'text-gold-500' : '' }}">Appointments</a>
-        <a href="{{ route('lawyer.slots.index') }}" class="hover:text-gold-500 transition-colors {{ request()->routeIs('lawyer.slots.*') ? 'text-gold-500' : '' }}">Availability</a>
-        <a href="{{ route('lawyer.profile.edit') }}" class="hover:text-gold-500 transition-colors {{ request()->routeIs('lawyer.profile.*') ? 'text-gold-500' : '' }}">My Profile</a>
+    <div class="flex flex-col md:flex-row items-start md:items-center gap-6 w-full md:w-auto">
+      <nav class="flex w-full md:w-auto overflow-x-auto gap-6 text-[10px] font-bold tracking-ultra uppercase text-onyx-40 pb-2 md:pb-0" style="scrollbar-width: none;">
+        <a href="{{ route('lawyer.dashboard') }}" class="whitespace-nowrap hover:text-gold-500 transition-colors {{ request()->routeIs('lawyer.dashboard') ? 'text-gold-500' : '' }}">Dashboard</a>
+        <a href="{{ route('lawyer.slots.index') }}" class="whitespace-nowrap hover:text-gold-500 transition-colors {{ request()->routeIs('lawyer.slots.*') ? 'text-gold-500' : '' }}">Calendar</a>
+        <a href="{{ route('lawyer.profile.edit') }}" class="whitespace-nowrap hover:text-gold-500 transition-colors {{ request()->routeIs('lawyer.profile.*') ? 'text-gold-500' : '' }}">My Identity</a>
       </nav>
-
-      <div class="w-px h-6 bg-onyx-10 hidden md:block"></div>
+    </div>
 
       <div class="relative group">
         <button class="flex items-center gap-3 border border-onyx-10 px-4 py-2 hover:bg-onyx-5 transition-colors shadow-sm">

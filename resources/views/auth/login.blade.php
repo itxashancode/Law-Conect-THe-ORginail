@@ -51,6 +51,11 @@
         <button type="submit" class="btn-lux btn-lux-gold w-full shadow-premium">
             Sign In
         </button>
+        <p class="text-[9px] text-center mt-4 text-onyx/30 uppercase tracking-widest leading-loose">
+            Usage governed by our 
+            <a href="{{ route('public.terms') }}" class="underline hover:text-gold-500">Terms</a> & 
+            <a href="{{ route('public.privacy') }}" class="underline hover:text-gold-500">Privacy Policy</a>
+        </p>
     </div>
     
     <div class="text-center pt-6 border-t border-onyx-5">

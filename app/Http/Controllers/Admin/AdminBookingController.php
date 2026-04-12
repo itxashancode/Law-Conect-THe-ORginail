@@ -18,4 +18,21 @@ class AdminBookingController extends Controller
             ->get();
         return view('admin.bookings.index', compact('appointments'));
     }
+
+    /**
+     * Cancel an appointment and free up the associated slot.
+     */
+    public function destroy($id)
+    {
+        $appointment = Appointment::with('slot')->findOrFail($id);
+        
+        \Illuminate\Support\Facades\DB::transaction(function () use ($appointment) {
+            if ($appointment->slot) {
+                $appointment->slot->update(['is_booked' => false]);
+            }
+            $appointment->delete();
+        });
+
+        return back()->with('success', 'Appointment has been successfully cancelled and the slot has been released.');
+    }
 }

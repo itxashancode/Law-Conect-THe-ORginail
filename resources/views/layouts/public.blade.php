@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+  @stack('head')
 </head>
 <body class="bg-linen text-onyx font-sans relative selection:bg-gold-500 selection:text-white">
 
@@ -38,7 +39,33 @@
       <div class="hidden lg:flex items-center gap-6 text-[11px] font-semibold tracking-ultra uppercase text-onyx">
       <a href="{{ route('public.search') }}" class="nav-link">Find a Lawyer</a>
       @auth
-        <a href="{{ route('dashboard') }}" class="btn-lux btn-lux-gold !px-8 !py-3">Dashboard</a>
+        <div class="relative group">
+          <button class="flex items-center gap-3 btn-lux btn-lux-gold !px-6 !py-3">
+             <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+             <span class="text-[10px] font-bold tracking-ultra uppercase">{{ auth()->user()->name }}</span>
+             <svg class="w-3 h-3 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          
+          <div class="absolute right-0 top-[90%] pt-4 w-56 bg-white border border-onyx-10 shadow-premium opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 rounded-lg overflow-hidden group-hover:translate-y-0">
+             <div class="px-4 py-3 bg-onyx-5 border-b border-onyx-10">
+               <p class="text-[9px] font-bold tracking-widest text-onyx/40 uppercase mb-0.5">Logged in as</p>
+               <p class="text-[10px] font-bold text-onyx uppercase truncate">{{ auth()->user()->email }}</p>
+             </div>
+             
+             <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-ultra uppercase text-onyx hover:bg-gold-500 hover:text-white transition-all duration-300">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                Dashboard
+             </a>
+
+             <form method="POST" action="{{ route('logout') }}">
+               @csrf
+               <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-ultra uppercase text-onyx hover:bg-red-500 hover:text-white transition-all duration-300 border-t border-onyx-5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4-4H7m6 4v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6"/></svg>
+                  Sign Out
+               </button>
+             </form>
+          </div>
+        </div>
       @else
         <a href="{{ route('login') }}" class="nav-link">Login</a>
         <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join as Client</a>
@@ -96,8 +123,8 @@
           <h6 class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-8 underline decoration-gold-500/30 underline-offset-8">Support</h6>
           <ul class="space-y-4 text-sm font-light text-white/80 uppercase tracking-widest">
             <li><a href="#" class="hover:text-gold-500 transition-colors">Contact</a></li>
-            <li><a href="#" class="hover:text-gold-500 transition-colors">Terms</a></li>
-            <li><a href="#" class="hover:text-gold-500 transition-colors">Privacy</a></li>
+            <li><a href="{{ route('public.privacy') }}" class="hover:text-gold-500 transition-colors">Privacy</a></li>
+            <li><a href="{{ route('public.terms') }}" class="hover:text-gold-500 transition-colors">Terms</a></li>
           </ul>
         </div>
         <div>
@@ -123,17 +150,26 @@
     </div>
   </footer>
 
-  <!-- GSAP for advanced animations -->
+  <!-- Page transition curtain removed for stability -->
+
+  <!-- GSAP + ScrollTrigger for advanced animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
   <script>
-    // Initialize Lenis for smooth scrolling
-    const lenis = new Lenis()
-    function raf(time) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-    requestAnimationFrame(raf)
+    // ============================================================
+    // NO PAGE CURTAIN - Disabled for maximum reliability
+    // ============================================================
+
+    // Page transition script has been safely disabled on standard routes.
+
+    // ============================================================
+    // LENIS SMOOTH SCROLL + GSAP SCROLL TRIGGER INTEGRATION
+    // ============================================================
+    const lenis = new Lenis();
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
 
     // Navbar scroll effect
     const nav = document.getElementById('main-nav');
@@ -147,12 +183,28 @@
       }
     });
 
-    // Parallax background blobs
-    window.addEventListener('scroll', () => {
-      const blobs = document.querySelectorAll('.parallax-blob');
-      blobs.forEach(blob => {
-        const speed = parseFloat(blob.getAttribute('data-speed')) || 0.1;
-        blob.style.transform = `translateY(${window.scrollY * speed}px)`;
+    // Parallax background blobs via GSAP ScrollTrigger
+    gsap.utils.toArray('.parallax-blob').forEach(blob => {
+      const speed = parseFloat(blob.getAttribute('data-speed')) || 0.1;
+      gsap.to(blob, {
+        y: () => window.innerHeight * speed * 1.5,
+        ease: 'none',
+        scrollTrigger: { trigger: blob, start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    });
+
+    // ============================================================
+    // GSAP HOVER MICRO-INTERACTIONS — Lawyer card lift
+    // (done via JS to avoid CSS transform conflict with scroll anims)
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.lawyer-card, .lawyer-card-search').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          gsap.to(card, { y: -8, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+        });
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, { y: 0, duration: 0.5, ease: 'power3.out', overwrite: 'auto' });
+        });
       });
     });
   </script>
@@ -160,26 +212,7 @@
   <script>
     AOS.init({ duration: 1000, easing: 'ease-out-expo', once: true, offset: 50 });
 
-    // Form submission loading states
-    document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('form').forEach(form => {
-        const btn = form.querySelector('button[type="submit"]');
-        if (btn && !btn.hasAttribute('data-no-loader')) {
-          form.addEventListener('submit', function() {
-            if (!btn.disabled) {
-              btn.disabled = true;
-              btn.classList.add('opacity-75', 'cursor-not-allowed');
-              if (!btn.querySelector('.spinner')) {
-                const spinner = document.createElement('span');
-                spinner.className = 'spinner ml-2 inline-block';
-                spinner.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
-                btn.appendChild(spinner);
-              }
-            }
-          });
-        }
-      });
-    });
+    // Native form submissions are used for reliability.
   </script>
   {{-- Custom Menu Configuration --}}
   @php
@@ -187,12 +220,14 @@
         ['label' => 'Home', 'link' => route('home'), 'ariaLabel' => 'Go to homepage'],
         ['label' => 'Find a Lawyer', 'link' => route('public.search'), 'ariaLabel' => 'Search lawyers'],
     ];
-    if (!auth()->check()) {
+    if (auth()->check()) {
+        $menuItems[] = ['label' => 'Dashboard', 'link' => route('dashboard'), 'ariaLabel' => 'Go to dashboard'];
+    } else {
         $menuItems[] = ['label' => 'Login', 'link' => route('login')];
         $menuItems[] = ['label' => 'Register', 'link' => route('register')];
         $menuItems[] = ['label' => 'Lawyer Registration', 'link' => route('lawyer.register')];
-        $menuItems[] = ['label' => 'Dashboard', 'link' => route('dashboard'), 'ariaLabel' => 'Go to dashboard'];
     }
+    $menuItems[] = ['label' => 'Contact', 'link' => '#', 'ariaLabel' => 'Get in touch'];
     
     $socialItems = [
         ["label" => "Instagram", "link" => "#"],
@@ -370,7 +405,6 @@
       width: 1.5rem;
       border-radius: 0.25rem;
       background: #D4AF37;
-    }
   }
 
   /* ============================================
@@ -402,7 +436,8 @@
     height: 100%;
     z-index: 1;
     overflow: hidden;
-    background: #0D0D0D;
+    pointer-events: none;
+    background: transparent;
   }
 
   .sm-prelayer {
@@ -604,6 +639,8 @@
   }
   </style>
 
-  @stack('scripts')
+    @stack('scripts')
+    
+    <x-toast />
 </body>
 </html>
