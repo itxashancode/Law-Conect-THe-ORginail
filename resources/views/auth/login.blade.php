@@ -62,8 +62,6 @@
         <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx-40">
             Don't have an account? 
             <a href="{{ route('register') }}" class="text-gold-500 hover:text-onyx transition-colors ml-1">Join as Client</a>
-            <span class="mx-2">|</span>
-            <a href="{{ route('lawyer.register') }}" class="text-gold-500 hover:text-onyx transition-colors">Join as Lawyer</a>
         </p>
     </div>
 </form>

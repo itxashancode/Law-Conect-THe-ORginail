@@ -73,7 +73,6 @@
       @else
         <a href="{{ route('login') }}" class="nav-link">Login</a>
         <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join as Client</a>
-        <a href="{{ route('lawyer.register') }}" class="btn-lux btn-lux-outline !px-8 !py-3">For Lawyers</a>
       @endauth
     </div>
   </nav>
@@ -229,7 +228,6 @@
     } else {
         $menuItems[] = ['label' => 'Login', 'link' => route('login')];
         $menuItems[] = ['label' => 'Register', 'link' => route('register')];
-        $menuItems[] = ['label' => 'Lawyer Registration', 'link' => route('lawyer.register')];
     }
     $menuItems[] = ['label' => 'Contact', 'link' => '#', 'ariaLabel' => 'Get in touch'];
     
