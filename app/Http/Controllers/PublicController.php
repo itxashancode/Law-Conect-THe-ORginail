@@ -30,23 +30,23 @@ class PublicController extends Controller
         if ($content->isEmpty()) {
             $content = collect([
                 'hero' => (object)[
-                    'title' => 'Connect with Elite Legal Minds',
-                    'body' => 'Access a curated network of top-tier attorneys ready to serve your needs with discretion and excellence.',
+                    'title' => 'Excellence|Redefined.',
+                    'body' => 'Connecting you with the world\'s most distinguished legal professionals through a seamless, secure, and private digital experience.',
                     'is_active' => true
                 ],
                 'featured_lawyers' => (object)[
-                    'title' => 'Featured Legal Experts',
-                    'body' => 'Browse our selection of highly qualified lawyers specializing in various practice areas.',
+                    'title' => 'Selected|Practice Areas',
+                    'body' => 'A curated network of specialists across every major legal discipline, ensuring you receive focused, world-class advice.',
                     'is_active' => true
                 ],
                 'call_to_action' => (object)[
-                    'title' => 'Ready to Get Started?',
-                    'body' => 'Join thousands of clients who have found the perfect legal representation through our platform.',
+                    'title' => 'Distinguished Counsel',
+                    'body' => 'Our Inner Circle',
                     'is_active' => true
                 ],
                 'footer_about' => (object)[
-                    'title' => 'About Law-Conect',
-                    'body' => 'We bridge the gap between clients and exceptional legal professionals, ensuring quality legal services are accessible to all.',
+                    'title' => 'Secure your|legacy today.',
+                    'body' => 'Private consultations starting from distinguished professionals across the nation.',
                     'is_active' => true
                 ]
             ]);

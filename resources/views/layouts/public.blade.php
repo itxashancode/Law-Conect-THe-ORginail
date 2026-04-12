@@ -33,6 +33,7 @@
   <!-- Ambient light -->
   <div class="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-gold-200/20 rounded-full blur-[150px] pointer-events-none z-[-1]"></div>
 
+  @if(!View::hasSection('hide_navbar'))
   <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-700 bg-transparent px-6 py-6 lg:px-20">
     <div class="max-w-7xl mx-auto flex justify-between items-center relative z-10">
       <a href="{{ route('home') }}" class="font-serif text-3xl text-onyx font-normal tracking-tightest no-underline group flex items-baseline gap-1">
@@ -74,8 +75,10 @@
         <a href="{{ route('login') }}" class="nav-link">Login</a>
         <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join the Network</a>
       @endauth
+      </div>
     </div>
   </nav>
+  @endif
 
   <main id="main-content" tabindex="-1">
     @if(session('success'))
@@ -329,17 +332,17 @@
     }
 
     .auth-container-wide {
-      max-width: 640px !important;
+      max-width: 900px !important;
     }
 
     .auth-card {
       background: #ffffff;
-      border: 1px solid rgba(13, 13, 13, 0.08);
-      border-radius: 0.25rem;
-      padding: 2.5rem;
+      border: 1px solid rgba(13, 13, 13, 0.05);
+      border-radius: 0; /* Sharp for luxury */
+      padding: 3rem;
       box-shadow: 
-        0 40px 100px -20px rgba(13, 13, 13, 0.12),
-        0 20px 40px -15px rgba(212, 175, 55, 0.05);
+        0 60px 120px -20px rgba(13, 13, 13, 0.08),
+        0 30px 60px -30px rgba(0, 0, 0, 0.05);
       position: relative;
     }
 
@@ -349,20 +352,17 @@
       top: 0;
       left: 0;
       width: 100%;
-      height: 4px;
-      background: linear-gradient(to right, #D4AF37, #B8860B);
+      height: 6px;
+      background: linear-gradient(to right, #D4AF37, #B8860B, #D4AF37);
     }
 
-    .auth-title {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
+    .section-divider {
+      @apply border-t border-onyx/5 my-12 relative;
     }
 
-    .auth-subtitle {
-      font-size: 0.875rem;
-      color: rgba(13, 13, 13, 0.6);
-      margin-bottom: 2rem;
+    .section-divider::after {
+      content: attr(data-label);
+      @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-4 text-[9px] font-bold tracking-ultra uppercase text-onyx/20 opacity-100;
     }
 
     /* Form field spacing */

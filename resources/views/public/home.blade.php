@@ -14,14 +14,16 @@
            <span class="text-[10px] font-bold tracking-ultra uppercase">The New Standard in Legal Care</span>
         </div>
         
-        {{-- Headline split into animatable word spans --}}
-        <h1 class="text-7xl md:text-9xl lg:text-[10rem] leading-[0.85] mb-12" id="hero-headline" aria-label="Excellence Redefined">
-          <span class="hero-word block" style="overflow:hidden"><span class="hero-word-inner" style="display:block">Excellence</span></span>
-          <span class="hero-word block" style="overflow:hidden"><span class="hero-word-inner text-gold-500 italic drop-shadow-sm" style="display:block">Redefined.</span></span>
+        @php
+            $heroParts = explode('|', $content['hero']->title ?? 'Excellence|Redefined.');
+        @endphp
+        <h1 class="text-7xl md:text-9xl lg:text-[10rem] leading-[0.85] mb-12" id="hero-headline" aria-label="{{ str_replace('|', ' ', $content['hero']->title ?? 'Excellence Redefined.') }}">
+          <span class="hero-word block" style="overflow:hidden"><span class="hero-word-inner" style="display:block">{{ $heroParts[0] ?? 'Excellence' }}</span></span>
+          <span class="hero-word block" style="overflow:hidden"><span class="hero-word-inner text-gold-500 italic drop-shadow-sm" style="display:block">{{ $heroParts[1] ?? 'Redefined.' }}</span></span>
         </h1>
 
         <p class="text-xl md:text-2xl font-light text-onyx-60 max-w-2xl leading-relaxed mb-16 hero-sub" style="opacity:0;transform:translateY(30px)">
-          Connecting you with the world's most distinguished legal professionals through a seamless, secure, and private digital experience.
+          {{ $content['hero']->body ?? 'Connecting you with the world\'s most distinguished legal professionals through a seamless, secure, and private digital experience.' }}
         </p>
 
         <div class="flex flex-col sm:flex-row gap-6 hero-cta" style="opacity:0;transform:translateY(30px)">
@@ -62,9 +64,12 @@
     <div class="flex flex-col lg:flex-row justify-between items-end mb-32 gap-10">
       <div class="max-w-2xl">
         <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-6">Expertise</p>
-        <h2 class="text-6xl md:text-8xl leading-tight">Selected <br> Practice Areas</h2>
+        @php
+            $servicesParts = explode('|', $content['featured_lawyers']->title ?? 'Selected|Practice Areas');
+        @endphp
+        <h2 class="text-6xl md:text-8xl leading-tight">{{ $servicesParts[0] ?? 'Selected' }} <br> {{ $servicesParts[1] ?? 'Practice Areas' }}</h2>
       </div>
-      <p class="text-lg font-light text-onyx-50 max-w-sm mb-4">A curated network of specialists across every major legal discipline, ensuring you receive focused, world-class advice.</p>
+      <p class="text-lg font-light text-onyx-50 max-w-sm mb-4">{{ $content['featured_lawyers']->body ?? 'A curated network of specialists across every major legal discipline.' }}</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-t border-onyx-5">
@@ -130,8 +135,8 @@
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
       <div>
-        <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-4" style="opacity:0;transform:translateY(20px)" data-scroll-reveal="true">Our Inner Circle</p>
-        <h2 class="text-6xl md:text-8xl italic leading-none" style="opacity:0;transform:translateY(30px)" data-scroll-reveal="true" data-scroll-delay="0.1">Distinguished Counsel</h2>
+        <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-4" style="opacity:0;transform:translateY(20px)" data-scroll-reveal="true">{{ $content['call_to_action']->body ?? 'Our Inner Circle' }}</p>
+        <h2 class="text-6xl md:text-8xl italic leading-none" style="opacity:0;transform:translateY(30px)" data-scroll-reveal="true" data-scroll-delay="0.1">{{ $content['call_to_action']->title ?? 'Distinguished Counsel' }}</h2>
       </div>
       <a href="{{ route('public.search') }}" class="btn-lux btn-lux-outline shrink-0" style="opacity:0" data-scroll-reveal="true" data-scroll-delay="0.2">
         View All Lawyers →
@@ -185,8 +190,11 @@
 <section class="py-32 px-6 lg:px-20 bg-white text-center relative overflow-hidden">
   <div class="absolute inset-0 mask-edge-soft bg-gold-50/30 -z-10 parallax-blob" data-speed="0.1"></div>
   <div class="max-w-3xl mx-auto relative z-10">
-    <h2 class="text-7xl md:text-9xl italic leading-none mb-12">Secure your <br> <span class="text-gold-500">legacy today.</span></h2>
-    <p class="text-xl font-light text-onyx-50 mb-16 px-10">Private consultations starting from distinguished professionals across the nation.</p>
+    @php
+        $ctaParts = explode('|', $content['footer_about']->title ?? 'Secure your|legacy today.');
+    @endphp
+    <h2 class="text-7xl md:text-9xl italic leading-none mb-12">{{ $ctaParts[0] ?? 'Secure your' }} <br> <span class="text-gold-500">{{ $ctaParts[1] ?? 'legacy today.' }}</span></h2>
+    <p class="text-xl font-light text-onyx-50 mb-16 px-10">{{ $content['footer_about']->body ?? 'Private consultations starting from distinguished professionals.' }}</p>
     <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-16 !py-6 text-sm">Create Private Account</a>
   </div>
 </section>

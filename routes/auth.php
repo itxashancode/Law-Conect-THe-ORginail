@@ -13,10 +13,15 @@ use App\Http\Controllers\Auth\LawyerRegistrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    // Customer Registration
+    // Registration
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
     Route::post('register', [RegisteredUserController::class, 'store']);
+
+    // Lawyer Specific
+    Route::get('lawyer/register', [LawyerRegistrationController::class, 'showRegistrationForm'])
+                ->name('lawyer.register');
+    Route::post('lawyer/register', [LawyerRegistrationController::class, 'register']);
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');

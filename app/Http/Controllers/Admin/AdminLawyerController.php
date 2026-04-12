@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lawyer;
+use App\Notifications\LawyerRegistrationStatus;
 
 class AdminLawyerController extends Controller
 {
@@ -25,7 +26,10 @@ class AdminLawyerController extends Controller
      */
     public function approve($id)
     {
-        Lawyer::findOrFail($id)->update(['status' => 'approved']);
+        $lawyer = Lawyer::findOrFail($id);
+        $lawyer->update(['status' => 'approved']);
+        $lawyer->user->notify(new LawyerRegistrationStatus($lawyer, 'approved'));
+        
         return back()->with('success', 'Counsel has been approved and listed.');
     }
 
@@ -34,7 +38,10 @@ class AdminLawyerController extends Controller
      */
     public function reject($id)
     {
-        Lawyer::findOrFail($id)->update(['status' => 'rejected']);
+        $lawyer = Lawyer::findOrFail($id);
+        $lawyer->update(['status' => 'rejected']);
+        $lawyer->user->notify(new LawyerRegistrationStatus($lawyer, 'rejected'));
+
         return back()->with('warning', 'Lawyer registration has been rejected.');
     }
 
@@ -43,7 +50,10 @@ class AdminLawyerController extends Controller
      */
     public function suspend($id)
     {
-        Lawyer::findOrFail($id)->update(['status' => 'suspended']);
+        $lawyer = Lawyer::findOrFail($id);
+        $lawyer->update(['status' => 'suspended']);
+        $lawyer->user->notify(new LawyerRegistrationStatus($lawyer, 'suspended'));
+
         return back()->with('warning', 'Lawyer account has been suspended.');
     }
 
