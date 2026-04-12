@@ -96,43 +96,44 @@
     @yield('content')
   </main>
 
-  <footer class="bg-onyx text-white py-16 md:py-24 px-6 lg:px-20 relative overflow-hidden">
+  @if(!View::hasSection('hide_footer'))
+  <footer class="bg-onyx text-white py-10 md:py-12 px-6 lg:px-20 relative overflow-hidden">
     <div class="absolute bottom-[-20%] left-[-10%] w-[60%] h-[100%] bg-gold-900/10 rounded-full blur-[150px] pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20 relative z-10">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 relative z-10">
       <div class="lg:col-span-5">
-        <h5 class="font-serif text-5xl italic text-white mb-8 tracking-tightest">LegalCounsel</h5>
-        <p class="text-lg text-white/50 font-light max-w-md leading-relaxed">Dedicated to matching individuals with the highest caliber of legal expertise for every challenge.</p>
+        <h5 class="font-serif text-3xl italic text-white mb-6 tracking-tightest">LegalCounsel</h5>
+        <p class="text-base text-white/40 font-light max-w-md leading-relaxed">Dedicated to matching individuals with the highest caliber of legal expertise for every challenge.</p>
         
-        <div class="mt-12">
-          <p class="text-[10px] tracking-ultra font-bold uppercase text-gold-500 mb-4">Newsletter</p>
+        <div class="mt-8">
+          <p class="text-[9px] tracking-ultra font-bold uppercase text-gold-500 mb-4">Newsletter</p>
           <div class="flex max-w-sm">
-             <input type="email" placeholder="YOUR EMAIL ADDRESS" class="bg-transparent border-0 border-b border-white/10 w-full py-4 text-xs tracking-widest text-white focus:ring-0 focus:border-gold-500 transition-colors uppercase">
-             <button class="bg-white text-onyx px-8 py-4 text-[10px] font-bold tracking-ultra uppercase hover:bg-gold-500 hover:text-white transition-colors">Join</button>
+             <input type="email" placeholder="YOUR EMAIL ADDRESS" class="bg-transparent border-0 border-b border-white/10 w-full py-3 text-xs tracking-widest text-white focus:ring-0 focus:border-gold-500 transition-colors uppercase">
+             <button class="bg-white text-onyx px-6 py-3 text-[10px] font-bold tracking-ultra uppercase hover:bg-gold-500 hover:text-white transition-colors">Join</button>
           </div>
         </div>
       </div>
 
-      <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-3 gap-10">
         <div>
-          <h6 class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-8 underline decoration-gold-500/30 underline-offset-8">Explore</h6>
-          <ul class="space-y-4 text-sm font-light text-white/80 uppercase tracking-widest">
+          <h6 class="text-[9px] font-bold tracking-ultra uppercase text-gold-500 mb-6 underline decoration-gold-500/30 underline-offset-8">Explore</h6>
+          <ul class="space-y-3 text-xs font-light text-white/60 uppercase tracking-widest">
             <li><a href="#" class="hover:text-gold-500 transition-colors">Areas of law</a></li>
             <li><a href="#" class="hover:text-gold-500 transition-colors">Our Ethos</a></li>
             <li><a href="#" class="hover:text-gold-500 transition-colors">Journal</a></li>
           </ul>
         </div>
         <div>
-          <h6 class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-8 underline decoration-gold-500/30 underline-offset-8">Support</h6>
-          <ul class="space-y-4 text-sm font-light text-white/80 uppercase tracking-widest">
+          <h6 class="text-[9px] font-bold tracking-ultra uppercase text-gold-500 mb-6 underline decoration-gold-500/30 underline-offset-8">Support</h6>
+          <ul class="space-y-3 text-xs font-light text-white/60 uppercase tracking-widest">
             <li><a href="#" class="hover:text-gold-500 transition-colors">Contact</a></li>
             <li><a href="{{ route('public.privacy') }}" class="hover:text-gold-500 transition-colors">Privacy</a></li>
             <li><a href="{{ route('public.terms') }}" class="hover:text-gold-500 transition-colors">Terms</a></li>
           </ul>
         </div>
         <div>
-          <h6 class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-8 underline decoration-gold-500/30 underline-offset-8">Social</h6>
-          <ul class="space-y-4 text-sm font-light text-white/80 uppercase tracking-widest">
+          <h6 class="text-[9px] font-bold tracking-ultra uppercase text-gold-500 mb-6 underline decoration-gold-500/30 underline-offset-8">Social</h6>
+          <ul class="space-y-3 text-xs font-light text-white/60 uppercase tracking-widest">
             <li><a href="#" class="hover:text-gold-500 transition-colors">Instagram</a></li>
             <li><a href="#" class="hover:text-gold-500 transition-colors">LinkedIn</a></li>
             <li><a href="#" class="hover:text-gold-500 transition-colors">Twitter</a></li>
@@ -141,7 +142,7 @@
       </div>
     </div>
 
-    <div class="max-w-7xl mx-auto mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-ultra text-white/20 uppercase font-bold relative z-10">
+    <div class="max-w-7xl mx-auto mt-12 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] tracking-ultra text-white/20 uppercase font-bold relative z-10">
       <p>&copy; {{ date('Y') }} LEGALCOUNSEL — EST. 2024. All rights reserved.</p>
       <div class="mt-4 md:mt-0 flex gap-10">
         <span>Designed for excellence</span>
@@ -152,6 +153,7 @@
       </div>
     </div>
   </footer>
+  @endif
 
   <!-- Page transition curtain removed for stability -->
 

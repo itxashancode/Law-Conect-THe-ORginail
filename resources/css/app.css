@@ -155,37 +155,57 @@
 
   /* Refined Bespoke Buttons - Spring physics */
   .btn-lux {
-    @apply relative inline-flex items-center justify-center px-6 py-3 font-medium tracking-wide rounded-md
-           uppercase text-xs border border-onyx/10 active:scale-[0.98];
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    @apply relative inline-flex items-center justify-center px-10 py-5 font-bold tracking-widest rounded-sm
+           uppercase text-[10px] border border-onyx/10 overflow-hidden;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   }
 
-  .btn-lux:not(.btn-lux-outline):not(.btn-lux-ghost):not(.btn-lux-gold) {
-    @apply bg-onyx text-white hover:bg-onyx/90;
-    color: white !important;
+  .btn-lux::after {
+    content: '';
+    @apply absolute inset-0 bg-white/20 translate-y-full transition-transform duration-500 ease-expo;
   }
 
-  /* Variant overrides: use higher specificity or ensure they are defined after btn-lux */
+  .btn-lux:hover::after {
+    @apply translate-y-0;
+  }
+
+  .btn-lux:active {
+    @apply scale-[0.98];
+  }
+
   .btn-lux-gold {
-    background-color: #D4AF37 !important;
-    border-color: #D4AF37 !important;
+    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%) !important;
+    border: none !important;
     color: white !important;
+    box-shadow: 0 10px 20px -10px rgba(184, 134, 11, 0.5);
   }
-  .btn-lux-gold:hover { background-color: #B8860B !important; }
+  
+  .btn-lux-gold:hover {
+    box-shadow: 0 15px 30px -10px rgba(184, 134, 11, 0.6);
+    transform: translateY(-2px);
+  }
 
   .btn-lux-outline {
     background-color: transparent !important;
-    border-color: rgba(13, 13, 13, 0.2) !important;
+    border: 1px solid rgba(13, 13, 13, 0.15) !important;
     color: #0D0D0D !important;
   }
-  .btn-lux-outline:hover { background-color: rgba(13, 13, 13, 0.05) !important; }
+  
+  .btn-lux-outline:hover {
+    background-color: #0D0D0D !important;
+    color: white !important;
+    border-color: #0D0D0D !important;
+  }
 
   .btn-lux-ghost {
     background-color: transparent !important;
-    border-color: transparent !important;
+    border: none !important;
     color: rgba(13, 13, 13, 0.6) !important;
   }
-  .btn-lux-ghost:hover { background-color: rgba(13, 13, 13, 0.05) !important; text-color: #0D0D0D !important; }
+  .btn-lux-ghost:hover { 
+    color: #0D0D0D !important;
+    @apply translate-x-1;
+  }
 
   /* Form Elements */
   .lux-input {
@@ -209,6 +229,29 @@
 
   .gold-gradient {
     @apply bg-gradient-to-tr from-gold-600 via-gold-400 to-gold-500 bg-clip-text text-transparent;
+  }
+
+  /* Button Shine Effect */
+  .btn-lux-gold::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: skewX(-25deg);
+    transition: 0.75s;
+    z-index: 5;
+  }
+
+  .btn-lux-gold:hover::before {
+    left: 150%;
   }
 
   .elevation-bespoke {

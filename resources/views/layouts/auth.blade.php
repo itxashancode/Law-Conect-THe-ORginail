@@ -1,4 +1,5 @@
 @extends('layouts.public')
+@section('hide_footer', true)
 
 @section('content')
 <div class="min-h-screen flex items-center justify-center py-10 px-4">

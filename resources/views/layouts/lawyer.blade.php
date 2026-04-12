@@ -1,4 +1,5 @@
 @extends('layouts.public')
+@section('hide_footer', true)
 
 @section('title', 'Lawyer Dashboard — LegalCounsel')
 

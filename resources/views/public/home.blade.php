@@ -25,8 +25,11 @@
         </p>
 
         <div class="flex flex-col sm:flex-row gap-6 hero-cta" style="opacity:0;transform:translateY(30px)">
-          <a href="{{ route('public.search') }}" class="btn-lux btn-lux-gold shadow-premium hero-cta-primary">
-             Find Counsel
+          <a href="{{ route('public.search') }}" class="btn-lux btn-lux-gold group shadow-premium hero-cta-primary">
+             <span class="relative z-10 flex items-center gap-2">
+                Find Counsel
+                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+             </span>
           </a>
           <a href="#services" class="btn-lux btn-lux-outline">
              Explore Services
@@ -116,23 +119,9 @@
   </div>
 </section>
 
-{{-- BounceCards Featured Attorneys --}}
-<section class="py-20 md:py-40 px-6 lg:px-20 bg-white relative overflow-hidden">
-  <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-20" data-aos="fade-up">
-      <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-4">Exclusive Network</p>
-      <h2 class="font-serif text-6xl md:text-8xl text-onyx">Featured Attorneys</h2>
-    </div>
-    <div id="bounce-cards-container"
-         class="flex justify-center py-10"
-         data-aos="fade-up"
-         data-aos-delay="200"
-         data-images='@json($featuredLawyers->map(function($lawyer) {
-             return $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37&size=400';
-         })->toArray())'>
-    </div>
-  </div>
-</section>
+@php
+  // Features section removed for cleaner editorial flow
+@endphp
 
 {{-- Featured Section --}}
 <section class="py-20 md:py-40 px-6 lg:px-20 bg-linen relative overflow-hidden">
@@ -193,7 +182,7 @@
 
 
 {{-- Final CTA --}}
-<section class="py-60 px-6 lg:px-20 bg-white text-center relative overflow-hidden">
+<section class="py-32 px-6 lg:px-20 bg-white text-center relative overflow-hidden">
   <div class="absolute inset-0 mask-edge-soft bg-gold-50/30 -z-10 parallax-blob" data-speed="0.1"></div>
   <div class="max-w-3xl mx-auto relative z-10">
     <h2 class="text-7xl md:text-9xl italic leading-none mb-12">Secure your <br> <span class="text-gold-500">legacy today.</span></h2>
