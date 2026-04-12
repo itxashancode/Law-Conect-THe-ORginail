@@ -57,32 +57,35 @@
         <a href="{{ route('public.search') }}" class="btn-lux btn-lux-outline">Reset All Filters</a>
       </div>
     @else
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-10" id="search-results-grid">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-10" id="search-results-grid">
         @foreach($lawyers as $lawyer)
-        <div class="shad-card p-6 flex flex-col h-full search-anim-item" style="opacity:0;transform:translateY(30px)">
-          <div class="flex gap-4 items-start mb-4">
-            <div class="shad-avatar h-16 w-16">
+        <x-card class="search-anim-item flex flex-col h-full" style="opacity:0;transform:translateY(30px)">
+          <div class="flex gap-6 items-start mb-8">
+            <div class="w-20 h-20 shrink-0 border border-onyx/10 overflow-hidden">
               <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37' }}"
-                   alt="{{ $lawyer->full_name }}" class="h-full w-full object-cover">
+                   alt="{{ $lawyer->full_name }}" class="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
             </div>
             <div>
-              <h3 class="font-serif text-2xl text-onyx">{{ $lawyer->full_name }}</h3>
-              <div class="flex flex-wrap gap-2 mt-2">
-                <span class="shad-badge shad-badge-gold">{{ $lawyer->specialization }}</span>
-                <span class="shad-badge shad-badge-onyx">{{ $lawyer->city }}</span>
+              <h3 class="font-serif text-3xl text-onyx leading-tight mb-3 group-hover:text-gold-600 transition-colors">{{ $lawyer->full_name }}</h3>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-[9px] font-bold tracking-ultra uppercase px-2 py-0.5 border border-onyx/10 text-onyx/40">{{ $lawyer->specialization }}</span>
+                <span class="text-[9px] font-bold tracking-ultra uppercase px-2 py-0.5 border border-gold-500/20 text-gold-600 bg-gold-500/5">{{ $lawyer->city }}</span>
               </div>
             </div>
           </div>
 
-          <div class="text-sm text-onyx/70 mb-6 flex-1">
-            {{ strlen($lawyer->bio ?? '') > 100 ? substr($lawyer->bio, 0, 100) . '...' : ($lawyer->bio ?? 'Distinguished legal professional providing expert counsel and strategic representation.') }}
-          </div>
+          <p class="text-[13px] font-light text-onyx/60 leading-relaxed mb-10 flex-1">
+            {{ strlen($lawyer->bio ?? '') > 140 ? substr($lawyer->bio, 0, 140) . '...' : ($lawyer->bio ?? 'Distinguished legal professional providing expert counsel and strategic representation.') }}
+          </p>
 
-          <div class="flex items-center justify-between border-t border-onyx-5 pt-4 mt-auto">
-            <span class="font-serif italic text-gold-600 text-xl">${{ number_format($lawyer->consultation_fee ?? 0, 0) }} /hr</span>
-            <a href="{{ route('public.lawyer', $lawyer->id) }}" class="btn-lux btn-lux-outline !px-4 !py-2 !text-[10px]">Consult</a>
+          <div class="flex items-center justify-between pt-6 border-t border-onyx/5">
+            <div>
+               <p class="text-[9px] font-bold tracking-ultra text-onyx/30 uppercase mb-1">Honorable Rate</p>
+               <span class="font-serif italic text-gold-600 text-2xl">${{ number_format($lawyer->consultation_fee ?? 0, 0) }} <span class="text-xs font-sans not-italic text-onyx/30">/HR</span></span>
+            </div>
+            <a href="{{ route('public.lawyer', $lawyer->id) }}" class="btn-lux btn-lux-outline !px-6 !py-3">Consult</a>
           </div>
-        </div>
+        </x-card>
         @endforeach
       </div>
     @endif
