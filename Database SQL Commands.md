@@ -550,3 +550,76 @@ Or to recreate everything fresh:
 mysql -u root -p -e "DROP DATABASE IF EXISTS lawyers_db; CREATE DATABASE lawyers_db;"
 mysql -u root -p lawyers_db < database.sql
 ```
+## Option 3: Bulk Test Data (Crowd the Site)
+
+Run these commands to populate the database with realistic test data for all roles. This will add lawyers, availability slots, and sample customers.
+
+```sql
+USE `lawyers_db`;
+
+-- 1. Create Sample Customers
+INSERT INTO `users` (`name`, `email`, `password`, `user_type`, `created_at`, `updated_at`) VALUES
+('Alexander Wright', 'customer1@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'customer', NOW(), NOW()),
+('Sophia Montgomery', 'customer2@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'customer', NOW(), NOW()),
+('Julian Thorne', 'customer3@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'customer', NOW(), NOW()),
+('Elena Vance', 'customer4@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'customer', NOW(), NOW());
+
+-- 2. Create Lawyer Users
+INSERT INTO `users` (`name`, `email`, `password`, `user_type`, `created_at`, `updated_at`) VALUES
+('Dr. Alistair Sterling', 'lawyer1@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW()),
+('Beatrix Von Bloom', 'lawyer2@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW()),
+('Cillian O''Sullivan', 'lawyer3@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW()),
+('Daphne Ashford', 'lawyer4@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW()),
+('Evander Blackwood', 'lawyer5@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW()),
+('Flora Nightingale', 'lawyer6@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW()),
+('Gideon Thorne', 'lawyer7@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW()),
+('Helena Troy', 'lawyer8@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW()),
+('Ignatius Fray', 'lawyer9@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW()),
+('Jasper Crane', 'lawyer10@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'lawyer', NOW(), NOW());
+
+-- 3. Populate Lawyer Profiles
+-- Note: Replace LAST_INSERT_ID() logic with specific IDs if running piecewise, 
+-- but this script assumes fresh sequential IDs from 5 (since 1-4 are customers).
+INSERT INTO `lawyers` (`user_id`, `full_name`, `bar_license`, `specialization`, `city`, `address`, `phone`, `bio`, `experience_years`, `consultation_fee`, `status`, `created_at`, `updated_at`) VALUES
+(5, 'Dr. Alistair Sterling', 'BAR-2024-001', 'Criminal', 'New York', '45 Wall Street, Executive Plaza', '+1 212-555-0198', 'Specializing in high-stakes white-collar criminal defense with over two decades of trial experience.', 22, 550.00, 'approved', NOW(), NOW()),
+(6, 'Beatrix Von Bloom', 'BAR-2024-002', 'Divorce', 'Los Angeles', '888 Wilshire Blvd, Suite 12', '+1 310-555-0122', 'A leading expert in high-net-worth matrimonial litigation and family mediation.', 15, 450.00, 'approved', NOW(), NOW()),
+(7, 'Cillian O''Sullivan', 'BAR-2024-003', 'Civil', 'Chicago', '122 Michigan Ave, Office 9', '+1 312-555-0144', 'Aggressive civil litigation focused on corporate disputes and contract integrity.', 12, 375.00, 'approved', NOW(), NOW()),
+(8, 'Daphne Ashford', 'BAR-2024-004', 'Affidavit', 'Houston', '202 Main St, Heritage Tower', '+1 713-555-0166', 'Precision legal documentation and affidavit verification for international corporate compliance.', 8, 250.00, 'approved', NOW(), NOW()),
+(9, 'Evander Blackwood', 'BAR-2024-005', 'Criminal', 'London', '10 Park Lane, Mayfair', '+44 20-7555-0188', 'Defending the elite with absolute discretion and strategic brilliance.', 20, 600.00, 'approved', NOW(), NOW()),
+(10, 'Flora Nightingale', 'BAR-2024-006', 'Divorce', 'Paris', '42 Avenue Montaigne', '+33 1-555-0199', 'Elegant solutions for complex family transitions across international borders.', 10, 420.00, 'approved', NOW(), NOW()),
+(11, 'Gideon Thorne', 'BAR-2024-007', 'Civil', 'Toronto', '100 King St West, Suite 500', '+1 416-555-0177', 'Master of mediation and relentless advocate in civil property disputes.', 14, 390.00, 'approved', NOW(), NOW()),
+(12, 'Helena Troy', 'BAR-2024-008', 'Criminal', 'Rome', 'Via Condotti 15', '+39 06-555-0155', 'Expertise in international criminal law and diplomatic immunity cases.', 18, 520.00, 'approved', NOW(), NOW()),
+(13, 'Ignatius Fray', 'BAR-2024-009', 'Affidavit', 'Dubai', 'Burj Daman, DIFC', '+971 4-555-0133', 'Premium notary services and affidavit drafting for regional investment portfolios.', 7, 300.00, 'approved', NOW(), NOW()),
+(14, 'Jasper Crane', 'BAR-2024-010', 'Civil', 'Singapore', '1 Marina Boulevard', '+65 6555-0111', 'Leading light in maritime law and cross-border commercial litigation.', 25, 650.00, 'approved', NOW(), NOW());
+
+-- 4. Create Availability Slots (3 per lawyer)
+-- Alistair (ID:1)
+INSERT INTO `availability_slots` (`lawyer_id`, `available_date`, `start_time`, `end_time`, `is_booked`, `created_at`, `updated_at`) VALUES
+(1, CURDATE() + INTERVAL 1 DAY, '09:00:00', '10:00:00', 0, NOW(), NOW()),
+(1, CURDATE() + INTERVAL 1 DAY, '11:00:00', '12:00:00', 0, NOW(), NOW()),
+(1, CURDATE() + INTERVAL 2 DAY, '14:00:00', '15:00:00', 0, NOW(), NOW());
+
+-- Beatrix (ID:2)
+INSERT INTO `availability_slots` (`lawyer_id`, `available_date`, `start_time`, `end_time`, `is_booked`, `created_at`, `updated_at`) VALUES
+(2, CURDATE() + INTERVAL 1 DAY, '10:00:00', '11:00:00', 0, NOW(), NOW()),
+(2, CURDATE() + INTERVAL 2 DAY, '13:00:00', '14:00:00', 0, NOW(), NOW()),
+(2, CURDATE() + INTERVAL 3 DAY, '09:30:00', '10:30:00', 0, NOW(), NOW());
+
+-- Cillian (ID:3)
+INSERT INTO `availability_slots` (`lawyer_id`, `available_date`, `start_time`, `end_time`, `is_booked`, `created_at`, `updated_at`) VALUES
+(3, CURDATE() + INTERVAL 1 DAY, '15:00:00', '16:00:00', 0, NOW(), NOW()),
+(3, CURDATE() + INTERVAL 1 DAY, '16:00:00', '17:00:00', 0, NOW(), NOW());
+
+-- Evander (ID:5)
+INSERT INTO `availability_slots` (`lawyer_id`, `available_date`, `start_time`, `end_time`, `is_booked`, `created_at`, `updated_at`) VALUES
+(5, CURDATE() + INTERVAL 1 DAY, '08:00:00', '09:00:00', 0, NOW(), NOW()),
+(5, CURDATE() + INTERVAL 5 DAY, '10:00:00', '11:00:00', 0, NOW(), NOW());
+
+-- 5. Link Roles (Spatie model_has_roles)
+-- Assuming roles ID are: 1 (admin), 2 (lawyer), 3 (customer)
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(3, 'App\\Models\\User', 1), (3, 'App\\Models\\User', 2), (3, 'App\\Models\\User', 3), (3, 'App\\Models\\User', 4),
+(2, 'App\\Models\\User', 5), (2, 'App\\Models\\User', 6), (2, 'App\\Models\\User', 7), (2, 'App\\Models\\User', 8),
+(2, 'App\\Models\\User', 9), (2, 'App\\Models\\User', 10), (2, 'App\\Models\\User', 11), (2, 'App\\Models\\User', 12),
+(2, 'App\\Models\\User', 13), (2, 'App\\Models\\User', 14);
+```

@@ -72,7 +72,7 @@
         </div>
       @else
         <a href="{{ route('login') }}" class="nav-link">Login</a>
-        <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join as Client</a>
+        <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join the Network</a>
       @endauth
     </div>
   </nav>
@@ -324,17 +324,33 @@
     /* Authentication pages - less clogged */
     .auth-container {
       max-width: 480px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+      margin: 4rem auto;
+      padding: 0 1.5rem;
+    }
+
+    .auth-container-wide {
+      max-width: 640px !important;
     }
 
     .auth-card {
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(13, 13, 13, 0.1);
-      border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+      background: #ffffff;
+      border: 1px solid rgba(13, 13, 13, 0.08);
+      border-radius: 0.25rem;
+      padding: 2.5rem;
+      box-shadow: 
+        0 40px 100px -20px rgba(13, 13, 13, 0.12),
+        0 20px 40px -15px rgba(212, 175, 55, 0.05);
+      position: relative;
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, #D4AF37, #B8860B);
     }
 
     .auth-title {
