@@ -8,7 +8,7 @@
 {{-- Filter Tabs --}}
 <div x-data="{ tab: '{{ request('status', 'all') }}' }" class="mb-6">
   <div class="flex gap-1 bg-white border border-onyx/5 p-1 w-fit mb-6">
-    @foreach(['all' => 'All', 'pending' => 'Pending', 'approved' => 'Active', 'rejected' => 'Rejected'] as $key => $label)
+    @foreach(['all' => 'All', 'pending' => 'Pending', 'approved' => 'Active', 'suspended' => 'Suspended', 'rejected' => 'Rejected'] as $key => $label)
     <a href="{{ route('admin.lawyers.index', ['status' => $key === 'all' ? null : $key]) }}"
        class="px-4 py-2 text-[10px] font-bold tracking-widest uppercase transition-colors duration-150
               {{ request('status', 'all') === $key ? 'bg-onyx text-white' : 'text-onyx/40 hover:text-onyx' }}">
@@ -53,7 +53,8 @@
           <td class="px-6 py-4">
             <span class="text-[9px] font-bold tracking-widest uppercase px-2 py-1 border
                           {{ $lawyer->status === 'approved' ? 'border-green-200 text-green-600 bg-green-50' :
-                             ($lawyer->status === 'pending' ? 'border-gold-200 text-gold-600 bg-gold-50' : 'border-red-200 text-red-600 bg-red-50') }}">
+                             ($lawyer->status === 'pending' ? 'border-gold-200 text-gold-600 bg-gold-50' : 
+                             ($lawyer->status === 'suspended' ? 'border-red-200 text-red-600 bg-red-50' : 'border-onyx/10 text-onyx/40 bg-onyx/5')) }}">
               {{ $lawyer->status }}
             </span>
           </td>
@@ -61,6 +62,7 @@
             <div class="flex items-center justify-end gap-3">
               <a href="{{ route('public.lawyer', $lawyer->id) }}" target="_blank"
                  class="text-[10px] font-bold tracking-widest uppercase text-onyx/30 hover:text-onyx transition-colors">View</a>
+              
               @if($lawyer->status === 'pending')
                 <form action="{{ route('admin.lawyers.approve', $lawyer->id) }}" method="POST" class="inline">
                   @csrf
@@ -70,6 +72,21 @@
                   @csrf
                   <button type="submit" onclick="return confirm('Reject {{ $lawyer->full_name }}?')"
                           class="text-[10px] font-bold tracking-widest uppercase text-red-400 hover:text-red-600 transition-colors">Reject</button>
+                </form>
+              @endif
+
+              @if($lawyer->status === 'approved')
+                <form action="{{ route('admin.lawyers.suspend', $lawyer->id) }}" method="POST" class="inline">
+                  @csrf
+                  <button type="submit" onclick="return confirm('Suspend {{ $lawyer->full_name }}? This will hide them from search results.')"
+                          class="text-[10px] font-bold tracking-widest uppercase text-red-600 hover:scale-105 transition-all">Suspend</button>
+                </form>
+              @endif
+
+              @if($lawyer->status === 'suspended' || $lawyer->status === 'rejected')
+                <form action="{{ route('admin.lawyers.approve', $lawyer->id) }}" method="POST" class="inline">
+                  @csrf
+                  <button type="submit" class="text-[10px] font-bold tracking-widest uppercase text-green-600 hover:text-green-700 transition-colors">Reactivate</button>
                 </form>
               @endif
               <form action="{{ route('admin.lawyers.destroy', $lawyer->id) }}" method="POST" class="inline">

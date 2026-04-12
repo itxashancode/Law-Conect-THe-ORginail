@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminLawyerController;
 use App\Http\Controllers\Admin\AdminBookingController;
 use App\Http\Controllers\Admin\AdminSlotController;
 use App\Http\Controllers\Admin\AdminHomepageController;
+use App\Http\Controllers\Admin\AdminCustomerController;
 use App\Http\Controllers\Lawyer\LawyerDashboardController;
 use App\Http\Controllers\Lawyer\LawyerProfileController;
 use App\Http\Controllers\Lawyer\LawyerSlotController;
@@ -49,7 +50,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role.admin'])->grou
     Route::get('/lawyers',                    [AdminLawyerController::class, 'index'])->name('lawyers.index');
     Route::post('/lawyers/{id}/approve',      [AdminLawyerController::class, 'approve'])->name('lawyers.approve');
     Route::post('/lawyers/{id}/reject',       [AdminLawyerController::class, 'reject'])->name('lawyers.reject');
+    Route::post('/lawyers/{id}/suspend',      [AdminLawyerController::class, 'suspend'])->name('lawyers.suspend');
     Route::delete('/lawyers/{id}',            [AdminLawyerController::class, 'destroy'])->name('lawyers.destroy');
+    
+    Route::get('/customers',                  [AdminCustomerController::class, 'index'])->name('customers.index');
+    Route::post('/customers/{id}/ban',        [AdminCustomerController::class, 'ban'])->name('customers.ban');
+    Route::post('/customers/{id}/activate',   [AdminCustomerController::class, 'activate'])->name('customers.activate');
+    Route::delete('/customers/{id}',          [AdminCustomerController::class, 'destroy'])->name('customers.destroy');
+    
     Route::get('/bookings',                   [AdminBookingController::class, 'index'])->name('bookings.index');
     Route::delete('/bookings/{id}',           [AdminBookingController::class, 'destroy'])->name('bookings.destroy');
     Route::get('/slots',                      [AdminSlotController::class, 'index'])->name('slots.index');

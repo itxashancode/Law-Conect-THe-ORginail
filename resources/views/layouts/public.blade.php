@@ -15,32 +15,11 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   @stack('head')
 </head>
-<body class="antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden">
-    {{-- Global Premium Reveal --}}
+<body class="antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden bg-linen text-onyx font-sans">
+    {{-- Page Reveal Overlay --}}
     <div class="page-reveal fixed inset-0 z-[9999] bg-linen pointer-events-none"></div>
-    <div class="scroll-progress fixed top-0 left-0 h-[2px] bg-gold-500 z-[1000] transition-all duration-300"></div>
-
-    <script>
-      window.addEventListener('DOMContentLoaded', () => {
-        // Page Reveal Animation
-        gsap.to('.page-reveal', {
-            yPercent: -100,
-            duration: 1.2,
-            ease: "expo.inOut",
-            delay: 0.2
-        });
-
-        // Scroll Progress
-        window.addEventListener('scroll', () => {
-            const h = document.documentElement, 
-                  b = document.body,
-                  st = 'scrollTop',
-                  sh = 'scrollHeight';
-            const percent = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
-            document.querySelector('.scroll-progress').style.width = percent + '%';
-        });
-      });
-    </script>
+    {{-- Scroll Progress --}}
+    <div class="scroll-progress fixed top-0 left-0 h-[2px] bg-gold-500 z-[10000]" style="width:0%"></div>
 
   <!-- Elegant Line Dividers (Bespoke Touch) -->
   <div class="fixed top-0 left-10 w-px h-full bg-onyx-5 z-0 pointer-events-none hidden lg:block"></div>

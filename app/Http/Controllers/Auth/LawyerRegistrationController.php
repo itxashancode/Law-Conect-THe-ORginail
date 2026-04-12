@@ -38,7 +38,7 @@ class LawyerRegistrationController extends Controller
             // Lawyer profile fields
             'full_name' => ['required', 'string', 'max:255'],
             'bar_license' => ['required', 'string', 'max:255'],
-            'specialization' => ['required', 'in:Criminal,Divorce,Affidavit,Civil'],
+            'specialization' => ['required', 'in:Criminal,Divorce,Affidavit,Civil,Other'],
             'city' => ['required', 'string', 'max:255'],
             'address' => ['nullable', 'string', 'max:500'],
             'phone' => ['required', 'string', 'max:20'],

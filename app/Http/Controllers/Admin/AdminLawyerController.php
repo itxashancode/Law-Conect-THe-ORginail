@@ -26,7 +26,7 @@ class AdminLawyerController extends Controller
     public function approve($id)
     {
         Lawyer::findOrFail($id)->update(['status' => 'approved']);
-        return back()->with('success', 'Lawyer approved.');
+        return back()->with('success', 'Counsel has been approved and listed.');
     }
 
     /**
@@ -35,7 +35,16 @@ class AdminLawyerController extends Controller
     public function reject($id)
     {
         Lawyer::findOrFail($id)->update(['status' => 'rejected']);
-        return back()->with('success', 'Lawyer rejected.');
+        return back()->with('warning', 'Lawyer registration has been rejected.');
+    }
+
+    /**
+     * Suspend an existing lawyer.
+     */
+    public function suspend($id)
+    {
+        Lawyer::findOrFail($id)->update(['status' => 'suspended']);
+        return back()->with('warning', 'Lawyer account has been suspended.');
     }
 
     /**
