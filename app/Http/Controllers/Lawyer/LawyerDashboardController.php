@@ -29,7 +29,8 @@ class LawyerDashboardController extends Controller
         $bookedSlots = $lawyer->availabilitySlots()->where('is_booked', true)->count();
         $upcomingAppointments = Appointment::where('lawyer_id', $lawyer->id)
             ->where('status', 'confirmed')
-            ->with('customer')
+            ->with(['customer', 'slot'])
+            ->latest()
             ->get();
         $pendingAppointments = Appointment::where('lawyer_id', $lawyer->id)
             ->where('status', 'pending')

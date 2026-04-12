@@ -139,41 +139,58 @@
   <div class="absolute top-0 right-1/2 w-px h-64 bg-gradient-to-b from-onyx/10 to-transparent"></div>
 
   <div class="max-w-7xl mx-auto">
-    <div class="text-center mb-32" id="featured-heading">
-       <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-6" style="opacity:0;transform:translateY(20px)" data-scroll-reveal="true">Our Inner Circle</p>
-       <h2 class="text-6xl md:text-8xl italic" style="opacity:0;transform:translateY(30px)" data-scroll-reveal="true" data-scroll-delay="0.1">Distinguished Counsel</h2>
+    <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+      <div>
+        <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-4" style="opacity:0;transform:translateY(20px)" data-scroll-reveal="true">Our Inner Circle</p>
+        <h2 class="text-6xl md:text-8xl italic leading-none" style="opacity:0;transform:translateY(30px)" data-scroll-reveal="true" data-scroll-delay="0.1">Distinguished Counsel</h2>
+      </div>
+      <a href="{{ route('public.search') }}" class="btn-lux btn-lux-outline shrink-0" style="opacity:0" data-scroll-reveal="true" data-scroll-delay="0.2">
+        View All Lawyers →
+      </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="featured-lawyers-grid">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-onyx/5" id="featured-lawyers-grid">
       @foreach($featuredLawyers as $lawyer)
-      <div class="lawyer-card shad-card p-6 flex flex-col h-full" data-index="{{ $loop->index }}">
-        <div class="flex gap-4 items-start mb-4">
-          <div class="shad-avatar h-16 w-16">
-            <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($lawyer->full_name) . '&background=0D0D0D&color=D4AF37' }}" 
-                 alt="{{ $lawyer->full_name }}" class="h-full w-full object-cover">
+      <div class="lawyer-card p-8 border-r border-onyx/5 last:border-r-0 group hover:bg-white transition-colors duration-300 flex flex-col" data-index="{{ $loop->index }}">
+        {{-- Avatar --}}
+        <div class="flex items-start justify-between mb-8">
+          <div class="w-20 h-20 overflow-hidden border border-onyx/10 shrink-0">
+            <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name='.urlencode($lawyer->full_name).'&background=0D0D0D&color=D4AF37' }}"
+                 alt="{{ $lawyer->full_name }}"
+                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
           </div>
+          <span class="text-[9px] font-bold tracking-widest uppercase px-2 py-1 border border-gold-500/20 text-gold-600 bg-gold-50/50">{{ $lawyer->specialization }}</span>
+        </div>
+
+        {{-- Info --}}
+        <div class="flex-1">
+          <h3 class="font-serif text-3xl text-onyx leading-tight mb-2 group-hover:text-gold-600 transition-colors duration-300">{{ $lawyer->full_name }}</h3>
+          <p class="text-[10px] font-bold tracking-widest uppercase text-onyx/30 mb-4">{{ $lawyer->city }} • {{ $lawyer->experience_years }} Yrs Experience</p>
+          <p class="text-sm text-onyx/60 font-light leading-relaxed">
+            {{ strlen($lawyer->bio ?? '') > 120 ? substr($lawyer->bio, 0, 120) . '...' : ($lawyer->bio ?? 'Distinguished legal professional providing expert counsel.') }}
+          </p>
+        </div>
+
+        {{-- Footer --}}
+        <div class="mt-8 pt-6 border-t border-onyx/5 flex items-center justify-between">
           <div>
-            <h3 class="font-serif text-2xl text-onyx">{{ $lawyer->full_name }}</h3>
-            <div class="flex flex-wrap gap-2 mt-2">
-              <span class="shad-badge shad-badge-gold">{{ $lawyer->specialization }}</span>
-              <span class="shad-badge shad-badge-onyx">{{ $lawyer->city }}</span>
-            </div>
+            <p class="text-[9px] font-bold tracking-widest uppercase text-onyx/30 mb-1">Rate</p>
+            <p class="font-serif italic text-gold-600 text-xl">${{ number_format($lawyer->consultation_fee ?? 0) }}<span class="text-xs font-sans not-italic text-onyx/30">/hr</span></p>
           </div>
-        </div>
-        
-        <div class="text-sm text-onyx/70 mb-6 flex-1">
-          {{ strlen($lawyer->bio ?? '') > 100 ? substr($lawyer->bio, 0, 100) . '...' : ($lawyer->bio ?? 'Distinguished legal professional providing expert counsel and strategic representation.') }}
-        </div>
-        
-        <div class="flex items-center justify-between border-t border-onyx-5 pt-4 mt-auto">
-          <span class="font-serif italic text-gold-600 text-xl">{{ $lawyer->experience_years }} Yrs Exp</span>
-          <a href="{{ route('public.lawyer', $lawyer->id) }}" class="btn-lux btn-lux-outline !px-4 !py-2 !text-[10px]">View Profile</a>
+          <a href="{{ route('public.lawyer', $lawyer->id) }}"
+             class="group/btn flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-onyx/40 hover:text-onyx transition-colors">
+            View Profile
+            <svg class="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
         </div>
       </div>
       @endforeach
     </div>
   </div>
 </section>
+
 
 {{-- Final CTA --}}
 <section class="py-60 px-6 lg:px-20 bg-white text-center relative overflow-hidden">

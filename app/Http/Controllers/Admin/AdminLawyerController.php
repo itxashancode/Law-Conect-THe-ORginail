@@ -10,9 +10,13 @@ class AdminLawyerController extends Controller
     /**
      * Show all lawyer registrations for admin review.
      */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        $lawyers = Lawyer::with('user')->latest()->get();
+        $query = Lawyer::with('user')->latest();
+        if ($request->status && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+        $lawyers = $query->get();
         return view('admin.lawyers.index', compact('lawyers'));
     }
 

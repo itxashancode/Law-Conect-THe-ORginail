@@ -11,11 +11,15 @@ class AdminBookingController extends Controller
     /**
      * Display all appointments for admin oversight.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $appointments = Appointment::with('customer', 'lawyer', 'slot')
-            ->latest()
-            ->get();
+        $query = Appointment::with('customer', 'lawyer', 'slot')->latest();
+        
+        if ($request->status && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+        
+        $appointments = $query->get();
         return view('admin.bookings.index', compact('appointments'));
     }
 

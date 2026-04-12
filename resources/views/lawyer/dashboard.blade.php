@@ -1,85 +1,166 @@
 @extends('layouts.lawyer')
-@section('title', 'Lawyer Dashboard — LegalCounsel')
+@section('title', 'My Dashboard — LegalCounsel')
 
 @section('content')
-<div data-aos="fade-up">
+<div class="pt-32 pb-20 px-6 lg:px-20 min-h-screen" data-aos="fade-up">
 
-  {{-- Welcome & Stats --}}
-  <div class="mb-20">
-    <h1 class="font-serif text-7xl md:text-9xl italic mb-10">Welcome, {{ explode(' ', trim($lawyer->full_name))[0] }}</h1>
+  {{-- Welcome Header --}}
+  <div class="mb-16">
+    <p class="text-[10px] font-bold tracking-widest uppercase text-gold-500 mb-3">Practice Overview</p>
+    <h1 class="font-serif text-6xl md:text-8xl italic leading-none mb-4">{{ explode(' ', trim($lawyer->full_name))[0] }}'s Dashboard</h1>
+  </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-10 bespoke-card">
-        <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-4 border-b border-onyx/5 pb-4">Total Availability</p>
-        <p class="font-serif text-5xl text-gold-600">{{ $totalSlots }} <span class="text-sm font-sans text-onyx/40 not-italic">SLOTS</span></p>
-      </div>
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-10 bespoke-card border-onyx/10">
-        <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-4 border-b border-onyx/5 pb-4">Booked Sessions</p>
-        <p class="font-serif text-5xl text-gold-600">{{ $bookedSlots }} <span class="text-sm font-sans text-onyx/40 not-italic">SLOTS</span></p>
-      </div>
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-10 bespoke-card">
-        <p class="text-[10px] tracking-ultra uppercase text-onyx/40 mb-4 border-b border-onyx/5 pb-4">Upcoming</p>
-        <p class="font-serif text-5xl text-gold-600">{{ $upcomingAppointments->count() }} <span class="text-sm font-sans text-onyx/40 not-italic">THIS MONTH</span></p>
-      </div>
+  {{-- Profile Completion Bar --}}
+  @php
+    $fields = ['full_name', 'bio', 'photo', 'address', 'phone', 'bar_license', 'specialization', 'city', 'experience_years', 'consultation_fee'];
+    $completed = collect($fields)->filter(fn($f) => !empty($lawyer->$f))->count();
+    $pct = round(($completed / count($fields)) * 100);
+  @endphp
+  @if($pct < 100)
+  <div class="mb-10 bg-white border border-onyx/5 p-6">
+    <div class="flex items-center justify-between mb-3">
+      <p class="text-[10px] font-bold tracking-widest uppercase text-onyx/40">Profile Completeness</p>
+      <p class="text-[10px] font-bold tracking-widest text-onyx/60">{{ $pct }}%</p>
+    </div>
+    <div class="w-full bg-onyx/5 h-1.5 rounded-full">
+      <div class="bg-gold-500 h-1.5 rounded-full transition-all duration-1000" style="width: {{ $pct }}%"></div>
+    </div>
+    <p class="text-[10px] text-onyx/30 mt-2">
+      Complete your profile to appear in more search results.
+      <a href="{{ route('lawyer.profile.edit') }}" class="text-gold-500 hover:text-gold-600 underline ml-1">Update Profile</a>
+    </p>
+  </div>
+  @endif
+
+  {{-- KPI Stats --}}
+  <div class="grid grid-cols-3 gap-4 mb-12">
+    <div class="bg-white border border-onyx/5 p-6">
+      <p class="text-[9px] font-bold tracking-widest uppercase text-onyx/30 mb-2">Total Slots</p>
+      <p class="font-serif text-4xl text-gold-600">{{ $totalSlots }}</p>
+    </div>
+    <div class="bg-white border border-onyx/5 p-6">
+      <p class="text-[9px] font-bold tracking-widest uppercase text-onyx/30 mb-2">Booked</p>
+      <p class="font-serif text-4xl text-onyx">{{ $bookedSlots }}</p>
+    </div>
+    <div class="bg-white border border-onyx/5 p-6">
+      <p class="text-[9px] font-bold tracking-widest uppercase text-onyx/30 mb-2">Upcoming</p>
+      <p class="font-serif text-4xl text-onyx">{{ $upcomingAppointments->count() }}</p>
     </div>
   </div>
 
-  {{-- Upcoming Appointments --}}
-  <div class="mb-20">
-    <div class="flex items-center justify-between mb-12 border-b border-onyx/5 pb-6">
-      <h2 class="font-serif text-5xl text-onyx">Upcoming Sessions</h2>
-      <a href="{{ route('lawyer.slots.index') }}" class="btn-lux btn-lux-outline">Manage Calendar</a>
+  {{-- Upcoming Appointments Table --}}
+  <div class="mb-12">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="font-serif text-3xl italic text-onyx">Upcoming Sessions</h2>
+      <a href="{{ route('lawyer.slots.index') }}" class="text-[10px] font-bold tracking-widest uppercase text-gold-500 hover:text-gold-600 transition-colors flex items-center gap-1.5">
+        Manage Calendar
+        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2"/></svg>
+      </a>
     </div>
 
     @if($upcomingAppointments->count())
-      <div class="space-y-4">
-        @foreach($upcomingAppointments as $appointment)
-        <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 hover:shadow-luxury hover:-translate-y-1 transition-all duration-700 bespoke-card flex flex-col md:flex-row items-start md:items-center justify-between gap-6" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
-          <div class="flex items-center gap-6">
-            <div class="w-16 h-16 bg-onyx/5 rounded-full flex items-center justify-center text-gold-600 font-serif text-2xl group-hover:scale-110 transition-transform duration-500">
-              {{ strtoupper(substr($appointment->customer->name, 0, 1)) }}
-            </div>
-            <div>
-              <p class="text-[10px] tracking-ultra uppercase text-gold-500 mb-2">{{ \Carbon\Carbon::parse($appointment->slot->available_date)->format('D, M j Y') }} at {{ \Carbon\Carbon::parse($appointment->slot->start_time)->format('g:i A') }}</p>
-              <h4 class="font-serif text-2xl text-onyx group-hover:text-gold-600 transition-colors">{{ $appointment->subject }}</h4>
-              <p class="text-sm text-onyx/60">{{ $appointment->customer->name }} • {{ $appointment->customer->email }}</p>
-            </div>
-          </div>
-          <div class="md:text-right">
-            <span class="inline-block px-4 py-2 text-xs border border-onyx/20 text-onyx uppercase tracking-ultra">Confirmed</span>
-          </div>
-        </div>
-        @endforeach
-      </div>
+    <div class="bg-white border border-onyx/5 overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-onyx/5 bg-onyx/[.02]">
+            <th class="text-left px-6 py-3 text-[10px] font-bold tracking-widest text-onyx/40 uppercase">Date & Time</th>
+            <th class="text-left px-6 py-3 text-[10px] font-bold tracking-widest text-onyx/40 uppercase">Client</th>
+            <th class="text-left px-6 py-3 text-[10px] font-bold tracking-widest text-onyx/40 uppercase hidden md:table-cell">Matter</th>
+            <th class="text-left px-6 py-3 text-[10px] font-bold tracking-widest text-onyx/40 uppercase">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-onyx/5">
+          @foreach($upcomingAppointments as $appointment)
+          <tr class="hover:bg-onyx/[.02] transition-colors">
+            <td class="px-6 py-4">
+              @if($appointment->slot)
+              <p class="text-[12px] font-medium text-onyx">{{ \Carbon\Carbon::parse($appointment->slot->available_date)->format('M j, Y') }}</p>
+              <p class="text-[10px] text-onyx/40 uppercase tracking-wide">{{ \Carbon\Carbon::parse($appointment->slot->start_time)->format('g:i A') }}</p>
+              @else
+              <p class="text-[10px] text-onyx/30 italic">Slot removed</p>
+              @endif
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-full bg-onyx flex items-center justify-center text-white text-[10px] font-bold shrink-0">
+                  {{ strtoupper(substr($appointment->customer->name, 0, 1)) }}
+                </div>
+                <div>
+                  <p class="text-[12px] font-medium text-onyx">{{ $appointment->customer->name }}</p>
+                  <p class="text-[10px] text-onyx/40 hidden md:block">{{ $appointment->customer->email }}</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 hidden md:table-cell">
+              <p class="text-[12px] text-onyx/70 max-w-[200px] truncate">{{ $appointment->subject }}</p>
+            </td>
+            <td class="px-6 py-4">
+              <span class="text-[9px] font-bold tracking-widest uppercase px-2 py-1 border
+                            {{ $appointment->status === 'confirmed' ? 'border-green-200 text-green-600 bg-green-50' :
+                               ($appointment->status === 'pending' ? 'border-gold-200 text-gold-600 bg-gold-50' : 'border-onyx/10 text-onyx/40') }}">
+                {{ $appointment->status }}
+              </span>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
     @else
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-20 text-center bespoke-card">
-        <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/30 mb-4">Schedule</p>
-        <p class="font-serif text-2xl text-onyx/60 italic">No upcoming sessions confirmed at this time.</p>
-      </div>
+    <div class="bg-white border border-onyx/5 p-16 text-center">
+      <p class="font-serif text-xl italic text-onyx/30 mb-4">No upcoming sessions.</p>
+      <a href="{{ route('lawyer.slots.index') }}" class="btn-lux btn-lux-gold">Add Availability Slots</a>
+    </div>
     @endif
   </div>
 
-  {{-- Pending Appointments --}}
+  {{-- Pending Requests --}}
   @if($pendingAppointments->count())
   <div>
-    <div class="flex items-center justify-between mb-12 border-b border-onyx/5 pb-6">
-      <h2 class="font-serif text-5xl text-onyx border-l-4 border-gold-500 pl-6">Pending Requests</h2>
-    </div>
-
-    <div class="space-y-4">
-      @foreach($pendingAppointments as $appointment)
-      <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-6 hover:shadow-luxury transition-all duration-700 bespoke-card flex flex-col sm:flex-row items-center justify-between gap-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}">
-        <div>
-          <h4 class="font-serif text-xl text-onyx mb-1">{{ $appointment->subject }}</h4>
-          <p class="text-sm text-onyx/60">Requested by {{ $appointment->customer->name }} on {{ $appointment->created_at->format('M j, Y') }}</p>
-        </div>
-        <div class="text-left sm:text-right">
-          <span class="inline-block px-4 py-2 text-xs border border-onyx/20 text-onyx/60 uppercase tracking-ultra flex items-center gap-2">
-            <span class="w-1.5 h-1.5 rounded-full bg-onyx/40"></span> Awaiting Confirmation
-          </span>
-        </div>
-      </div>
-      @endforeach
+    <h2 class="font-serif text-3xl italic text-onyx mb-6">Pending Requests</h2>
+    <div class="bg-white border border-onyx/5 overflow-hidden">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-onyx/5 bg-gold-50/50">
+            <th class="text-left px-6 py-3 text-[10px] font-bold tracking-widest text-gold-600 uppercase">Client</th>
+            <th class="text-left px-6 py-3 text-[10px] font-bold tracking-widest text-gold-600 uppercase hidden md:table-cell">Matter</th>
+            <th class="text-left px-6 py-3 text-[10px] font-bold tracking-widest text-gold-600 uppercase">Requested</th>
+            <th class="text-left px-6 py-3 text-[10px] font-bold tracking-widest text-gold-600 uppercase">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-onyx/5">
+          @foreach($pendingAppointments as $appointment)
+          <tr class="hover:bg-gold-50/30 transition-colors">
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-full bg-gold-500 flex items-center justify-center text-white text-[10px] font-bold shrink-0">
+                  {{ strtoupper(substr($appointment->customer->name, 0, 1)) }}
+                </div>
+                <p class="text-[12px] font-medium text-onyx">{{ $appointment->customer->name }}</p>
+              </div>
+            </td>
+            <td class="px-6 py-4 hidden md:table-cell">
+              <p class="text-[12px] text-onyx/60 max-w-[200px] truncate">{{ $appointment->subject }}</p>
+            </td>
+            <td class="px-6 py-4">
+              <p class="text-[11px] text-onyx/40">{{ $appointment->created_at->diffForHumans() }}</p>
+            </td>
+            <td class="px-6 py-4">
+              <div class="flex items-center gap-4">
+                <form action="{{ route('lawyer.appointments.confirm', $appointment->id) }}" method="POST">
+                  @csrf
+                  <button type="submit" class="text-[10px] font-bold tracking-widest uppercase text-green-600 hover:text-green-700 transition-colors">Confirm</button>
+                </form>
+                <form action="{{ route('lawyer.appointments.cancel', $appointment->id) }}" method="POST">
+                  @csrf
+                  <button type="submit" class="text-[10px] font-bold tracking-widest uppercase text-red-400 hover:text-red-600 transition-colors">Decline</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          @endforeach
+        </tbody>
+      </table>
     </div>
   </div>
   @endif
