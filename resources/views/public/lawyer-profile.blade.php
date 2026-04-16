@@ -14,14 +14,14 @@
 
     <div class="max-w-7xl mx-auto relative z-10">
       {{-- Back --}}
-      <div class="mb-12 flex items-center gap-4 group cursor-pointer" onclick="window.history.back()">
+      <a href="{{ route('public.search') }}" class="mb-12 inline-flex items-center gap-4 group cursor-pointer no-underline">
         <div class="w-8 h-8 border border-white/20 flex items-center justify-center rounded-full group-hover:border-gold-500 group-hover:text-gold-500 transition-all duration-300">
           <svg class="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
         </div>
         <span class="text-[10px] font-bold tracking-widest uppercase text-white/30 group-hover:text-white transition-colors">Back to Network</span>
-      </div>
+      </a>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
         <div class="lg:col-span-8">

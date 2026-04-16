@@ -110,10 +110,11 @@
         
         <div class="mt-8">
           <p class="text-[9px] tracking-ultra font-bold uppercase text-gold-500 mb-4">Newsletter</p>
-          <div class="flex max-w-sm">
-             <input type="email" placeholder="YOUR EMAIL ADDRESS" class="bg-transparent border-0 border-b border-white/10 w-full py-3 text-xs tracking-widest text-white focus:ring-0 focus:border-gold-500 transition-colors uppercase">
-             <button class="bg-white text-onyx px-6 py-3 text-[10px] font-bold tracking-ultra uppercase hover:bg-gold-500 hover:text-white transition-colors">Join</button>
-          </div>
+          <form action="#" method="POST" class="flex max-w-sm">
+             @csrf
+             <input type="email" name="email" required placeholder="YOUR EMAIL ADDRESS" class="bg-transparent border-0 border-b border-white/10 w-full py-3 text-xs tracking-widest text-white focus:ring-0 focus:border-gold-500 transition-colors uppercase">
+             <button type="submit" class="bg-white text-onyx px-6 py-3 text-[10px] font-bold tracking-ultra uppercase hover:bg-gold-500 hover:text-white transition-colors">Join</button>
+          </form>
         </div>
       </div>
 
@@ -121,15 +122,15 @@
         <div>
           <h6 class="text-[9px] font-bold tracking-ultra uppercase text-gold-500 mb-6 underline decoration-gold-500/30 underline-offset-8">Explore</h6>
           <ul class="space-y-3 text-xs font-light text-white/60 uppercase tracking-widest">
-            <li><a href="#" class="hover:text-gold-500 transition-colors">Areas of law</a></li>
-            <li><a href="#" class="hover:text-gold-500 transition-colors">Our Ethos</a></li>
-            <li><a href="#" class="hover:text-gold-500 transition-colors">Journal</a></li>
+            <li><a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors">Areas of law</a></li>
+            <li><a href="{{ route('public.privacy') }}" class="hover:text-gold-500 transition-colors">Our Ethos</a></li>
+            <li><a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors">Network</a></li>
           </ul>
         </div>
         <div>
           <h6 class="text-[9px] font-bold tracking-ultra uppercase text-gold-500 mb-6 underline decoration-gold-500/30 underline-offset-8">Support</h6>
           <ul class="space-y-3 text-xs font-light text-white/60 uppercase tracking-widest">
-            <li><a href="#" class="hover:text-gold-500 transition-colors">Contact</a></li>
+            <li><a href="mailto:concierge@legalcounsel.com" class="hover:text-gold-500 transition-colors">Contact</a></li>
             <li><a href="{{ route('public.privacy') }}" class="hover:text-gold-500 transition-colors">Privacy</a></li>
             <li><a href="{{ route('public.terms') }}" class="hover:text-gold-500 transition-colors">Terms</a></li>
           </ul>
@@ -137,9 +138,9 @@
         <div>
           <h6 class="text-[9px] font-bold tracking-ultra uppercase text-gold-500 mb-6 underline decoration-gold-500/30 underline-offset-8">Social</h6>
           <ul class="space-y-3 text-xs font-light text-white/60 uppercase tracking-widest">
-            <li><a href="#" class="hover:text-gold-500 transition-colors">Instagram</a></li>
-            <li><a href="#" class="hover:text-gold-500 transition-colors">LinkedIn</a></li>
-            <li><a href="#" class="hover:text-gold-500 transition-colors">Twitter</a></li>
+            <li><a href="https://instagram.com" target="_blank" class="hover:text-gold-500 transition-colors">Instagram</a></li>
+            <li><a href="https://linkedin.com" target="_blank" class="hover:text-gold-500 transition-colors">LinkedIn</a></li>
+            <li><a href="https://twitter.com" target="_blank" class="hover:text-gold-500 transition-colors">Twitter</a></li>
           </ul>
         </div>
       </div>
@@ -234,12 +235,12 @@
         $menuItems[] = ['label' => 'Login', 'link' => route('login')];
         $menuItems[] = ['label' => 'Register', 'link' => route('register')];
     }
-    $menuItems[] = ['label' => 'Contact', 'link' => '#', 'ariaLabel' => 'Get in touch'];
+    $menuItems[] = ['label' => 'Contact', 'link' => 'mailto:concierge@legalcounsel.com', 'ariaLabel' => 'Get in touch'];
     
     $socialItems = [
-        ["label" => "Instagram", "link" => "#"],
-        ["label" => "LinkedIn", "link" => "#"],
-        ["label" => "Twitter", "link" => "#"]
+        ["label" => "Instagram", "link" => "https://instagram.com/legalcounsel"],
+        ["label" => "LinkedIn", "link" => "https://linkedin.com/company/legalcounsel"],
+        ["label" => "Twitter", "link" => "https://twitter.com/legalcounsel"]
     ];
   @endphp
 
