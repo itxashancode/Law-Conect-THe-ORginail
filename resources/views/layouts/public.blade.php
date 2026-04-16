@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Find elite legal professionals. Connect with verified lawyers for consultations.">
-  <title>@yield('title', 'LegalCounsel — Find Your Lawyer')</title>
+  <meta name="description" content="@yield('meta_description', 'Find elite legal professionals. Connect with verified lawyers for consultations.')">
+  <title>@hasSection('title') @yield('title') — LegalCounsel @else LegalCounsel — Find Your Lawyer @endif</title>
 
   <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

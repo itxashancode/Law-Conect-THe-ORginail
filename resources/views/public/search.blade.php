@@ -1,5 +1,6 @@
 @extends('layouts.public')
-@section('title', 'Find a Lawyer — LegalCounsel')
+@section('title', 'Find a Lawyer')
+@section('meta_description', 'Search our network of elite legal professionals by city and specialization to find the right counsel for your needs.')
 
 @section('content')
 
@@ -217,7 +218,7 @@
               <p class="text-[8px] font-bold tracking-widest uppercase text-onyx/30 mb-0.5">Rate</p>
               <p class="font-serif italic text-gold-600 text-xl">${{ number_format($lawyer->consultation_fee ?? 0) }}<span class="text-xs font-sans not-italic text-onyx/30">/hr</span></p>
             </div>
-            <a href="{{ route('public.lawyer', $lawyer->id) }}"
+            <a href="{{ route('public.lawyer', $lawyer->slug) }}"
                class="group/btn flex items-center gap-2 border border-onyx/10 px-4 py-2 text-[10px] font-bold tracking-widest uppercase text-onyx/50 hover:bg-onyx hover:text-white hover:border-onyx transition-all duration-200">
               View Profile
               <svg class="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">

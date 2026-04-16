@@ -18,10 +18,16 @@ use App\Http\Controllers\Customer\CustomerAppointmentController;
 
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/search', [PublicController::class, 'search'])->name('public.search');
-Route::get('/lawyer/{id}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer');
-Route::get('/lawyer-profile/{id}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer_profile');
+Route::get('/lawyer/{slug}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer');
+Route::get('/lawyer-profile/{slug}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer_profile');
 Route::get('/privacy-policy', [PublicController::class, 'privacy'])->name('public.privacy');
 Route::get('/terms-of-service', [PublicController::class, 'terms'])->name('public.terms');
+
+Route::get('/sitemap.xml', function () {
+    $lawyers = \App\Models\Lawyer::where('status', 'approved')->get();
+    return response()->view('public.sitemap', compact('lawyers'))
+                     ->header('Content-Type', 'text/xml');
+});
 
 // Auth routes must come before /lawyer/{id} to avoid conflicts
 require __DIR__.'/auth.php';

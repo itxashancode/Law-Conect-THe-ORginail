@@ -1,5 +1,6 @@
 @extends('layouts.public')
-@section('title', $lawyer->full_name . ' — LegalCounsel')
+@section('title', $lawyer->full_name)
+@section('meta_description', 'Book a consultation with ' . $lawyer->full_name . ', a distinguished ' . $lawyer->specialization . ' lawyer based in ' . $lawyer->city . '.')
 
 @section('content')
 <div class="min-h-screen">
@@ -240,6 +241,26 @@
 @endauth
 
 @endsection
+
+@push('head')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  "name": "{{ $lawyer->full_name }}",
+  "image": "{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name='.urlencode($lawyer->full_name).'&background=D4AF37&color=0D0D0D&size=512' }}",
+  "description": "{{ addslashes(strip_tags($lawyer->bio)) }}",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "{{ $lawyer->address }}",
+    "addressLocality": "{{ $lawyer->city }}"
+  },
+  "telephone": "{{ $lawyer->phone }}",
+  "priceRange": "${{ number_format($lawyer->consultation_fee ?? 0) }}",
+  "url": "{{ url()->current() }}"
+}
+</script>
+@endpush
 
 @push('scripts')
 <script>

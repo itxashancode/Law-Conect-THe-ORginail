@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class AdminBookingController extends Controller
 {
+    protected $appointmentService;
+
+    public function __construct(\App\Services\AppointmentService $appointmentService)
+    {
+        $this->appointmentService = $appointmentService;
+    }
+
     /**
      * Display all appointments for admin oversight.
      */
@@ -30,12 +37,7 @@ class AdminBookingController extends Controller
     {
         $appointment = Appointment::with('slot')->findOrFail($id);
         
-        \Illuminate\Support\Facades\DB::transaction(function () use ($appointment) {
-            if ($appointment->slot) {
-                $appointment->slot->update(['is_booked' => false]);
-            }
-            $appointment->delete();
-        });
+        $this->appointmentService->delete($appointment);
 
         return back()->with('success', 'Appointment has been successfully cancelled and the slot has been released.');
     }

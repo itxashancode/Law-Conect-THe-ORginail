@@ -17,7 +17,7 @@ class CustomerMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!auth()->check() || !auth()->user()->hasRole('customer')) {
-            abort(403, 'Unauthorized access.');
+            return redirect()->route('dashboard')->with('error', 'You do not have permission to access that page.');
         }
 
         return $next($request);

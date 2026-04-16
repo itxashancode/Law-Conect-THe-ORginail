@@ -60,26 +60,30 @@ class PublicController extends Controller
      */
     public function search(Request $request)
     {
-        $lawyerQuery = Lawyer::where('status', 'approved');
+        $lawyer_query = Lawyer::where('status', 'approved');
 
         if ($request->filled('city')) {
-            $lawyerQuery->where('city', 'like', '%' . $request->city . '%');
+            $lawyer_query->where('city', 'like', '%' . $request->city . '%');
         }
 
         if ($request->filled('service')) {
-            $lawyerQuery->where('specialization', $request->service);
+            $lawyer_query->where('specialization', $request->service);
         }
 
-        $lawyers = $lawyerQuery->get();
+        $lawyers = $lawyer_query->get();
         return view('public.search', compact('lawyers'));
     }
 
     /**
      * Show the full public profile for a single approved lawyer.
      */
-    public function lawyerProfile($id)
+    public function lawyerProfile($slug)
     {
-        $lawyer = Lawyer::where('status', 'approved')->with('availabilitySlots')->findOrFail($id);
+        $lawyer = Lawyer::where('status', 'approved')
+            ->where('slug', $slug)
+            ->with('availabilitySlots')
+            ->firstOrFail();
+            
         return view('public.lawyer-profile', compact('lawyer'));
     }
 
@@ -90,7 +94,7 @@ class PublicController extends Controller
     {
         return view('public.policy', [
             'title' => 'Privacy Policy',
-            'lastUpdated' => 'October 24, 2024',
+            'lastUpdated' => config('legal.policy_last_updated'),
             'content' => 'We are committed to protecting your personal data and your privacy. This policy explains how we collect, use, and safeguard the information you provide when using LegalCounsel.'
         ]);
     }
@@ -102,7 +106,7 @@ class PublicController extends Controller
     {
         return view('public.policy', [
             'title' => 'Terms of Service',
-            'lastUpdated' => 'October 24, 2024',
+            'lastUpdated' => config('legal.policy_last_updated'),
             'content' => 'By accessing or using LegalCounsel, you agree to be bound by these terms. Our service facilitates connections between clients and legal professionals subject to these guidelines.'
         ]);
     }

@@ -37,6 +37,7 @@
             <div class="flex items-center gap-3">
               <div class="w-8 h-8 rounded-full overflow-hidden border border-onyx/10 shrink-0">
                 <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name='.urlencode($lawyer->full_name).'&background=0D0D0D&color=D4AF37' }}"
+                     alt="{{ $lawyer->full_name }}"
                      class="w-full h-full object-cover">
               </div>
               <div>
@@ -60,7 +61,7 @@
           </td>
           <td class="px-6 py-4">
             <div class="flex items-center justify-end gap-3">
-              <a href="{{ route('public.lawyer', $lawyer->id) }}" target="_blank"
+              <a href="{{ route('public.lawyer', $lawyer->slug) }}" target="_blank"
                  class="text-[10px] font-bold tracking-widest uppercase text-onyx/30 hover:text-onyx transition-colors">View</a>
               
               @if($lawyer->status === 'pending')

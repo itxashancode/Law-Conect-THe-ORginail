@@ -1,5 +1,6 @@
 @extends('layouts.public')
-@section('title', $title . ' — LegalCounsel')
+@section('title', $title)
+@section('meta_description', substr(strip_tags($content), 0, 160))
 
 @section('content')
 <div class="pt-48 pb-32 px-6 lg:px-20 min-h-screen">

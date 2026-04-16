@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Lawyer extends Model
 {
@@ -27,7 +28,22 @@ class Lawyer extends Model
         'experience_years',
         'consultation_fee',
         'status',
+        'slug',
     ];
+
+    /**
+     * Boot the model.
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($lawyer) {
+            if (empty($lawyer->slug)) {
+                $lawyer->slug = Str::slug($lawyer->full_name . '-' . $lawyer->specialization . '-lawyer-' . $lawyer->city);
+            }
+        });
+    }
 
     /**
      * Get the user that owns the lawyer profile.

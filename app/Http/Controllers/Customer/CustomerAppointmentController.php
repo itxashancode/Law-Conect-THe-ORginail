@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class CustomerAppointmentController extends Controller
 {
+    protected $appointmentService;
+
+    public function __construct(\App\Services\AppointmentService $appointmentService)
+    {
+        $this->appointmentService = $appointmentService;
+    }
+
     /**
      * Show all appointments belonging to the logged-in customer.
      */
@@ -56,36 +63,40 @@ class CustomerAppointmentController extends Controller
         $slotId = $request->slot_id;
 
         // Use transaction with pessimistic locking to prevent race conditions
-        $appointment = DB::transaction(function () use ($slotId, $customerId, $request) {
-            // Lock the slot row for update
-            $slot = AvailabilitySlot::lockForUpdate()->findOrFail($slotId);
+        try {
+            $appointment = DB::transaction(function () use ($slotId, $customerId, $request) {
+                // Lock the slot row for update
+                $slot = AvailabilitySlot::lockForUpdate()->findOrFail($slotId);
 
-            // Check if slot is still available
-            if ($slot->is_booked) {
-                abort(409, 'This slot has already been booked by another user. Please select a different time.');
-            }
+                // Check if slot is still available
+                if ($slot->is_booked) {
+                    throw new \Exception('This time slot was just booked by another client. Please choose a different slot.');
+                }
 
-            // Verify the slot belongs to an approved lawyer
-            $lawyer = $slot->lawyer;
-            if ($lawyer->status !== 'approved') {
-                abort(403, 'This lawyer is not currently available for bookings.');
-            }
+                // Verify the slot belongs to an approved lawyer
+                $lawyer = $slot->lawyer;
+                if ($lawyer->status !== 'approved') {
+                    throw new \Exception('This lawyer is not currently available for new bookings.');
+                }
 
-            // Create appointment
-            $appointment = Appointment::create([
-                'customer_id'   => $customerId,
-                'lawyer_id'     => $lawyer->id,
-                'slot_id'       => $slot->id,
-                'subject'       => $request->subject,
-                'meeting_place' => $request->meeting_place,
-                'status'        => 'pending',
-            ]);
+                // Create appointment
+                $appointment = Appointment::create([
+                    'customer_id'   => $customerId,
+                    'lawyer_id'     => $lawyer->id,
+                    'slot_id'       => $slot->id,
+                    'subject'       => $request->subject,
+                    'meeting_place' => $request->meeting_place,
+                    'status'        => 'pending',
+                ]);
 
-            // Mark slot as booked
-            $slot->update(['is_booked' => true]);
+                // Mark slot as booked
+                $slot->update(['is_booked' => true]);
 
-            return $appointment;
-        });
+                return $appointment;
+            });
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
 
         return redirect()->route('customer.appointments.index')->with('success', 'Appointment booked successfully.');
     }
@@ -109,14 +120,7 @@ class CustomerAppointmentController extends Controller
     {
         $appointment = Appointment::where('customer_id', Auth::id())->findOrFail($id);
 
-        // Use transaction to ensure consistency
-        DB::transaction(function () use ($appointment) {
-            // Free up the slot
-            if ($appointment->slot) {
-                $appointment->slot->update(['is_booked' => false]);
-            }
-            $appointment->delete();
-        });
+        $this->appointmentService->delete($appointment);
 
         return back()->with('success', 'Appointment cancelled.');
     }

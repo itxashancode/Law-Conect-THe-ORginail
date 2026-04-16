@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class LawyerAppointmentController extends Controller
 {
+    protected $appointmentService;
+
+    public function __construct(\App\Services\AppointmentService $appointmentService)
+    {
+        $this->appointmentService = $appointmentService;
+    }
+
     /**
      * Display all appointments for the logged-in lawyer.
      */
@@ -30,7 +37,6 @@ class LawyerAppointmentController extends Controller
         $confirmedAppointments = $appointments->where('status', 'confirmed');
         $completedAppointments = $appointments->where('status', 'completed');
         $cancelledAppointments = $appointments->where('status', 'cancelled');
-        $allAppointments = $appointments;
 
         return view('lawyer.appointments.index', compact(
             'lawyer',
@@ -38,7 +44,7 @@ class LawyerAppointmentController extends Controller
             'confirmedAppointments',
             'completedAppointments',
             'cancelledAppointments',
-            'allAppointments'
+            'appointments'
         ));
     }
 
@@ -63,11 +69,9 @@ class LawyerAppointmentController extends Controller
         $lawyer = Auth::user()->lawyer;
         $appointment = $lawyer->appointments()->findOrFail($id);
 
-        if ($appointment->status !== 'pending') {
+        if (!$this->appointmentService->confirm($appointment)) {
             return back()->with('error', 'Only pending appointments can be confirmed.');
         }
-
-        $appointment->update(['status' => 'confirmed']);
 
         return back()->with('success', 'Appointment confirmed.');
     }
@@ -85,13 +89,7 @@ class LawyerAppointmentController extends Controller
             return back()->with('error', 'This appointment cannot be cancelled.');
         }
 
-        // Update status to cancelled
-        $appointment->update(['status' => 'cancelled']);
-
-        // Free up the slot
-        if ($appointment->slot) {
-            $appointment->slot->update(['is_booked' => false]);
-        }
+        $this->appointmentService->cancel($appointment);
 
         return back()->with('success', 'Appointment cancelled and slot released.');
     }

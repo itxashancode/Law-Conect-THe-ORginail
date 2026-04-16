@@ -21,7 +21,7 @@ class AdminMiddleware
         }
 
         if (!auth()->user()->hasRole('admin')) {
-            abort(403, 'Unauthorized access.');
+            return redirect()->route('dashboard')->with('error', 'Unauthorized access to the administrative console.');
         }
 
         return $next($request);

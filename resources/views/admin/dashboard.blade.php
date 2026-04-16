@@ -57,6 +57,7 @@
       <div class="flex items-center gap-4 px-6 py-4 hover:bg-onyx/[.02] transition-colors group">
         <div class="w-9 h-9 rounded-full overflow-hidden border border-onyx/10 shrink-0">
           <img src="{{ $lawyer->photo ? asset('storage/' . $lawyer->photo) : 'https://ui-avatars.com/api/?name='.urlencode($lawyer->full_name).'&background=0D0D0D&color=D4AF37' }}"
+               alt="{{ $lawyer->full_name }}"
                class="w-full h-full object-cover">
         </div>
         <div class="flex-1 min-w-0">

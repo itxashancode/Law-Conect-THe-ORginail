@@ -1,5 +1,6 @@
 @extends('layouts.public')
-@section('title', 'LegalCounsel — Bespoke Legal Excellence')
+@section('title', 'Bespoke Legal Excellence')
+@section('meta_description', 'Connect with the world\'s most distinguished legal professionals through a seamless, secure, and private digital experience.')
 
 @section('content'){{-- Hero Section: Cinematic Editorial --}}
 <section class="relative min-h-[70vh] flex items-center pt-16 overflow-hidden" id="hero-section">
@@ -171,7 +172,7 @@
             <p class="text-[9px] font-bold tracking-widest uppercase text-onyx/30 mb-1">Rate</p>
             <p class="font-serif italic text-gold-600 text-xl">${{ number_format($lawyer->consultation_fee ?? 0) }}<span class="text-xs font-sans not-italic text-onyx/30">/hr</span></p>
           </div>
-          <a href="{{ route('public.lawyer', $lawyer->id) }}"
+          <a href="{{ route('public.lawyer', $lawyer->slug) }}"
              class="group/btn flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-onyx/40 hover:text-onyx transition-colors">
             View Profile
             <svg class="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
