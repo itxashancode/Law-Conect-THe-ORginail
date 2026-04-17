@@ -1,7 +1,7 @@
 @extends('layouts.lawyer')
 @section('title', 'Edit Profile — LegalCounsel')
 
-@section('content')
+@section('dashboard-content')
 @php
   $fields = ['full_name', 'bio', 'photo', 'address', 'phone', 'bar_license', 'specialization', 'city', 'experience_years', 'consultation_fee'];
   $completed = collect($fields)->filter(fn($f) => !empty($lawyer->$f))->count();
@@ -9,7 +9,7 @@
   $missing = collect($fields)->filter(fn($f) => empty($lawyer->$f))->map(fn($f) => str_replace('_', ' ', ucfirst($f)))->values();
 @endphp
 
-<div class="pt-32 pb-20 px-6 lg:px-20 min-h-screen" data-aos="fade-up">
+<div data-aos="fade-up">
 
   {{-- Header --}}
   <div class="mb-10">
@@ -41,17 +41,6 @@
     @endif
   </div>
 
-  {{-- Session flash --}}
-  @if(session('success'))
-    <div class="mb-8 max-w-3xl bg-green-50 border border-green-200 text-green-800 px-6 py-4 text-sm">
-      ✓ {{ session('success') }}
-    </div>
-  @endif
-  @if(session('warning'))
-    <div class="mb-8 max-w-3xl bg-gold-50 border border-gold-200 text-gold-800 px-6 py-4 text-sm">
-      ⚠ {{ session('warning') }}
-    </div>
-  @endif
 
   {{-- Form --}}
   <div class="bg-white border border-onyx/5 p-10 max-w-3xl">
@@ -148,15 +137,6 @@
         <p class="text-[9px] text-onyx/30 mt-2 uppercase tracking-widest">Recommended: 500×500px, max 2MB. JPEG or PNG.</p>
       </div>
 
-      {{-- Error summary --}}
-      @if($errors->any())
-      <div class="p-4 bg-red-50 border border-red-200 text-sm text-red-700">
-        <p class="font-bold text-[10px] tracking-widest uppercase mb-2">Please fix the following:</p>
-        <ul class="space-y-1 list-disc list-inside">
-          @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
-        </ul>
-      </div>
-      @endif
 
       <div class="pt-4 flex gap-4">
         <button type="submit" class="btn-lux btn-lux-gold shadow-premium">Save Changes</button>

@@ -1,8 +1,8 @@
 @extends('layouts.lawyer')
 @section('title', 'My Appointments — LegalCounsel')
 
-@section('content')
-<div class="pt-32 pb-24 px-6 lg:px-20 min-h-screen" data-aos="fade-up">
+@section('dashboard-content')
+<div data-aos="fade-up">
     <div class="max-w-7xl mx-auto">
         {{-- Header with Stats --}}
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-16">
@@ -105,7 +105,7 @@
                                     </form>
                                 @endif
                                 @if(in_array($appointment->status, ['pending', 'confirmed']))
-                                    <form action="{{ route('lawyer.appointments.cancel', $appointment->id) }}" method="POST" class="w-full md:w-auto" onsubmit="return confirm('Cancel this appointment? This will notify the client.')">
+                                    <form action="{{ route('lawyer.appointments.cancel', $appointment->id) }}" method="POST" class="w-full md:w-auto" onsubmit="return luxuryConfirm(this, { title: 'Cancel Session', message: 'Cancel this appointment? This will notify the client immediately.' })">
                                         @csrf
                                         <button type="submit" class="btn-lux btn-lux-outline border-rose-300 text-rose-600 hover:bg-rose-50 w-full">
                                             Cancel

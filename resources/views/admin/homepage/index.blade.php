@@ -5,11 +5,6 @@
 <div data-aos="fade-up">
   <h1 class="font-serif text-6xl text-onyx mb-12">Manage Homepage Content</h1>
 
-  @if(session('success'))
-    <div class="bg-gold-100 border border-gold-500 text-gold-900 px-6 py-4 mb-10 rounded-bespoke animate-pulse">
-      {{ session('success') }}
-    </div>
-  @endif
 
   @if(isset($missingSections) && count($missingSections) > 0)
     <div class="mb-16 p-10 bg-amber-50 border border-amber-200 rounded-bespoke">

@@ -186,7 +186,7 @@
                             </form>
                         @endif
                         @if(in_array($appointment->status, ['pending', 'confirmed']))
-                            <form action="{{ route('lawyer.appointments.cancel', $appointment->id) }}" method="POST" class="flex-1" onsubmit="return confirm('Cancel this appointment? This action cannot be undone.')">
+                            <form action="{{ route('lawyer.appointments.cancel', $appointment->id) }}" method="POST" class="flex-1" onsubmit="return luxuryConfirm(this, { title: 'Finalize Cancellation', message: 'Are you sure? This action cannot be undone and will notify the client.' })">
                                 @csrf
                                 <button type="submit" class="btn-lux btn-lux-outline border-rose-300 text-rose-600 hover:bg-rose-50 w-full">
                                     Cancel Appointment

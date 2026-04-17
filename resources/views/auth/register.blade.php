@@ -24,20 +24,6 @@
     </div>
   </div>
 
-  {{-- Error Summary --}}
-  @if($errors->any())
-    <div class="mb-12 p-8 bg-red-50/50 border border-red-100 text-red-900 animate-reveal">
-      <p class="text-[10px] font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
-        <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
-        Action Required
-      </p>
-      <ul class="space-y-2 text-xs opacity-80">
-        @foreach($errors->all() as $error)
-          <li>{{ $error }}</li>
-        @endforeach
-      </ul>
-    </div>
-  @endif
 
   {{-- CLIENT FORM --}}
   <div x-show="role === 'client'" 

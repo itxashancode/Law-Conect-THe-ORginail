@@ -7,14 +7,6 @@
     <h2 class="text-3xl italic text-onyx">All Sessions</h2>
   </div>
 
-  @if(session('success'))
-    <div class="mb-6 text-sm font-medium text-gold-600 border border-gold-500/20 bg-gold-500/5 py-4 px-6 rounded-lg flex items-center justify-between shadow-sm">
-      {{ session('success') }}
-      <button onclick="this.parentElement.style.display='none'" class="text-gold-600 hover:text-gold-800">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
-    </div>
-  @endif
 
   @if($appointments->count())
     <div class="space-y-4">
@@ -55,7 +47,7 @@
           </span>
           
           @if($appointment->status === 'confirmed' || $appointment->status === 'pending')
-            <form method="POST" action="{{ route('customer.appointments.cancel', $appointment->id) }}" class="inline-block" onsubmit="return confirm('Cancel this appointment?')">
+            <form method="POST" action="{{ route('customer.appointments.cancel', $appointment->id) }}" class="inline-block" onsubmit="return luxuryConfirm(this, { title: 'Cancel Session', message: 'This action will permanently cancel your appointment. Do you wish to proceed?' })">
               @csrf @method('DELETE')
               <button type="submit" class="text-[10px] font-bold tracking-ultra uppercase text-red-500 hover:text-red-700 transition-colors uppercase border-b border-transparent hover:border-red-500">Cancel Request</button>
             </form>

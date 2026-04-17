@@ -56,7 +56,7 @@
           <td class="px-6 py-4">
             <div class="flex items-center justify-end gap-4">
               <form action="{{ route('admin.bookings.destroy', $appointment->id) }}" method="POST"
-                    onsubmit="return confirm('Cancel this appointment and release the slot?')">
+                    onsubmit="return luxuryConfirm(this, { title: 'Void Appointment', message: 'Cancel this session? The slot will be released back to the registry.' })">
                 @csrf @method('DELETE')
                 <button type="submit"
                         class="text-[10px] font-bold tracking-widest uppercase text-red-400 hover:text-red-600 transition-colors">

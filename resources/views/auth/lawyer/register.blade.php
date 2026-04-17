@@ -6,16 +6,6 @@
   <p class="text-sm text-onyx-60">Join our exclusive network of distinguished legal professionals</p>
 </div>
 
-@if($errors->any())
-  <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
-    <p class="font-bold mb-2">Please correct the following errors:</p>
-    <ul class="list-disc list-inside space-y-1">
-      @foreach($errors->all() as $error)
-        <li>{{ $error }}</li>
-      @endforeach
-    </ul>
-  </div>
-@endif
 
 <form method="POST" action="{{ route('lawyer.register') }}" enctype="multipart/form-data" class="auth-form">
   @csrf

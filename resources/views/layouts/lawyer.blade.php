@@ -26,7 +26,7 @@
           <span class="text-[10px] font-bold tracking-ultra uppercase">{{ auth()->user()->name }}</span>
         </button>
         <div class="absolute right-0 top-full mt-2 w-48 bg-white border border-onyx-10 shadow-premium opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-           <a href="{{ route('public.lawyer', auth()->user()->lawyer->id ?? 0) }}" class="block w-full text-left px-4 py-3 text-[10px] font-bold tracking-ultra uppercase hover:bg-onyx-5 transition-colors border-b border-onyx-5">
+           <a href="{{ route('public.lawyer', auth()->user()->lawyer->slug) }}" class="block w-full text-left px-4 py-3 text-[10px] font-bold tracking-ultra uppercase hover:bg-onyx-5 transition-colors border-b border-onyx-5">
              Public Profile
            </a>
            <form method="POST" action="{{ route('logout') }}">

@@ -69,17 +69,17 @@
                   @csrf
                   <button type="submit" class="text-[10px] font-bold tracking-widest uppercase text-gold-600 hover:text-gold-700 transition-colors">Approve</button>
                 </form>
-                <form action="{{ route('admin.lawyers.reject', $lawyer->id) }}" method="POST" class="inline">
+                <form action="{{ route('admin.lawyers.reject', $lawyer->id) }}" method="POST" class="inline" onsubmit="return luxuryConfirm(this, { title: 'Reject Application', message: 'Are you sure you want to reject {{ $lawyer->full_name }}?' })">
                   @csrf
-                  <button type="submit" onclick="return confirm('Reject {{ $lawyer->full_name }}?')"
+                  <button type="submit"
                           class="text-[10px] font-bold tracking-widest uppercase text-red-400 hover:text-red-600 transition-colors">Reject</button>
                 </form>
               @endif
 
               @if($lawyer->status === 'approved')
-                <form action="{{ route('admin.lawyers.suspend', $lawyer->id) }}" method="POST" class="inline">
+                <form action="{{ route('admin.lawyers.suspend', $lawyer->id) }}" method="POST" class="inline" onsubmit="return luxuryConfirm(this, { title: 'Suspend Counsel', message: 'Suspend {{ $lawyer->full_name }}? This will hide them from public search results.' })">
                   @csrf
-                  <button type="submit" onclick="return confirm('Suspend {{ $lawyer->full_name }}? This will hide them from search results.')"
+                  <button type="submit"
                           class="text-[10px] font-bold tracking-widest uppercase text-red-600 hover:scale-105 transition-all">Suspend</button>
                 </form>
               @endif
@@ -90,9 +90,9 @@
                   <button type="submit" class="text-[10px] font-bold tracking-widest uppercase text-green-600 hover:text-green-700 transition-colors">Reactivate</button>
                 </form>
               @endif
-              <form action="{{ route('admin.lawyers.destroy', $lawyer->id) }}" method="POST" class="inline">
+              <form action="{{ route('admin.lawyers.destroy', $lawyer->id) }}" method="POST" class="inline" onsubmit="return luxuryConfirm(this, { title: 'Delete Permanent', message: 'Are you sure? This will permanently delete the record for {{ $lawyer->full_name }}.' })">
                 @csrf @method('DELETE')
-                <button type="submit" onclick="return confirm('Permanently delete this lawyer record?')"
+                <button type="submit"
                         class="text-[10px] font-bold tracking-widest uppercase text-onyx/20 hover:text-red-500 transition-colors">Delete</button>
               </form>
             </div>

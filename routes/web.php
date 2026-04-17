@@ -18,8 +18,6 @@ use App\Http\Controllers\Customer\CustomerAppointmentController;
 
 Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/search', [PublicController::class, 'search'])->name('public.search');
-Route::get('/lawyer/{slug}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer');
-Route::get('/lawyer-profile/{slug}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer_profile');
 Route::get('/privacy-policy', [PublicController::class, 'privacy'])->name('public.privacy');
 Route::get('/terms-of-service', [PublicController::class, 'terms'])->name('public.terms');
 
@@ -88,10 +86,14 @@ Route::prefix('lawyer')->name('lawyer.')->middleware(['auth', 'role.lawyer'])->g
 
 Route::prefix('customer')->name('customer.')->middleware(['auth', 'role.customer'])->group(function () {
     Route::get('/',                               [CustomerDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/search',                         [CustomerSearchController::class, 'index'])->name('search');
+    Route::get('/search',                         function() { return redirect()->route('public.search'); })->name('search');
     Route::get('/appointments',                   [CustomerAppointmentController::class, 'index'])->name('appointments.index');
     Route::get('/appointments/book/{lawyerId}',   [CustomerAppointmentController::class, 'create'])->name('appointments.create');
     Route::post('/appointments',                  [CustomerAppointmentController::class, 'store'])->name('appointments.store');
     Route::get('/appointments/{id}',              [CustomerAppointmentController::class, 'show'])->name('appointments.show');
     Route::delete('/appointments/{id}',           [CustomerAppointmentController::class, 'destroy'])->name('appointments.cancel');
 });
+
+// Catch-all profile routes must stay at the bottom to avoid blocking management URLs
+Route::get('/lawyer/{slug}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer');
+Route::get('/lawyer-profile/{slug}', [PublicController::class, 'lawyerProfile'])->name('public.lawyer_profile');

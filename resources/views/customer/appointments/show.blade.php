@@ -126,7 +126,7 @@
                 </div>
                 <div class="flex gap-6">
                     @if($appointment->status === 'pending')
-                        <form action="{{ route('customer.appointments.cancel', $appointment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this appointment?')">
+                        <form action="{{ route('customer.appointments.cancel', $appointment->id) }}" method="POST" onsubmit="return luxuryConfirm(this, { title: 'Withdraw Appointment', message: 'This notice will notify the counsel of your withdrawal. Are you certain?' })">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn-lux btn-lux-outline border-rose-300 text-rose-600 hover:bg-rose-50 hover:border-rose-400">

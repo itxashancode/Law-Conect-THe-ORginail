@@ -58,7 +58,7 @@
                                 <button type="submit" class="px-3 py-1.5 border border-green-500/20 text-green-600 text-[10px] font-bold uppercase tracking-widest hover:bg-green-600 hover:text-white transition-all">Reactivate</button>
                             </form>
                             @endif
-                            <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST" onsubmit="return confirm('Permanently remove this customer?')">
+                            <form action="{{ route('admin.customers.destroy', $customer->id) }}" method="POST" onsubmit="return luxuryConfirm(this, { title: 'Delete Customer', message: 'Permanently remove {{ $customer->name }} from the registry? This action is irreversible.' })">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="p-2 text-onyx/20 hover:text-red-600 transition-colors">

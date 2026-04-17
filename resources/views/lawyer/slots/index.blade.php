@@ -1,23 +1,12 @@
 @extends('layouts.lawyer')
 @section('title', 'Manage Availability — LegalCounsel')
 
-@section('content')
+@section('dashboard-content')
 <div data-aos="fade-up">
   <div class="flex justify-between items-center mb-12">
     <h1 class="font-serif text-6xl text-onyx">My Availability Slots</h1>
   </div>
 
-  @if(session('success'))
-    <div class="bg-gold-100 border border-gold-500 text-gold-900 px-6 py-4 mb-10">
-      {{ session('success') }}
-    </div>
-  @endif
-
-  @if(session('error'))
-    <div class="bg-ash/20 border border-onyx/20 text-onyx px-6 py-4 mb-10">
-      {{ session('error') }}
-    </div>
-  @endif
 
   {{-- Add New Slot Form --}}
   <div class="bg-white/40 backdrop-blur-sm border border-onyx/5 p-8 mb-12 bespoke-card">
@@ -70,7 +59,7 @@
           @endif
           <div class="text-right">
             @unless($slot->is_booked)
-              <form method="POST" action="{{ route('lawyer.slots.destroy', $slot->id) }}" class="inline" onsubmit="return confirm('Delete this slot?')">
+              <form method="POST" action="{{ route('lawyer.slots.destroy', $slot->id) }}" class="inline" onsubmit="return luxuryConfirm(this, { title: 'Delete Slot', message: 'Do you wish to remove this availability slot from your calendar?' })">
                 @csrf @method('DELETE')
                 <button type="submit" class="text-onyx/40 hover:text-onyx text-sm underline">Delete</button>
               </form>

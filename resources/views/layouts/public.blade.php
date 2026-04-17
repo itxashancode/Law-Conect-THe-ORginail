@@ -81,21 +81,6 @@
   @endif
 
   <main id="main-content" tabindex="-1">
-    @if(session('success'))
-      <div class="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-gold-500 text-white px-8 py-4 shadow-premium animate__animated animate__fadeInDown" role="alert">
-        {{ session('success') }}
-      </div>
-    @endif
-    @if(session('warning'))
-      <div class="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-onyx text-white px-8 py-4 shadow-premium animate__animated animate__fadeInDown" role="alert">
-        {{ session('warning') }}
-      </div>
-    @endif
-    @if(session('error'))
-      <div class="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-red-600 text-white px-8 py-4 shadow-premium animate__animated animate__fadeInDown" role="alert">
-        {{ session('error') }}
-      </div>
-    @endif
     @yield('content')
   </main>
 
@@ -663,5 +648,6 @@
     @stack('scripts')
     
     <x-toast />
+    <x-confirm-modal />
 </body>
 </html>
