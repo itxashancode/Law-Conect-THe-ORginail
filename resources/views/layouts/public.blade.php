@@ -234,7 +234,8 @@
        data-social='@json($socialItems)'
        data-menu-color="#0D0D0D"
        data-open-color="#D4AF37"
-       data-accent="#5227FF">
+       data-accent="#D4AF37"
+       data-colors='["#0D0D0D", "#1A1A1A", "#B8860B"]'>
   </div>
 
   <style>
@@ -248,31 +249,58 @@
 
     /* Mobile menu improvements */
     @media (max-width: 1023px) {
+      .sm-panel-inner {
+        padding-top: 100px !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+        padding-bottom: 40px !important;
+      }
+
+      .sm-panel-list {
+        margin-top: 0 !important;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
       .sm-panel-item {
-        font-size: 2rem !important;
-        padding: 1rem 0 !important;
+        font-size: 2.5rem !important;
+        padding: 0.75rem 0 !important;
+        font-family: var(--font-serif, 'Instrument Serif'), serif !important;
+        letter-spacing: -0.02em;
       }
 
       .sm-panel-itemLabel {
-        font-weight: 500;
+        font-weight: 400;
       }
 
-      /* Better spacing for mobile menu */
-      .sm-panel-list {
-        gap: 1.5rem;
+      /* Numbering for menu items */
+      .sm-panel-item[data-index]::before {
+        font-size: 0.4em !important;
+        opacity: 0.3 !important;
+        margin-right: 1.5rem !important;
+        font-family: var(--font-sans, 'Outfit'), sans-serif !important;
       }
 
-      /* Social links styling */
+      .sm-socials {
+        margin-top: 2rem !important;
+        border-top: 1px solid rgba(212, 175, 55, 0.1);
+        padding-top: 2rem;
+      }
+
+      .sm-socials-list {
+        gap: 1.5rem !important;
+        flex-wrap: wrap;
+      }
+
       .sm-socials-link {
-        font-size: 1.25rem;
-        padding: 0.5rem 1rem;
-        border-bottom: 1px solid rgba(255,255,255,0.2);
-        transition: all 0.3s ease;
-      }
-
-      .sm-socials-link:hover {
-        color: #D4AF37 !important;
-        padding-left: 1.5rem;
+        font-size: 0.8rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.1em;
+        opacity: 0.6;
       }
     }
 
@@ -507,13 +535,13 @@
   .sm-toggle-textWrap {
     display: block;
     overflow: hidden;
-    height: 1.2em;
+    height: 1em; /* Single line height */
     line-height: 1;
   }
 
   .sm-toggle-textInner {
     display: block;
-    transition: transform 0.5s cubic-bezier(0.87, 0, 0.13, 1);
+    will-change: transform;
   }
 
   .sm-toggle-line {

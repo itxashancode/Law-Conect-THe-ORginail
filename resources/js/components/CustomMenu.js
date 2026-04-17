@@ -4,13 +4,13 @@
 class CustomMenu {
   constructor(options = {}) {
     this.position = options.position || 'right';
-    this.colors = options.colors || ['#B19EEF', '#5227FF'];
+    this.colors = options.colors || ['#0D0D0D', '#1A1A1A', '#B8860B'];
     this.items = options.items || [];
     this.socialItems = options.socialItems || [];
     this.displaySocials = options.displaySocials !== false;
     this.menuButtonColor = options.menuButtonColor || '#fff';
     this.openMenuButtonColor = options.openMenuButtonColor || '#fff';
-    this.accentColor = options.accentColor || '#5227FF';
+    this.accentColor = options.accentColor || '#D4AF37';
     this.changeMenuColorOnOpen = options.changeMenuColorOnOpen !== false;
     this.onClose = options.onClose || (() => {});
 
@@ -32,21 +32,21 @@ class CustomMenu {
     this.wrapper.className = 'custom-menu-wrapper';
     this.wrapper.setAttribute('data-position', this.position);
     this.wrapper.style.setProperty('--sm-accent', this.accentColor);
+    
+    // Backdrop blur for premium feel
+    this.wrapper.style.backdropFilter = 'blur(0px)';
+    this.wrapper.style.transition = 'backdrop-filter 0.5s ease';
 
     // Prelayers
     this.prelayersContainer = document.createElement('div');
     this.prelayersContainer.className = 'sm-prelayers';
     this.prelayersContainer.setAttribute('aria-hidden', 'true');
-    const rawColors = this.colors.slice(0, 4);
-    let colorArray = [...rawColors];
-    if (colorArray.length >= 3) {
-      const mid = Math.floor(colorArray.length / 2);
-      colorArray.splice(mid, 1);
-    }
+    const colorArray = this.colors.slice(0, 4);
     colorArray.forEach((color, i) => {
       const layer = document.createElement('div');
       layer.className = 'sm-prelayer';
       layer.style.background = color;
+      layer.style.opacity = '1'; // Ensure layers are visible
       this.prelayersContainer.appendChild(layer);
     });
 
@@ -58,14 +58,14 @@ class CustomMenu {
     this.logoDiv = document.createElement('div');
     this.logoDiv.className = 'sm-logo';
     this.logoDiv.setAttribute('aria-label', 'Logo');
-    this.logoImg = document.createElement('img');
-    this.logoImg.src = '/logo.svg'; // adjust as needed
-    this.logoImg.alt = 'Logo';
-    this.logoImg.className = 'sm-logo-img';
-    this.logoImg.draggable = false;
-    this.logoImg.width = 110;
-    this.logoImg.height = 24;
-    this.logoDiv.appendChild(this.logoImg);
+    
+    // Match the navbar brand styling
+    this.logoDiv.innerHTML = `
+      <a href="/" class="font-serif text-2xl text-white font-normal tracking-tightest no-underline flex items-baseline gap-1">
+        Legal<span class="text-gold-500 italic">Counsel</span>
+        <span class="w-1 h-1 bg-gold-500 rounded-full ml-1 animate-pulse"></span>
+      </a>
+    `;
 
     this.toggleBtn = document.createElement('button');
     this.toggleBtn.className = 'sm-toggle';
@@ -110,6 +110,9 @@ class CustomMenu {
     this.panel.id = 'staggered-menu-panel';
     this.panel.className = 'staggered-menu-panel';
     this.panel.setAttribute('aria-hidden', !this.open);
+    
+    // Add a solid background to the panel to prevent overlap issues
+    this.panel.style.background = '#0D0D0D'; 
 
     this.panelInner = document.createElement('div');
     this.panelInner.className = 'sm-panel-inner';
@@ -117,7 +120,6 @@ class CustomMenu {
     this.menuList = document.createElement('ul');
     this.menuList.className = 'sm-panel-list';
     this.menuList.setAttribute('role', 'list');
-    this.menuList.setAttribute('data-numbering', this.displayItemNumbering ? '' : null);
 
     this.items.forEach((item, idx) => {
       const li = document.createElement('li');
@@ -126,7 +128,7 @@ class CustomMenu {
       a.className = 'sm-panel-item';
       a.href = item.link;
       if (item.ariaLabel) a.setAttribute('aria-label', item.ariaLabel);
-      a.setAttribute('data-index', idx + 1);
+      a.setAttribute('data-index', (idx + 1).toString().padStart(2, '0'));
       const labelSpan = document.createElement('span');
       labelSpan.className = 'sm-panel-itemLabel';
       labelSpan.textContent = item.label;
@@ -143,7 +145,7 @@ class CustomMenu {
       socialsDiv.setAttribute('aria-label', 'Social links');
       const socialTitle = document.createElement('h3');
       socialTitle.className = 'sm-socials-title';
-      socialTitle.textContent = 'Socials';
+      socialTitle.textContent = 'Socials.';
       const socialList = document.createElement('ul');
       socialList.className = 'sm-socials-list';
       socialList.setAttribute('role', 'list');
@@ -175,20 +177,22 @@ class CustomMenu {
     // Cache elements for GSAP
     this.prelayerEls = Array.from(this.prelayersContainer.querySelectorAll('.sm-prelayer'));
     this.itemEls = Array.from(this.panel.querySelectorAll('.sm-panel-itemLabel'));
-    this.numberEls = Array.from(this.panel.querySelectorAll('.sm-panel-list[data-numbering] .sm-panel-item'));
+    this.itemWraps = Array.from(this.panel.querySelectorAll('.sm-panel-item'));
     this.socialTitleEl = this.panel.querySelector('.sm-socials-title');
     this.socialLinkEls = Array.from(this.panel.querySelectorAll('.sm-socials-link'));
   }
 
   setupStyles() {
     gsap.set([this.panel, ...this.prelayerEls], { xPercent: this.position === 'left' ? -100 : 100 });
+    gsap.set(this.logoDiv, { opacity: 0, y: -10 }); // Hide logo initially
+    this.logoDiv.style.pointerEvents = 'none'; // Disable pointer events initially
     gsap.set(this.plusH, { transformOrigin: '50% 50%', rotate: 0 });
     gsap.set(this.plusV, { transformOrigin: '50% 50%', rotate: 90 });
     gsap.set(this.icon, { rotate: 0, transformOrigin: '50% 50%' });
     gsap.set(this.textInner, { yPercent: 0 });
     gsap.set(this.toggleBtn, { color: this.menuButtonColor });
-    if (this.numberEls.length) {
-      gsap.set(this.numberEls, { '--sm-num-opacity': 0 });
+    if (this.itemWraps.length) {
+      gsap.set(this.itemWraps, { '--sm-num-opacity': 0 });
     }
     if (this.socialTitleEl) {
       gsap.set(this.socialTitleEl, { opacity: 0 });
@@ -227,6 +231,19 @@ class CustomMenu {
     this.wrapper.setAttribute('data-open', '');
     this.toggleBtn.setAttribute('aria-expanded', 'true');
     this.toggleBtn.setAttribute('aria-label', 'Close menu');
+    
+    // Backdrop blur
+    this.wrapper.style.backdropFilter = 'blur(12px)';
+
+    // Animate logo in
+    gsap.to(this.logoDiv, { 
+      opacity: 1, 
+      y: 0, 
+      duration: 0.6, 
+      ease: 'power4.out', 
+      delay: 0.2,
+      onStart: () => { this.logoDiv.style.pointerEvents = 'auto'; }
+    });
 
     // Animate icon
     gsap.to(this.icon, { rotate: 225, duration: 0.8, ease: 'power4.out', overwrite: 'auto' });
@@ -247,10 +264,10 @@ class CustomMenu {
     const panelStart = Number(gsap.getProperty(this.panel, 'xPercent'));
 
     if (this.itemEls.length) {
-      gsap.set(this.itemEls, { yPercent: 140, rotate: 10 });
+      gsap.set(this.itemEls, { yPercent: 140, rotate: 5 });
     }
-    if (this.numberEls.length) {
-      gsap.set(this.numberEls, { '--sm-num-opacity': 0 });
+    if (this.itemWraps.length) {
+      gsap.set(this.itemWraps, { '--sm-num-opacity': 0 });
     }
 
     layerStates.forEach((ls, i) => {
@@ -263,9 +280,9 @@ class CustomMenu {
 
     if (this.itemEls.length) {
       const itemsStart = panelInsertTime + panelDuration * 0.15;
-      tl.to(this.itemEls, { yPercent: 0, rotate: 0, duration: 1, ease: 'power4.out', stagger: 0.1 }, itemsStart);
-      if (this.numberEls.length) {
-        tl.to(this.numberEls, { duration: 0.6, ease: 'power2.out', '--sm-num-opacity': 1, stagger: 0.08 }, itemsStart + 0.1);
+      tl.to(this.itemEls, { yPercent: 0, rotate: 0, duration: 1, ease: 'expo.out', stagger: 0.1 }, itemsStart);
+      if (this.itemWraps.length) {
+        tl.to(this.itemWraps, { duration: 0.6, ease: 'power2.out', '--sm-num-opacity': 1, stagger: 0.08 }, itemsStart + 0.1);
       }
     }
 
@@ -291,6 +308,18 @@ class CustomMenu {
     this.wrapper.removeAttribute('data-open');
     this.toggleBtn.setAttribute('aria-expanded', 'false');
     this.toggleBtn.setAttribute('aria-label', 'Open menu');
+    
+    // Remove backdrop blur
+    this.wrapper.style.backdropFilter = 'blur(0px)';
+
+    // Animate logo out
+    gsap.to(this.logoDiv, { 
+      opacity: 0, 
+      y: -10, 
+      duration: 0.3, 
+      ease: 'power3.in',
+      onComplete: () => { this.logoDiv.style.pointerEvents = 'none'; }
+    });
 
     // Animate icon back
     gsap.to(this.icon, { rotate: 0, duration: 0.35, ease: 'power3.inOut', overwrite: 'auto' });
@@ -302,7 +331,8 @@ class CustomMenu {
     if (!this.changeMenuColorOnOpen) {
       gsap.set(this.toggleBtn, { color: this.menuButtonColor });
     } else {
-      // Or animate back? We'll just revert after panel closes
+      // Revert color
+      gsap.to(this.toggleBtn, { color: this.menuButtonColor, duration: 0.3, ease: 'power2.in' });
     }
 
     // Close panel
@@ -315,10 +345,10 @@ class CustomMenu {
       overwrite: 'auto',
       onComplete: () => {
         if (this.itemEls.length) {
-          gsap.set(this.itemEls, { yPercent: 140, rotate: 10 });
+          gsap.set(this.itemEls, { yPercent: 140, rotate: 5 });
         }
-        if (this.numberEls.length) {
-          gsap.set(this.numberEls, { '--sm-num-opacity': 0 });
+        if (this.itemWraps.length) {
+          gsap.set(this.itemWraps, { '--sm-num-opacity': 0 });
         }
         if (this.socialTitleEl) gsap.set(this.socialTitleEl, { opacity: 0 });
         if (this.socialLinkEls.length) gsap.set(this.socialLinkEls, { y: 25, opacity: 0 });
@@ -329,7 +359,7 @@ class CustomMenu {
   }
 
   cycleText(element, labels) {
-    const cycles = 3;
+    const cycles = 4;
     const seq = [labels[0]];
     let last = labels[0];
     for (let i = 0; i < cycles; i++) {
@@ -337,21 +367,26 @@ class CustomMenu {
       seq.push(last);
     }
     if (last !== labels[1]) seq.push(labels[1]);
-    seq.push(labels[1]);
+    
+    // Clear and rebuild the element with the sequence
+    element.innerHTML = '';
+    seq.forEach(label => {
+      const span = document.createElement('span');
+      span.className = 'sm-toggle-line';
+      span.style.display = 'block';
+      span.textContent = label;
+      element.appendChild(span);
+    });
 
-    // Animate text lines: swap content or slide? Original uses yPercent.
-    // We'll just set text after animation or use slide effect? Simplify: just set after.
-    // For simplicity, we'll just change the text with quick fade.
-    // Since textInner contains two spans, we can slide vertically like original.
-    // We'll mimic: gsap.to inner with yPercent negative based on line count.
     gsap.set(element, { yPercent: 0 });
     const lineCount = seq.length;
     const finalShift = ((lineCount - 1) / lineCount) * 100;
+    
     if (this.textCycleTween) this.textCycleTween.kill();
     this.textCycleTween = gsap.to(element, {
       yPercent: -finalShift,
-      duration: 0.5 + lineCount * 0.07,
-      ease: 'power4.out'
+      duration: 0.8,
+      ease: 'expo.inOut'
     });
   }
 }
@@ -362,12 +397,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (menuEl) {
     const items = JSON.parse(menuEl.dataset.items || '[]');
     const socialItems = JSON.parse(menuEl.dataset.social || '[]');
+    const colors = JSON.parse(menuEl.dataset.colors || '["#0D0D0D", "#1A1A1A", "#B8860B"]');
     window.customMenu = new CustomMenu({
       items,
       socialItems,
+      colors,
       menuButtonColor: menuEl.dataset.menuColor || '#fff',
       openMenuButtonColor: menuEl.dataset.openColor || '#fff',
-      accentColor: menuEl.dataset.accent || '#5227FF',
+      accentColor: menuEl.dataset.accent || '#D4AF37',
       onClose: () => {
         // optional callback
       }
