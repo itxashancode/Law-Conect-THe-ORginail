@@ -3,7 +3,7 @@
 @section('meta_description', 'Connect with the world\'s most distinguished legal professionals through a seamless, secure, and private digital experience.')
 
 @section('content'){{-- Hero Section: Cinematic Editorial --}}
-<section class="relative min-h-[70vh] flex items-center pt-16 overflow-hidden" id="hero-section">
+<section class="relative h-screen flex items-center pt-24 overflow-hidden" id="hero-section">
   <!-- Grainient Canvas Background -->
   <div id="hero-grainient" class="absolute inset-0 z-0"></div>
 
@@ -23,18 +23,20 @@
           <span class="hero-word block" style="overflow:hidden"><span class="hero-word-inner text-gold-500 italic drop-shadow-sm" style="display:block">{{ $heroParts[1] ?? 'Redefined.' }}</span></span>
         </h1>
 
-        <p class="text-xl md:text-2xl font-light text-onyx-60 max-w-2xl leading-relaxed mb-16 hero-sub" style="opacity:0;transform:translateY(30px)">
+        <p class="text-xl md:text-2xl font-light text-onyx-60 max-w-2xl leading-relaxed mb-10 hero-sub" style="opacity:0;transform:translateY(30px)">
           {{ $content['hero']->body ?? 'Connecting you with the world\'s most distinguished legal professionals through a seamless, secure, and private digital experience.' }}
         </p>
 
         <div class="flex flex-col sm:flex-row gap-6 hero-cta" style="opacity:0;transform:translateY(30px)">
-          <a href="{{ route('public.search') }}" class="btn-lux btn-lux-gold group shadow-premium hero-cta-primary">
+          <a href="{{ route('public.search') }}" class="btn-lux btn-lux-gold group shadow-premium hero-cta-primary flex items-center gap-2">
              <span class="relative z-10 flex items-center gap-2">
+                <i data-lucide="scale" class="w-4 h-4"></i>
                 Find Counsel
-                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"></i>
              </span>
           </a>
-          <a href="#services" class="btn-lux btn-lux-outline">
+          <a href="#services" class="btn-lux btn-lux-outline flex items-center gap-2">
+             <i data-lucide="layout-grid" class="w-4 h-4"></i>
              Explore Services
           </a>
         </div>
@@ -46,12 +48,20 @@
           <div class="absolute inset-0 rounded-full border border-gold-500/20 animate-spin-slow"></div>
           <div class="absolute inset-4 rounded-full border border-gold-500/10 animate-spin-slow-reverse"></div>
           <a href="{{ route('public.search') }}" class="absolute inset-8 rounded-full bg-gold-500 text-white flex flex-col items-center justify-center text-center group hover:bg-onyx transition-colors duration-500 shadow-premium">
-            <span class="text-[9px] font-bold tracking-ultra uppercase block mb-1">Start Here</span>
+            <span class="text-[9px] font-bold tracking-[0.2em] uppercase block mb-1">Start Here</span>
             <span class="font-serif text-lg italic leading-tight">Book a Consult</span>
-            <svg class="w-4 h-4 mt-2 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            <i data-lucide="chevron-down" class="w-4 h-4 mt-2 group-hover:translate-y-1 transition-transform"></i>
           </a>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 hero-scroll-hint" style="opacity:0">
+    <div class="flex flex-col items-center gap-4">
+      <span class="text-[9px] font-bold tracking-[0.3em] uppercase text-onyx/30">Scroll to Explore</span>
+      <div class="w-px h-12 bg-gradient-to-b from-onyx/20 to-transparent"></div>
     </div>
   </div>
 
@@ -80,11 +90,14 @@
          data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
         <span class="text-[10px] font-bold tracking-ultra uppercase text-onyx/30 group-hover:text-gold-500 transition-colors mb-3 block">0{{ $index + 1 }}</span>
         <h3 class="text-2xl md:text-3xl italic mb-4 group-hover:translate-x-1 md:group-hover:translate-x-2 transition-transform duration-500">{{ $service }}</h3>
-        <p class="text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-semibold text-gold-500">View Practice</p>
+        <p class="text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-semibold text-gold-500 flex items-center gap-2">
+          View Practice
+          <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+        </p>
 
-        <!-- Hover SVG Decoration -->
+        <!-- Hover Icon Decoration -->
         <div class="absolute bottom-[-10%] right-[-10%] w-16 md:w-24 h-16 md:h-24 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
-           <svg class="w-full h-full text-gold-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 12l10 10 10-10L12 2z"/></svg>
+           <i data-lucide="scale" class="w-full h-full text-gold-500"></i>
         </div>
       </a>
       @endforeach
@@ -95,7 +108,7 @@
          data-aos="fade-up" data-aos-delay="400">
          <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-300 mb-3">Discovery</p>
          <h3 class="text-xl md:text-2xl italic">View All <br> Specialties</h3>
-         <svg class="w-6 h-6 mt-4 transform group-hover:translate-x-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+         <i data-lucide="arrow-right" class="w-6 h-6 mt-4 transform group-hover:translate-x-2 transition-transform"></i>
       </a>
     </div>
   </div>
@@ -107,15 +120,18 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center" data-aos="fade-up" data-aos-delay="100">
       @php
         $statItems = [
-            ['label' => 'ELITE LAWYERS', 'value' => $stats['total_lawyers'] ?? 0, 'suffix' => ''],
-            ['label' => 'CITIES COVERED', 'value' => $stats['total_cities'] ?? 0, 'suffix' => '+'],
-            ['label' => 'YEARS AVG EXPERIENCE', 'value' => $stats['avg_experience'] ?? 0, 'suffix' => 'YRS'],
-            ['label' => 'CONSULTATIONS', 'value' => $stats['total_appointments'] ?? 0, 'suffix' => '+'],
+            ['label' => 'ELITE LAWYERS', 'value' => $stats['total_lawyers'] ?? 0, 'suffix' => '', 'icon' => 'user-check'],
+            ['label' => 'CITIES COVERED', 'value' => $stats['total_cities'] ?? 0, 'suffix' => '+', 'icon' => 'map-pin'],
+            ['label' => 'YEARS AVG EXPERIENCE', 'value' => $stats['avg_experience'] ?? 0, 'suffix' => 'YRS', 'icon' => 'award'],
+            ['label' => 'CONSULTATIONS', 'value' => $stats['total_appointments'] ?? 0, 'suffix' => '+', 'icon' => 'calendar-check'],
         ];
       @endphp
       @foreach($statItems as $stat)
         <div class="stat-counter" data-target="{{ $stat['value'] }}" data-suffix="{{ $stat['suffix'] }}">
-          <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/40 mb-4">{{ $stat['label'] }}</p>
+          <div class="flex justify-center mb-4">
+            <i data-lucide="{{ $stat['icon'] }}" class="w-5 h-5 text-gold-500/50"></i>
+          </div>
+          <p class="text-[10px] font-bold tracking-ultra uppercase text-onyx/40 mb-2">{{ $stat['label'] }}</p>
           <p class="text-4xl md:text-6xl italic text-gold-600">
             <span class="counter-number">0</span><span class="counter-suffix">{{ $stat['suffix'] }}</span>
           </p>
@@ -139,8 +155,9 @@
         <p class="text-[10px] font-bold tracking-ultra uppercase text-gold-500 mb-4" style="opacity:0;transform:translateY(20px)" data-scroll-reveal="true">{{ $content['call_to_action']->body ?? 'Our Inner Circle' }}</p>
         <h2 class="text-6xl md:text-8xl italic leading-none" style="opacity:0;transform:translateY(30px)" data-scroll-reveal="true" data-scroll-delay="0.1">{{ $content['call_to_action']->title ?? 'Distinguished Counsel' }}</h2>
       </div>
-      <a href="{{ route('public.search') }}" class="btn-lux btn-lux-outline shrink-0" style="opacity:0" data-scroll-reveal="true" data-scroll-delay="0.2">
-        View All Lawyers →
+      <a href="{{ route('public.search') }}" class="btn-lux btn-lux-outline shrink-0 flex items-center gap-2" style="opacity:0" data-scroll-reveal="true" data-scroll-delay="0.2">
+        View All Lawyers
+        <i data-lucide="arrow-right" class="w-4 h-4"></i>
       </a>
     </div>
 
@@ -154,13 +171,22 @@
                  alt="{{ $lawyer->full_name }}"
                  class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500">
           </div>
-          <span class="text-[9px] font-bold tracking-widest uppercase px-2 py-1 border border-gold-500/20 text-gold-600 bg-gold-50/50">{{ $lawyer->specialization }}</span>
+          <span class="text-[9px] font-bold tracking-widest uppercase px-2 py-1 border border-gold-500/20 text-gold-600 bg-gold-50/50 flex items-center gap-1">
+            <i data-lucide="shield-check" class="w-2.5 h-2.5"></i>
+            {{ $lawyer->specialization }}
+          </span>
         </div>
 
         {{-- Info --}}
         <div class="flex-1">
           <h3 class="font-serif text-3xl text-onyx leading-tight mb-2 group-hover:text-gold-600 transition-colors duration-300">{{ $lawyer->full_name }}</h3>
-          <p class="text-[10px] font-bold tracking-widest uppercase text-onyx/30 mb-4">{{ $lawyer->city }} • {{ $lawyer->experience_years }} Yrs Experience</p>
+          <p class="text-[10px] font-bold tracking-widest uppercase text-onyx/30 mb-4 flex items-center gap-2">
+            <i data-lucide="map-pin" class="w-3 h-3"></i>
+            {{ $lawyer->city }} 
+            <span class="mx-1">•</span>
+            <i data-lucide="award" class="w-3 h-3"></i>
+            {{ $lawyer->experience_years }} Yrs Experience
+          </p>
           <p class="text-sm text-onyx/60 font-light leading-relaxed">
             {{ strlen($lawyer->bio ?? '') > 120 ? substr($lawyer->bio, 0, 120) . '...' : ($lawyer->bio ?? 'Distinguished legal professional providing expert counsel.') }}
           </p>
@@ -169,15 +195,15 @@
         {{-- Footer --}}
         <div class="mt-8 pt-6 border-t border-onyx/5 flex items-center justify-between">
           <div>
-            <p class="text-[9px] font-bold tracking-widest uppercase text-onyx/30 mb-1">Rate</p>
-            <p class="font-serif italic text-gold-600 text-xl">${{ number_format($lawyer->consultation_fee ?? 0) }}<span class="text-xs font-sans not-italic text-onyx/30">/hr</span></p>
+            <p class="text-[9px] font-bold tracking-widest uppercase text-onyx/30 mb-1">Consultation Fee</p>
+            <p class="font-serif italic text-gold-600 text-xl flex items-baseline gap-1">
+              <span class="text-xs font-sans not-italic text-onyx/30">$</span>{{ number_format($lawyer->consultation_fee ?? 0) }}<span class="text-xs font-sans not-italic text-onyx/30">/hr</span>
+            </p>
           </div>
           <a href="{{ route('public.lawyer', $lawyer->slug) }}"
              class="group/btn flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-onyx/40 hover:text-onyx transition-colors">
             View Profile
-            <svg class="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform"></i>
           </a>
         </div>
       </div>
@@ -208,6 +234,18 @@
     // Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
 
+    // Background Parallax
+    gsap.to('#hero-grainient', {
+      y: '15%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#hero-section',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      }
+    });
+
     // ============================================================
     // CINEMATIC HERO — Word-by-word reveal
     // ============================================================
@@ -229,7 +267,12 @@
         opacity: 1,
         duration: 1,
         ease: 'power2.out'
-      }, '-=0.8');
+      }, '-=0.8')
+      .to('.hero-scroll-hint', {
+        opacity: 1,
+        duration: 1,
+        ease: 'power2.out'
+      }, '-=0.5');
 
     // Floating badge continuous float animation
     gsap.to('#hero-float-badge', {

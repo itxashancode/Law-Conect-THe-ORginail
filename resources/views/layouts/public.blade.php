@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+  <script src="https://unpkg.com/lucide@latest"></script>
   @stack('head')
 </head>
 <body class="antialiased selection:bg-gold-500 selection:text-white overflow-x-hidden bg-linen text-onyx font-sans">
@@ -34,50 +35,81 @@
   <div class="fixed top-[-10%] left-[-10%] w-[50%] h-[50%] bg-gold-200/20 rounded-full blur-[150px] pointer-events-none z-[-1]"></div>
 
   @if(!View::hasSection('hide_navbar'))
-  <nav id="main-nav" class="fixed top-0 w-full z-50 transition-all duration-700 bg-transparent px-6 py-6 lg:px-20">
-    <div class="max-w-7xl mx-auto flex justify-between items-center relative z-10">
-      <a href="{{ route('home') }}" class="font-serif text-3xl text-onyx font-normal tracking-tightest no-underline group flex items-baseline gap-1">
+  <div class="fixed top-2 left-0 w-full z-50 px-6 flex justify-center pointer-events-none">
+    <nav id="main-nav" class="w-full max-w-7xl mx-auto flex justify-between items-center bg-white/0 border border-transparent rounded-full px-8 py-4 transition-all duration-500 ease-out pointer-events-auto">
+      <a href="{{ route('home') }}" class="font-serif text-2xl text-onyx font-normal tracking-tightest no-underline group flex items-baseline gap-1">
         Legal<span class="text-gold-500 italic drop-shadow-sm group-hover:translate-x-0.5 transition-transform">Counsel</span>
         <span class="w-1 h-1 bg-gold-500 rounded-full ml-1 animate-pulse"></span>
       </a>
 
-      <div class="hidden lg:flex items-center gap-6 text-[11px] font-semibold tracking-ultra uppercase text-onyx">
-      <a href="{{ route('public.search') }}" class="nav-link">Find a Lawyer</a>
-      @auth
-        <div class="relative group">
-          <button class="flex items-center gap-3 btn-lux btn-lux-gold !px-6 !py-3">
-             <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
-             <span class="text-[10px] font-bold tracking-ultra uppercase">{{ auth()->user()->name }}</span>
-             <svg class="w-3 h-3 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-          </button>
-          
-          <div class="absolute right-0 top-[90%] pt-4 w-56 bg-white border border-onyx-10 shadow-premium opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 rounded-lg overflow-hidden group-hover:translate-y-0">
-             <div class="px-4 py-3 bg-onyx-5 border-b border-onyx-10">
-               <p class="text-[9px] font-bold tracking-widest text-onyx/40 uppercase mb-0.5">Logged in as</p>
-               <p class="text-[10px] font-bold text-onyx uppercase truncate">{{ auth()->user()->email }}</p>
-             </div>
-             
-             <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-ultra uppercase text-onyx hover:bg-gold-500 hover:text-white transition-all duration-300">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                Dashboard
-             </a>
-
-             <form method="POST" action="{{ route('logout') }}">
-               @csrf
-               <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-bold tracking-ultra uppercase text-onyx hover:bg-red-500 hover:text-white transition-all duration-300 border-t border-onyx-5">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4-4H7m6 4v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6"/></svg>
-                  Sign Out
-               </button>
-             </form>
-          </div>
+      <div class="hidden lg:flex items-center gap-8">
+        <div class="flex items-center gap-6 text-[10px] font-bold tracking-[0.2em] uppercase text-onyx/60">
+          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-1.5">
+            <i data-lucide="search" class="w-3 h-3"></i>
+            Find a Lawyer
+          </a>
+          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-1.5">
+            <i data-lucide="layout-grid" class="w-3 h-3"></i>
+            Areas
+          </a>
+          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-1.5">
+            <i data-lucide="users" class="w-3 h-3"></i>
+            Network
+          </a>
         </div>
-      @else
-        <a href="{{ route('login') }}" class="nav-link">Login</a>
-        <a href="{{ route('register') }}" class="btn-lux btn-lux-gold !px-8 !py-3 shadow-premium">Join the Network</a>
-      @endauth
+        
+        <div class="h-4 w-px bg-onyx/10 mx-2"></div>
+
+        <div class="flex items-center gap-4">
+        @auth
+          <div class="relative group">
+            <button class="flex items-center gap-2 px-4 py-2 bg-onyx text-white rounded-full transition-all hover:bg-gold-500">
+               <span class="text-[9px] font-bold tracking-[0.2em] uppercase">{{ auth()->user()->name }}</span>
+               <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
+            </button>
+            
+            <div class="absolute right-0 mt-2 w-48 bg-white shadow-premium rounded-xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 py-2 border border-onyx-5">
+               @if(auth()->user()->role == 'admin')
+                  <a href="{{ route('admin.dashboard') }}" class="block px-6 py-3 text-[10px] font-bold tracking-widest uppercase hover:bg-linen transition-colors flex items-center gap-2">
+                    <i data-lucide="layout-dashboard" class="w-3 h-3"></i>
+                    Dashboard
+                  </a>
+               @elseif(auth()->user()->role == 'lawyer')
+                  <a href="{{ route('lawyer.dashboard') }}" class="block px-6 py-3 text-[10px] font-bold tracking-widest uppercase hover:bg-linen transition-colors flex items-center gap-2">
+                    <i data-lucide="layout-dashboard" class="w-3 h-3"></i>
+                    Dashboard
+                  </a>
+               @else
+                  <a href="{{ route('customer.dashboard') }}" class="block px-6 py-3 text-[10px] font-bold tracking-widest uppercase hover:bg-linen transition-colors flex items-center gap-2">
+                    <i data-lucide="layout-dashboard" class="w-3 h-3"></i>
+                    Dashboard
+                  </a>
+               @endif
+               <form method="POST" action="{{ route('logout') }}">
+                  @csrf
+                  <button type="submit" class="w-full text-left px-6 py-3 text-[10px] font-bold tracking-widest uppercase hover:bg-linen transition-colors text-red-500 flex items-center gap-2">
+                    <i data-lucide="log-out" class="w-3 h-3"></i>
+                    Logout
+                  </button>
+               </form>
+            </div>
+          </div>
+        @else
+          <a href="{{ route('login') }}" class="text-[10px] font-bold tracking-[0.2em] uppercase text-onyx/60 hover:text-onyx transition-colors flex items-center gap-1.5">
+            <i data-lucide="log-in" class="w-3 h-3"></i>
+            Login
+          </a>
+          <a href="{{ route('register') }}" class="px-6 py-2.5 bg-onyx text-white text-[10px] font-bold tracking-[0.2em] uppercase rounded-full hover:bg-gold-500 transition-all duration-300 shadow-sm flex items-center gap-1.5">
+            <i data-lucide="user-plus" class="w-3 h-3"></i>
+            Join
+          </a>
+        @endauth
+        </div>
       </div>
-    </div>
-  </nav>
+
+      {{-- Mobile Menu Trigger is handled by CustomMenu component --}}
+    </nav>
+  </div>
   @endif
 
   <main id="main-content" tabindex="-1">
@@ -149,7 +181,7 @@
   <!-- GSAP + ScrollTrigger for advanced animations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
   <script>
     // ============================================================
     // NO PAGE CURTAIN - Disabled for maximum reliability
@@ -157,25 +189,9 @@
 
     // Page transition script has been safely disabled on standard routes.
 
-    // ============================================================
-    // LENIS SMOOTH SCROLL + GSAP SCROLL TRIGGER INTEGRATION
-    // ============================================================
-    const lenis = new Lenis();
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
 
-    // Navbar scroll effect
-    const nav = document.getElementById('main-nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        nav.classList.add('bg-linen/80', 'backdrop-blur-xl', 'py-4', 'border-b', 'border-onyx-5');
-        nav.classList.remove('py-6');
-      } else {
-        nav.classList.remove('bg-linen/80', 'backdrop-blur-xl', 'py-4', 'border-b', 'border-onyx-5');
-        nav.classList.add('py-6');
-      }
-    });
+
+
 
     // Parallax background blobs via GSAP ScrollTrigger
     gsap.utils.toArray('.parallax-blob').forEach(blob => {
@@ -204,7 +220,7 @@
   </script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
-    AOS.init({ duration: 1000, easing: 'ease-out-expo', once: true, offset: 50 });
+    AOS.init({ duration: 500, easing: 'ease-out-expo', once: true, offset: 50 });
 
     // Native form submissions are used for reliability.
   </script>
