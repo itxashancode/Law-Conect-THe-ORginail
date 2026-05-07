@@ -126,11 +126,17 @@
         <p class="text-base text-white/40 font-light max-w-md leading-relaxed">Dedicated to matching individuals with the highest caliber of legal expertise for every challenge.</p>
         
         <div class="mt-8">
-          <p class="text-[9px] tracking-ultra font-bold uppercase text-gold-500 mb-4">Newsletter</p>
-          <form action="#" method="POST" class="flex max-w-sm">
+          <p class="text-[9px] tracking-ultra font-bold uppercase text-gold-500 mb-4 flex items-center gap-2">
+            <i data-lucide="mail" class="w-3 h-3"></i>
+            Newsletter
+          </p>
+          <form action="#" method="POST" class="flex max-w-sm group">
              @csrf
              <input type="email" name="email" required placeholder="YOUR EMAIL ADDRESS" class="bg-transparent border-0 border-b border-white/10 w-full py-3 text-xs tracking-widest text-white focus:ring-0 focus:border-gold-500 transition-colors uppercase">
-             <button type="submit" class="bg-white text-onyx px-6 py-3 text-[10px] font-bold tracking-ultra uppercase hover:bg-gold-500 hover:text-white transition-colors">Join</button>
+             <button type="submit" class="bg-white text-onyx px-6 py-3 text-[10px] font-bold tracking-ultra uppercase hover:bg-gold-500 hover:text-white transition-colors flex items-center gap-2">
+               <i data-lucide="send" class="w-3 h-3"></i>
+               Join
+             </button>
           </form>
         </div>
       </div>
@@ -139,9 +145,9 @@
         <div>
           <h6 class="text-[9px] font-bold tracking-ultra uppercase text-gold-500 mb-6 underline decoration-gold-500/30 underline-offset-8">Explore</h6>
           <ul class="space-y-3 text-xs font-light text-white/60 uppercase tracking-widest">
-            <li><a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors">Areas of law</a></li>
-            <li><a href="{{ route('public.privacy') }}" class="hover:text-gold-500 transition-colors">Our Ethos</a></li>
-            <li><a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors">Network</a></li>
+            <li><a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i data-lucide="layout-grid" class="w-3 h-3"></i> Areas of law</a></li>
+            <li><a href="{{ route('public.privacy') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i data-lucide="shield" class="w-3 h-3"></i> Our Ethos</a></li>
+            <li><a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i data-lucide="users" class="w-3 h-3"></i> Network</a></li>
           </ul>
         </div>
         <div>
