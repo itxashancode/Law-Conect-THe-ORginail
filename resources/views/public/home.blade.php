@@ -28,16 +28,16 @@
         </p>
 
         <div class="flex flex-col sm:flex-row gap-6 hero-cta" style="opacity:0;transform:translateY(30px)">
-          <a href="{{ route('public.search') }}" class="btn-lux btn-lux-gold group shadow-premium hero-cta-primary flex items-center gap-2">
-             <span class="relative z-10 flex items-center gap-2">
-                <i data-lucide="scale" class="w-4 h-4"></i>
-                Find Counsel
-                <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"></i>
+          <a href="{{ route('public.search') }}" class="btn-lux btn-lux-gold group shadow-premium hero-cta-primary">
+             <span class="relative z-10 flex items-center gap-3">
+                <i data-lucide="scale" class="w-4 h-4 opacity-80"></i>
+                <span>Find Counsel</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform duration-500 ease-expo"></i>
              </span>
           </a>
-          <a href="#services" class="btn-lux btn-lux-outline flex items-center gap-2">
-             <i data-lucide="layout-grid" class="w-4 h-4"></i>
-             Explore Services
+          <a href="#services" class="btn-lux btn-lux-outline group flex items-center gap-3">
+             <i data-lucide="layout-grid" class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity duration-500"></i>
+             <span>Explore Services</span>
           </a>
         </div>
       </div>

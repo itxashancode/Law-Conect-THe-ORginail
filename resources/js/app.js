@@ -66,12 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav = document.getElementById('main-nav');
   if (nav && window.lenis) {
     window.lenis.on('scroll', (e) => {
-      if (e.scroll > 50) {
-        nav.classList.add('bg-white/80', 'backdrop-blur-xl', 'py-3', 'px-10', 'border-onyx-5', 'shadow-premium', 'max-w-2xl');
-        nav.classList.remove('max-w-7xl', 'py-4', 'px-8', 'bg-white/0', 'border-transparent');
+      if (e.scroll > 60) {
+        nav.classList.add('bg-white/95', 'backdrop-blur-xl', 'py-2.5', 'px-10', 'border-onyx-5', 'shadow-premium', 'max-w-3xl');
+        nav.classList.remove('max-w-7xl', 'py-3', 'px-8', 'bg-white/0', 'border-transparent', 'shadow-none');
       } else {
-        nav.classList.remove('bg-white/80', 'backdrop-blur-xl', 'py-3', 'px-10', 'border-onyx-5', 'shadow-premium', 'max-w-2xl');
-        nav.classList.add('max-w-7xl', 'py-4', 'px-8', 'bg-white/0', 'border-transparent');
+        nav.classList.remove('bg-white/95', 'backdrop-blur-xl', 'py-2.5', 'px-10', 'border-onyx-5', 'shadow-premium', 'max-w-3xl');
+        nav.classList.add('max-w-7xl', 'py-3', 'px-8', 'bg-white/0', 'border-transparent', 'shadow-none');
       }
     });
   }

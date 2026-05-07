@@ -155,32 +155,51 @@
 
   /* Refined Bespoke Buttons - Spring physics */
   .btn-lux {
-    @apply relative inline-flex items-center justify-center px-10 py-5 font-bold tracking-widest rounded-sm
-           uppercase text-[10px] border border-onyx/10 overflow-hidden;
-    transition: all 0.2s ease-out;
+    @apply relative inline-flex items-center justify-center px-10 py-5 font-bold tracking-ultra rounded-sm
+           uppercase text-[9px] border border-onyx/10 overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)];
   }
 
+  /* Shine effect container */
+  .btn-lux::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: 0.5s;
+    z-index: 1;
+  }
 
+  .btn-lux:hover::after {
+    left: 100%;
+  }
 
   .btn-lux:active {
-    @apply scale-[0.98];
+    @apply scale-[0.97] duration-100;
   }
 
   .btn-lux-gold {
     background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%) !important;
     border: none !important;
     color: white !important;
-    box-shadow: 0 10px 20px -10px rgba(184, 134, 11, 0.5);
+    box-shadow: 0 10px 30px -10px rgba(184, 134, 11, 0.4);
   }
   
   .btn-lux-gold:hover {
-    box-shadow: 0 15px 30px -10px rgba(184, 134, 11, 0.6);
-    transform: translateY(-2px);
+    box-shadow: 0 20px 40px -10px rgba(184, 134, 11, 0.6);
+    transform: translateY(-3px);
   }
 
   .btn-lux-outline {
     background-color: transparent !important;
-    border: 1px solid rgba(13, 13, 13, 0.15) !important;
+    border: 1px solid rgba(13, 13, 13, 0.2) !important;
     color: #0D0D0D !important;
   }
   
@@ -188,6 +207,8 @@
     background-color: #0D0D0D !important;
     color: white !important;
     border-color: #0D0D0D !important;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15);
   }
 
   .btn-lux-ghost {

@@ -36,29 +36,31 @@
 
   @if(!View::hasSection('hide_navbar'))
   <div class="fixed top-2 left-0 w-full z-50 px-6 flex justify-center pointer-events-none">
-    <nav id="main-nav" class="w-full max-w-7xl mx-auto flex justify-between items-center bg-white/0 border border-transparent rounded-full px-8 py-4 transition-all duration-500 ease-out pointer-events-auto">
-      <a href="{{ route('home') }}" class="font-serif text-2xl text-onyx font-normal tracking-tightest no-underline group flex items-baseline gap-1">
-        Legal<span class="text-gold-500 italic drop-shadow-sm group-hover:translate-x-0.5 transition-transform">Counsel</span>
-        <span class="w-1 h-1 bg-gold-500 rounded-full ml-1 animate-pulse"></span>
+    <nav id="main-nav" class="w-full max-w-7xl mx-auto flex justify-between items-center bg-white/0 border border-transparent rounded-full px-8 py-3 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] pointer-events-auto shadow-none">
+      <a href="{{ route('home') }}" class="font-serif text-xl text-onyx font-normal tracking-tightest no-underline group flex items-center gap-0.5">
+        <span class="text-onyx font-bold">Legal</span><span class="text-gold-500 italic">Counsel</span>
+        <div class="flex items-center ml-1.5">
+          <span class="w-1.5 h-1.5 bg-gold-500 rounded-full"></span>
+        </div>
       </a>
 
-      <div class="hidden lg:flex items-center gap-8">
-        <div class="flex items-center gap-6 text-[10px] font-bold tracking-[0.2em] uppercase text-onyx/60">
-          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-1.5">
-            <i data-lucide="search" class="w-3 h-3"></i>
+      <div class="hidden lg:flex items-center gap-6">
+        <div class="flex items-center gap-6 text-[9px] font-black tracking-[0.2em] uppercase text-onyx/80">
+          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2">
+            <i data-lucide="search" class="w-3.5 h-3.5"></i>
             Find a Lawyer
           </a>
-          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-1.5">
-            <i data-lucide="layout-grid" class="w-3 h-3"></i>
+          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2">
+            <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
             Areas
           </a>
-          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-1.5">
-            <i data-lucide="users" class="w-3 h-3"></i>
+          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2">
+            <i data-lucide="users" class="w-3.5 h-3.5"></i>
             Network
           </a>
         </div>
         
-        <div class="h-4 w-px bg-onyx/10 mx-2"></div>
+        <div class="h-4 w-px bg-onyx/10 mx-1"></div>
 
         <div class="flex items-center gap-4">
         @auth
@@ -95,12 +97,12 @@
             </div>
           </div>
         @else
-          <a href="{{ route('login') }}" class="text-[10px] font-bold tracking-[0.2em] uppercase text-onyx/60 hover:text-onyx transition-colors flex items-center gap-1.5">
-            <i data-lucide="log-in" class="w-3 h-3"></i>
+          <a href="{{ route('login') }}" class="text-[9px] font-black tracking-[0.2em] uppercase text-onyx/80 hover:text-onyx transition-colors flex items-center gap-2">
+            <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
             Login
           </a>
-          <a href="{{ route('register') }}" class="px-6 py-2.5 bg-onyx text-white text-[10px] font-bold tracking-[0.2em] uppercase rounded-full hover:bg-gold-500 transition-all duration-300 shadow-sm flex items-center gap-1.5">
-            <i data-lucide="user-plus" class="w-3 h-3"></i>
+          <a href="{{ route('register') }}" class="px-5 py-2.5 bg-onyx text-white text-[9px] font-black tracking-[0.2em] uppercase rounded-full hover:bg-gold-500 transition-all duration-300 shadow-sm flex items-center gap-2">
+            <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
             Join
           </a>
         @endauth
