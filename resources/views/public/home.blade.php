@@ -70,7 +70,7 @@
 </section>
 
 {{-- Services Section --}}
-<section id="services" class="py-20 md:py-40 px-6 lg:px-20 relative bg-white">
+<section id="practice-areas" class="py-20 md:py-40 px-6 lg:px-20 relative bg-white">
   <div class="max-w-7xl mx-auto">
     <div class="flex flex-col lg:flex-row justify-between items-end mb-32 gap-10">
       <div class="max-w-2xl">

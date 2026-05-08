@@ -50,13 +50,9 @@
             <i data-lucide="search" class="w-3.5 h-3.5"></i>
             Find a Lawyer
           </a>
-          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2">
+          <a href="{{ route('home') }}#practice-areas" class="hover:text-gold-500 transition-colors flex items-center gap-2">
             <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
             Areas
-          </a>
-          <a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2">
-            <i data-lucide="users" class="w-3.5 h-3.5"></i>
-            Network
           </a>
         </div>
         
@@ -147,9 +143,8 @@
         <div>
           <h6 class="text-[9px] font-bold tracking-ultra uppercase text-gold-500 mb-6 underline decoration-gold-500/30 underline-offset-8">Explore</h6>
           <ul class="space-y-3 text-xs font-light text-white/60 uppercase tracking-widest">
-            <li><a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i data-lucide="layout-grid" class="w-3 h-3"></i> Areas of law</a></li>
+            <li><a href="{{ route('home') }}#practice-areas" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i data-lucide="layout-grid" class="w-3 h-3"></i> Areas of law</a></li>
             <li><a href="{{ route('public.privacy') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i data-lucide="shield" class="w-3 h-3"></i> Our Ethos</a></li>
-            <li><a href="{{ route('public.search') }}" class="hover:text-gold-500 transition-colors flex items-center gap-2"><i data-lucide="users" class="w-3 h-3"></i> Network</a></li>
           </ul>
         </div>
         <div>
